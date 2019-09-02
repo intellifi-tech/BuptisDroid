@@ -66,6 +66,8 @@ namespace Buptis.Lokasyonlar.BirYerSec
 
         private void MViewAdapter_ItemClick(object sender, int e)
         {
+            //SecilenLokasyonn.lat = favorilerRecyclerViewDataModels[e].coordinateX;
+            //SecilenLokasyonn.lon = favorilerRecyclerViewDataModels[e].coordinateY;
             GelenBase.MarkerSec(e);
             mViewAdapter.NotifyItemChanged(e);
         }

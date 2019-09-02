@@ -47,7 +47,7 @@ namespace Buptis.Login
             InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
             imm.HideSoftInputFromInputMethod(inputmail.WindowToken, 0);
             this.Window.SetSoftInputMode(SoftInput.StateHidden);
-            inputmail.Text = "polat@intellifi.tech";
+            inputmail.Text = "mesut@intellifi.tech";
             Sifreinput.Text = "qwer1234";
         }
         private void GirisYap_Click(object sender, EventArgs e)

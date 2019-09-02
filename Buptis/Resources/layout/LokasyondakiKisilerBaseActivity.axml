@@ -125,32 +125,7 @@
 			android:layout_height="70dp"
 			android:id="@+id/relativeLayout3"
 			android:layout_marginBottom="20dp">
-			<LinearLayout
-				android:layout_centerHorizontal="true"
-				android:orientation="horizontal"
-				android:minWidth="25px"
-				android:minHeight="25px"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:id="@+id/linearLayout3">
-				<ImageButton
-					android:padding="15dp"
-					android:scaleType="centerInside"
-					android:background="@drawable/pindusunuyorbf"
-					android:src="@mipmap/timee"
-					android:layout_width="70dp"
-					android:layout_height="70dp"
-					android:id="@+id/ımageButton3" />
-				<ImageButton
-					android:layout_marginLeft="15dp"
-					android:padding="15dp"
-					android:scaleType="centerInside"
-					android:background="@drawable/pinyapbg2"
-					android:src="@mipmap/pinn"
-					android:layout_width="70dp"
-					android:layout_height="70dp"
-					android:id="@+id/ımageButton3" />
-			</LinearLayout>
+			
 		</RelativeLayout>
 	</RelativeLayout>
 </LinearLayout>

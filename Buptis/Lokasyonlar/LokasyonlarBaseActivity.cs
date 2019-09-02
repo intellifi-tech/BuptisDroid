@@ -140,5 +140,9 @@ namespace Buptis.Lokasyonlar
     {
         public static string LokID { get; set; }
         public static string LokName { get; set; }
+        public static double lat { get; set; }
+        public static double lon { get; set; }
+        public static string telephone { get; set; }
+
     }
 }

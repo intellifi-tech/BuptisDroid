@@ -51,6 +51,8 @@ namespace Buptis.Lokasyonlar.BanaYakin
         {
             SecilenLokasyonn.LokID = favorilerRecyclerViewDataModels[e].id.ToString();
             SecilenLokasyonn.LokName = favorilerRecyclerViewDataModels[e].name.ToString();
+            SecilenLokasyonn.lat = favorilerRecyclerViewDataModels[e].coordinateX;
+            SecilenLokasyonn.lon = favorilerRecyclerViewDataModels[e].coordinateY;
             this.Activity.StartActivity(typeof(LokasyondakiKisilerBaseActivity));
         }
         

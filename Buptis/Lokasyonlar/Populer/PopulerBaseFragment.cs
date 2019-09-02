@@ -14,6 +14,7 @@ using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericUI;
 using Buptis.LokasyondakiKisiler;
+using Buptis.LokasyonDetay;
 using Buptis.WebServicee;
 
 namespace Buptis.Lokasyonlar.Populer
@@ -109,7 +110,9 @@ namespace Buptis.Lokasyonlar.Populer
         {
             SecilenLokasyonn.LokID = favorilerRecyclerViewDataModels[e].id.ToString();
             SecilenLokasyonn.LokName = favorilerRecyclerViewDataModels[e].name.ToString();
-            this.Activity.StartActivity(typeof(LokasyondakiKisilerBaseActivity));
+            SecilenLokasyonn.lat = favorilerRecyclerViewDataModels[e].coordinateX;
+            SecilenLokasyonn.lon = favorilerRecyclerViewDataModels[e].coordinateY;
+            this.Activity.StartActivity(typeof(LokayonDetayBaseActivity));
         }
     }
 }
