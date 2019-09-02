@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:id="@+id/rootView"
+    android:background="@drawable/gradientbg">
+    <ScrollView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView1">
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/linearLayout1"
+			android:paddingLeft="25dp"
+			android:paddingRight="25dp"
+			android:paddingBottom="20dp">
+			<RelativeLayout
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/relativeLayout4">
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="65.0dp"
+					android:layout_alignParentTop="true"
+					android:id="@+id/relativeLayout1">
+				</RelativeLayout>
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/relativeLayout2"
+					android:layout_below="@+id/relativeLayout1">
+					<ImageView
+						android:src="@drawable/buptislogo"
+						android:layout_width="match_parent"
+						android:layout_height="60dp"
+						android:scaleType="centerInside"
+						android:id="@+id/ımageView1" />
+				</RelativeLayout>
+				<RelativeLayout
+					android:layout_below="@+id/relativeLayout2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/relativeLayout3">
+					<EditText
+						android:layout_width="match_parent"
+						android:layout_height="50dp"
+						android:hint="Mail/Telefon Numarası"
+						android:textColorHint="#ffffff"
+						android:textColor="#ffffff"
+						android:textSize="14dp"
+						android:paddingLeft="10dp"
+						android:layout_marginTop="20dp"
+						android:background="@drawable/inputbg"
+						android:id="@+id/textInputEditText1"
+						
+						 />
+					<EditText
+						android:layout_width="match_parent"
+						android:layout_height="50dp"
+						android:hint="Şifre"
+						android:layout_marginTop="20dp"
+						android:textColorHint="#ffffff"
+						android:textColor="#ffffff"
+						android:textSize="14dp"
+						android:paddingLeft="10dp"
+						android:layout_below="@+id/textInputEditText1"
+						android:background="@drawable/inputbg"
+						android:id="@+id/textInputEditText2"
+						android:inputType="textPassword" />
+					<Button
+						android:text="Giriş"
+						android:textColor="#ffffff"
+						android:layout_below="@+id/textInputEditText2"
+						android:layout_width="match_parent"
+						android:layout_height="50dp"
+						android:layout_marginTop="20dp"
+						android:background="@drawable/inputbg2"
+						android:id="@+id/button1" />
+					<TextView
+						android:text="Şifrenizi mi unuttunuz?"
+						android:layout_below="@+id/button1"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textColor="#ffffff"
+						android:textSize="12dp"
+						android:layout_marginTop="30dp"
+						android:gravity="center"
+						android:id="@+id/textView1" />
+				</RelativeLayout>
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="80dp"
+					android:layout_below="@+id/relativeLayout3"
+					android:id="@+id/relativeLayout5"
+					android:gravity="center">
+					<LinearLayout
+						android:orientation="horizontal"
+						android:background="#5454BC"
+						android:layout_width="140dp"
+						android:layout_height="2dp"
+						android:id="@+id/linearLayout2" >
+					</LinearLayout>
+					<LinearLayout
+						android:orientation="horizontal"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:paddingLeft="10dp"
+						android:paddingRight="10dp"
+						android:layout_toRightOf="@+id/linearLayout2"
+						android:id="@+id/linearLayout3"
+						android:gravity="center">
+						<TextView
+							android:text="veya"
+							android:textColor="#ffffff"
+							android:textSize="10dp"
+							android:layout_marginBottom="10dp"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:id="@+id/textView2"/>
+					</LinearLayout>
+					<LinearLayout
+						android:orientation="horizontal"
+						android:background="#5454BC"
+						android:layout_width="145dp"
+						android:layout_height="2dp"
+						android:id="@+id/linearLayout4"
+						android:layout_toRightOf="@+id/linearLayout3"/>
+				</RelativeLayout>
+				<RelativeLayout
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_below="@+id/relativeLayout5"
+				android:id="@+id/relativeLayout6">
+					<Button
+						android:text="Google ile giriş yapın."
+						android:textColor="#ffffff"
+						android:layout_width="match_parent"
+						android:layout_height="50dp"
+						android:layout_marginTop="10dp"
+						android:background="@drawable/inputbg2"
+						android:id="@+id/button2" />
+					<Button
+						android:text="Facebook ile giriş yapın."
+						android:textColor="#ffffff"
+						android:layout_below="@+id/button2"
+						android:layout_width="match_parent"
+						android:layout_height="50dp"
+						android:layout_marginTop="10dp"
+						android:background="@drawable/inputbg2"
+						android:id="@+id/button3" />
+					<TextView
+						android:text="Hesabınız mı yok? Üye Olun."
+						android:layout_below="@+id/button3"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textColor="#ffffff"
+						android:textSize="12dp"
+						android:layout_marginTop="60dp"
+						android:gravity="center"
+						android:id="@+id/textView3" />
+			
+				</RelativeLayout>
+
+			</RelativeLayout>
+		
+		
+		</LinearLayout>
+</ScrollView>
+	
+</RelativeLayout>

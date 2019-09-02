@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:background="#221e20"
+	android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<RelativeLayout
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="367.0dp"
+		android:id="@+id/relativeLayout2">
+		<LinearLayout
+			android:background="@drawable/lokasyonlarheadergradient"
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="335.5dp"
+			android:id="@+id/linearLayout1">
+			<RelativeLayout
+				android:layout_marginTop="28.5dp"
+				android:layout_marginLeft="20dp"
+				android:layout_marginRight="20dp"
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:id="@+id/relativeLayout1">
+				<ImageButton
+					android:padding="6dp"
+					android:background="@null"
+					android:scaleType="centerInside"
+					android:src="@mipmap/geriicon"
+					android:layout_width="40dp"
+					android:layout_height="match_parent"
+					android:id="@+id/ımageButton1" />
+				<ImageButton
+					android:padding="4dp"
+					android:layout_alignParentRight="true"
+					android:background="@null"
+					android:scaleType="centerInside"
+					android:src="@mipmap/optionsimg"
+					android:layout_width="40dp"
+					android:layout_height="match_parent"
+					android:id="@+id/ımageButton2" />
+			</RelativeLayout>
+			<FFImageLoading.Views.ImageViewAsync
+				android:layout_gravity="center_horizontal"
+				android:src="@mipmap/profileimglarge"
+				android:id="@+id/imgPortada_item2"
+				android:scaleType="centerCrop"
+				android:layout_width="150sp"
+				android:layout_height="150sp"/>
+			<TextView
+				android:textSize="20dp"
+				android:textStyle="bold"
+				android:gravity="center_horizontal"
+				android:textColor="#fff"
+				android:text="Mesut P. 26"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView1" />
+			<TextView
+				android:textSize="15dp"
+				android:gravity="center_horizontal"
+				android:textColor="#fff"
+				android:text="Yazılım Uzmanı"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+			<TextView
+				android:layout_marginBottom="20dp"
+				android:textSize="15dp"
+				android:gravity="center_horizontal"
+				android:textColor="#fff"
+				android:text="İstanbul, Türkiye"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView3" />
+		</LinearLayout>
+		<RelativeLayout
+			android:layout_alignParentBottom="true"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/relativeLayout3">
+			<LinearLayout
+				android:layout_centerHorizontal="true"
+				android:orientation="horizontal"
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/linearLayout3">
+				<ImageButton
+					android:padding="15dp"
+					android:scaleType="centerInside"
+					android:background="@drawable/yuvarlakbeyaz"
+					android:src="@mipmap/profilsetting"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:id="@+id/ımageButton3" />
+				<ImageButton
+					android:layout_marginLeft="50dp"
+					android:layout_marginRight="50dp"
+					android:padding="15dp"
+					android:scaleType="centerInside"
+					android:background="@drawable/pinyapbg2"
+					android:src="@mipmap/addphoto"
+					android:layout_width="60dp"
+					android:layout_height="60dp"
+					android:id="@+id/ımageButton4" />
+				<ImageButton
+					android:padding="15dp"
+					android:scaleType="centerInside"
+					android:background="@drawable/yuvarlakbeyaz"
+					android:src="@mipmap/profileedit"
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:id="@+id/ımageButton5" />
+			</LinearLayout>
+		</RelativeLayout>
+	</RelativeLayout>
+	<ScrollView
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/scrollView1" >
+		<LinearLayout
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/linearLayout4" >
+			<View
+				android:layout_margin="20dp"
+				android:background="#E6E6E6"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:id="@+id/view1" />
+			<TextView
+				android:textSize="15dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="Hakkımda"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView4" />
+			<TextView
+				android:textSize="15dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView5" />
+			<View
+				android:layout_margin="20dp"
+				android:background="#E6E6E6"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:id="@+id/view1" />
+			<TextView
+				android:textSize="15dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="En son lokasyon"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView6" />
+			<TextView
+				android:textSize="15dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="İstanbul, Beyoğlu"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView7" />
+				<View
+				android:layout_margin="20dp"
+				android:background="#E6E6E6"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:id="@+id/view1" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

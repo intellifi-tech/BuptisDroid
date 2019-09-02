@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+	android:background="@null"
+    android:layout_height="match_parent">
+	<TextView
+		android:layout_marginTop="55.5dp"
+		android:gravity="center"
+		android:textSize="30dp"
+		android:textStyle="bold"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		android:layout_gravity="center_horizontal"
+		android:textColor="#fff"
+		android:text="Çocuk sahibi olmak hakkında ne düşünüyorsunuz..."
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:id="@+id/textView1" />
+	<ScrollView
+		android:layout_marginTop="15dp"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/scrollView1" >
+		<LinearLayout
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/linearLayout1" >
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

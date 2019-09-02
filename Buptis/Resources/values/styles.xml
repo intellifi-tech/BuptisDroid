@@ -1,0 +1,74 @@
+<resources>
+  <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="colorControlNormal">@color/colorPrimary</item>
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorPrimaryDark</item>
+    <item name="android:textAllCaps">false</item>
+  </style>
+  
+  
+  <style name="AppTheme" parent="AppTheme.Base">
+  </style>
+  
+  <style name="AppTheme.Splash" parent ="Theme.AppCompat.Light">
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+  </style>
+
+  <style name="ProgressTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorAccent">@color/colorPrimary</item>
+  </style>
+  
+  
+  <style name="DialogTheme" parent="Theme.AppCompat.Light">
+    <item name="colorAccent">@color/colorPrimary</item>
+  </style>
+
+  <style name="TextLabel" parent="TextAppearance.AppCompat">
+    <!-- Hint color and label color in FALSE state -->
+    <item name="android:textColorHint">#FFFFFF</item>
+    <item name="android:textSize">20sp</item>
+    <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+    <item name="colorAccent">#FFFFFF</item>
+    <item name="colorControlNormal">#FFFFFF</item>
+    <item name="colorControlActivated">#FFFFFF</item>
+  </style>
+
+  <style name="dialog_animation">
+    <item name="android:windowEnterAnimation">@anim/slide_up</item>
+    <item name="android:windowExitAnimation">@anim/slide_out_bottom2</item>
+  </style>
+
+  <style name="dialog_animation2">
+    <item name="android:windowEnterAnimation">@anim/slide_in_upp</item>
+    <item name="android:windowExitAnimation">@anim/slide_out_up</item>
+  </style>
+
+  <style name="dialog_animation3">
+    <item name="android:windowEnterAnimation">@anim/slide_up</item>
+    <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+  </style>
+
+  <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
+    <item name="colorAccent">#FB0816</item>
+    <item name="colorPrimaryDark">#FB0816</item>
+    <item name="colorAccent">#FB0816</item>
+  </style>
+
+  <style name="RadioButStyle" parent ="AppTheme.Base">
+    <item name="colorControlNormal">#888888</item>
+    <item name="colorPrimary">#888888</item>
+    <item name="colorAccent">#FB0816</item>
+    <item name="android:textColorSecondary">#888888</item>
+  </style>
+
+  <style name="action_sheet_animation">
+    <item name="android:windowEnterAnimation">@anim/slide_up</item>
+    <item name="android:windowExitAnimation">@anim/slide_out_bottom2</item>
+  </style>
+</resources>

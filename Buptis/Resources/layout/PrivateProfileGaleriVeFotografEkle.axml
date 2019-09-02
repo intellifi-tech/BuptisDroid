@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<LinearLayout
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/customwhitebackground2"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayout1">
+		<RelativeLayout
+			android:layout_marginTop="28.5dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="20dp"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:id="@+id/relativeLayout1">
+			<ImageButton
+				android:padding="6dp"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/geriicon"
+                android:tint="#EB0047"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton1" />
+			<TextView
+                android:layout_marginTop="5dp"
+				android:layout_toRightOf="@+id/ımageButton1"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="20dp"
+				android:textSize="20dp"
+				android:textStyle="bold"
+				android:textColor="#000"
+				android:text="Fotoğraf Yükle"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView1" />
+		</RelativeLayout>
+        <View
+				android:background="#676466"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+		<android.support.v7.widget.RecyclerView
+			android:layout_marginTop="20dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="195.0dp"
+			android:id="@+id/recyclerView1" />
+		
+         <Button
+                android:text="Tamamla"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/custombuton"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:id="@+id/button4" />
+      
+	</LinearLayout>
+</RelativeLayout>

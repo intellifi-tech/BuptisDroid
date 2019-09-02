@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+    android:background="@null"
+	android:padding="5dp">
+    <RelativeLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/relativeLayout1">
+        <FFImageLoading.Views.ImageViewAsync
+		android:id="@+id/imgPortada_item"
+		android:scaleType="centerCrop"
+		android:layout_width="70dp"
+		android:layout_height="70dp"
+		android:layout_centerVertical="true"
+		android:src="@drawable/auser" />
+        <TextView
+            android:text="4"
+            android:textColor="#fff"
+            android:background="@drawable/custombuton"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/textView5"/>
+        </RelativeLayout>
+	<LinearLayout
+		android:layout_marginLeft="10dp"
+		android:orientation="vertical"
+		android:gravity="bottom"
+		android:layout_width="match_parent"
+		android:layout_height="70dp"
+		android:id="@+id/linearLayout1"
+		android:layout_toRightOf="@id/relativeLayout1"
+		android:layout_toLeftOf="@id/linearLayout4">
+		<TextView
+			android:text="Melisa D. 25"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView1"
+			android:textColor="#fff"
+			android:textStyle="normal|bold"
+			android:textSize="17dp"
+			android:gravity="center_vertical"
+			android:layout_marginBottom="6.5dp" />
+        <TextView
+            android:text="Lorem ipsum dolor sit amet..."
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" 
+            android:textColor="#fff"
+			android:textSize="15dp"
+			android:gravity="center_vertical"
+			android:layout_marginBottom="6.5dp" />
+	</LinearLayout>
+	<LinearLayout
+		android:layout_marginRight="16dp"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="wrap_content"
+		android:layout_height="70dp"
+		android:layout_alignParentRight="true"
+		android:weightSum="100"
+		android:id="@+id/linearLayout4">
+      <ImageView
+                android:padding="3dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/customyildizbgwhite"
+                android:src="@mipmap/yildiz1"
+                android:scaleType="centerInside"
+                android:tint="#DA0069"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/ımageButton2" />
+	</LinearLayout>
+	
+</RelativeLayout>

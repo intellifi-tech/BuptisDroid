@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+    android:layout_width="match_parent"
+	android:background="@null"
+    android:layout_height="match_parent">
+	<TextView
+		android:layout_marginTop="55.5dp"
+		android:gravity="center"
+		android:textSize="30dp"
+		android:textStyle="bold"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		android:layout_gravity="center_horizontal"
+		android:textColor="#fff"
+		android:text="Çocuk sahibi olmak hakkında ne düşünüyorsunuz..."
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:id="@+id/textView1" />
+	  <TextView
+			android:layout_marginTop="30dp"
+			android:gravity="center_horizontal"
+			android:textSize="20dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:textColor="#fff"
+			android:textStyle="bold"
+			android:text="160 cm"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView2" />
+	  <Xamarin.RangeSlider.RangeSliderControl
+			android:layout_marginTop="15dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            local:showRangeLabels="false"
+            android:id="@+id/rangeSliderControl1"/>
+	  <TextView
+			android:layout_marginTop="30dp"
+			android:gravity="center_horizontal"
+			android:textSize="20dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:textColor="#50ffffff"
+			android:textStyle="bold"
+			android:text="Gösterme..."
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView4" />
+</LinearLayout>

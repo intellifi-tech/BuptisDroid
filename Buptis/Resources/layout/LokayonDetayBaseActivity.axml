@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:background="#221e20"
+	android:id="@+id/rootView"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<LinearLayout
+		android:background="@drawable/lokasyonlarheadergradient"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="87.0dp"
+		android:id="@+id/linearLayout1">
+		<RelativeLayout
+			android:layout_marginTop="28.5dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:id="@+id/relativeLayout1">
+			<ImageButton
+				android:padding="6dp"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/geriicon"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton1" />
+			<ImageButton
+				android:padding="5dp"
+				android:layout_alignParentRight="true"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/messagesend"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton2" />
+			<TextView
+				android:gravity="center"
+				android:layout_toRightOf="@+id/ımageButton1"
+				android:layout_toLeftOf="@+id/ımageButton2"
+				android:layout_marginLeft="20dp"
+				android:layout_marginRight="20dp"
+				android:textSize="30dp"
+				android:textStyle="bold"
+				android:textColor="#fff"
+				android:text="Zorlu Center"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView1" />
+		</RelativeLayout>
+	</LinearLayout>
+	<RelativeLayout
+		android:layout_marginBottom="25dp"
+		android:layout_alignParentBottom="true"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/relativeLayout3">
+		<LinearLayout
+			android:layout_centerHorizontal="true"
+			android:orientation="horizontal"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/linearLayout3">
+			<ImageButton
+				android:padding="15dp"
+				android:scaleType="centerInside"
+				android:background="@drawable/pindusunuyorbf"
+				android:src="@mipmap/timee"
+				android:layout_width="70dp"
+				android:layout_height="70dp"
+				android:id="@+id/ımageButton3" />
+			<ImageButton
+				android:layout_marginLeft="15dp"
+				android:padding="15dp"
+				android:scaleType="centerInside"
+				android:background="@drawable/pinyapbg2"
+				android:src="@mipmap/pinn"
+				android:layout_width="70dp"
+				android:layout_height="70dp"
+				android:id="@+id/ımageButton3" />
+		</LinearLayout>
+	</RelativeLayout>
+	<LinearLayout
+		android:layout_above="@+id/relativeLayout3"
+		android:layout_marginTop="25dp"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/linearLayout4"
+		android:layout_marginBottom="11.5dp">
+		<ScrollView
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/scrollView1" >
+			<LinearLayout
+				android:orientation="vertical"
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/linearLayout5" >
+				<FrameLayout
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:layout_width="match_parent"
+					android:layout_height="280.5dp"
+					android:id="@+id/frameLayout1" />
+				<RelativeLayout
+					android:layout_marginTop="20dp"
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/relativeLayout4">
+					<LinearLayout
+						android:layout_centerHorizontal="true"
+						android:orientation="horizontal"
+						android:minWidth="25px"
+						android:minHeight="25px"
+						android:layout_width="wrap_content"
+						android:layout_height="80dp"
+						android:id="@+id/linearLayout6">
+					<ImageButton
+						android:padding="20dp"
+						android:scaleType="centerInside"
+						android:src="@mipmap/konumicon2"
+						android:background="@drawable/beyazovalbg2"
+						android:layout_width="80dp"
+						android:layout_height="match_parent"
+						android:id="@+id/ımageButton4" />
+					<Button
+						android:layout_marginRight="40dp"
+						android:layout_marginLeft="40dp"
+						android:textSize="25dp"
+						android:text="2.7"
+						android:textColor="#fff"
+						android:padding="20dp"
+						android:scaleType="centerInside"
+						android:background="@mipmap/stariconn2"
+						android:layout_width="80dp"
+						android:layout_height="match_parent"
+						android:id="@+id/ımageButton5" />
+					<ImageButton
+						android:padding="23dp"
+						android:scaleType="centerInside"
+						android:src="@mipmap/phonoiconn"
+						android:background="@drawable/beyazovalbg2"
+						android:layout_width="80dp"
+						android:layout_height="match_parent"
+						android:id="@+id/ımageButton6" />
+				</LinearLayout>
+				</RelativeLayout>
+				<Button
+					
+					android:layout_marginLeft="30dp"
+					android:layout_marginRight="30dp"
+					android:layout_marginTop="25dp"
+					android:background="@drawable/custombuton"
+					android:textSize="23dp"
+					android:text="Mekandakiler"
+					android:textColor="#fff"
+					android:layout_width="match_parent"
+					android:layout_height="55dp"
+					android:id="@+id/button1" />
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>
+</RelativeLayout>

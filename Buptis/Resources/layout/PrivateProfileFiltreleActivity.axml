@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:local="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+	android:background="@null"
+	android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+	<LinearLayout
+		android:background="@drawable/customwhitebackground"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearLayout1">
+		<RelativeLayout
+			android:layout_marginTop="28.5dp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="20dp"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:id="@+id/relativeLayout1">
+			<ImageButton
+				android:padding="6dp"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/geriicon"
+                android:tint="#EB0047"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton1" />
+			<TextView
+                android:layout_marginTop="5dp"
+				android:layout_toRightOf="@+id/ımageButton1"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="20dp"
+				android:textSize="20dp"
+				android:textStyle="bold"
+				android:textColor="#000"
+				android:text="Filtre"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView1" />
+		</RelativeLayout>
+        <View
+				android:background="#676466"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+        <TextView
+            android:text="Şu kişileri göster"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"
+            android:textColor="#221E20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
+		<LinearLayout
+			android:layout_marginBottom="10dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:background="@drawable/customtablayoutbgdark"
+			android:weightSum="99"
+			android:orientation="horizontal"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="42.0dp"
+			android:id="@+id/linearLayout2">
+			<Button
+				android:textColor="#fff"
+				android:background="@drawable/customtabselecteditem"
+				android:text="Erkek"
+                android:textStyle="bold"
+				android:layout_weight="33"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:id="@+id/button1" />
+			<Button
+				android:textColor="#fff"
+                android:textStyle="bold"
+				android:background="@null"
+				android:text="Kadın"
+				android:layout_weight="33"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:id="@+id/button2" />
+			<Button
+				android:textColor="#fff"
+				android:background="@null"
+                android:textStyle="bold"
+				android:text="Her ikisi de"
+				android:layout_weight="33"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:id="@+id/button3" />
+		</LinearLayout>
+        <RelativeLayout
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout3" >
+            <TextView
+                android:text="Yaş aralığı"
+                android:layout_marginLeft="24dp"
+                android:textSize="18dp"
+                android:textColor="#221E20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3" />
+            <TextView
+                android:text="0"
+                android:layout_toRightOf="@+id/textView3"
+                android:layout_marginLeft="200dp"
+                android:textSize="18dp"
+                android:textColor="#221E20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4" />
+             <TextView
+                android:text="-"
+                android:layout_toRightOf="@+id/textView4"
+                android:textSize="18dp"
+                android:textColor="#221E20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5" />
+            <TextView
+                android:text="70"
+                android:layout_toRightOf="@+id/textView5"
+                android:textSize="18dp"
+                android:textColor="#221E20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6" />
+   
+        <Xamarin.RangeSlider.RangeSliderControl
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            local:showRangeLabels="false"
+            android:id="@+id/rangeSliderControl1" />
+           
+        </RelativeLayout>
+
+         <Button
+                android:text="Tamamla"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/custombuton"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:id="@+id/button4" />
+      
+	</LinearLayout>
+	
+</LinearLayout>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:background="#221e20"
+	android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+		<LinearLayout
+			android:background="@drawable/lokasyonlarheadergradient"
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="80dp"
+			android:id="@+id/linearLayout1">
+			<RelativeLayout
+				android:layout_marginTop="20dp"
+				android:layout_marginLeft="15dp"
+				android:layout_marginRight="20dp"
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:id="@+id/relativeLayout1">
+				<ImageButton
+					android:padding="10dp"
+					android:background="@null"
+					android:scaleType="centerInside"
+					android:src="@mipmap/geriicon"
+					android:layout_width="40dp"
+					android:layout_height="match_parent"
+					android:id="@+id/ımageButton1" />
+                <TextView
+                    android:text="Engelle - Şikayet et"
+                    android:layout_width="250dp"
+                    android:textColor="#fff"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/ımageButton1"
+                    android:id="@+id/textView1" />
+			</RelativeLayout>
+		</LinearLayout>
+	
+		<LinearLayout
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/linearLayout4" >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/linearLayout5" >
+        <RadioButton
+            android:background="@drawable/customradiowhite"
+            android:button="@android:color/transparent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            android:checked="true"
+            android:id="@+id/radioButton1" />
+			<TextView
+				android:textSize="18dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+				android:textColor="#EEEFEF"
+				android:text="Sahte profil"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+            </LinearLayout>
+               
+			<View
+				android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+				android:background="#6E6E6E"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+			<LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/linearLayout5" >
+            <RadioButton
+            android:background="@drawable/customradiowhite"
+            android:button="@android:color/transparent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/radioButton1" />
+			<TextView
+				android:textSize="18dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+				android:textColor="#EEEFEF"
+				android:text="Uygunsuz içerik"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+            </LinearLayout>
+			<View
+				android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+				android:background="#6E6E6E"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+        	<LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/linearLayout5" >
+        <RadioButton
+            android:background="@drawable/customradiowhite"
+            android:button="@android:color/transparent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="2dp"
+            android:id="@+id/radioButton1" />
+			<TextView
+				android:textSize="18dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+				android:textColor="#EEEFEF"
+				android:text="Kabalık ve saygısızlık"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+            </LinearLayout>
+			<View
+				android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+				android:background="#6E6E6E"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/linearLayout5" >
+        <RadioButton
+            android:background="@drawable/customradiowhite"
+            android:button="@android:color/transparent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            android:id="@+id/radioButton1" />
+			<TextView
+				android:textSize="18dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+				android:textColor="#EEEFEF"
+				android:text="Spam"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+            </LinearLayout>
+        <View
+				android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+				android:background="#6E6E6E"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+           <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/linearLayout5" >
+        <RadioButton
+            android:background="@drawable/customradiowhite"
+            android:button="@android:color/transparent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            android:id="@+id/radioButton1" />
+			<TextView
+				android:textSize="18dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+				android:textColor="#EEEFEF"
+				android:text="Dolandırıcılık"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+            </LinearLayout>
+        <View
+				android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+				android:background="#6E6E6E"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+         <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:id="@+id/linearLayout5" >
+        <RadioButton
+            android:background="@drawable/customradiowhite"
+            android:button="@android:color/transparent"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            android:id="@+id/radioButton1" />
+			<TextView
+				android:textSize="18dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+				android:textColor="#EEEFEF"
+				android:text="Diğer"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+            </LinearLayout>
+        <View
+				android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+				android:background="#6E6E6E"
+				android:layout_width="match_parent"
+				android:layout_height="2dp"
+				android:id="@+id/view1" />
+
+         <Button
+            android:text="Engelle"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="200dp"
+            android:layout_marginTop="50dp"
+            android:textColor="#EEEFEF"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:layout_height="50dp"
+            android:background="@drawable/custombuton"
+            android:id="@+id/button1" />
+		</LinearLayout>
+	
+</LinearLayout>

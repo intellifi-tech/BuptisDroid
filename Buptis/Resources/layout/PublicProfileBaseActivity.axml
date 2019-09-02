@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:background="#221e20"
+	android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<ScrollView
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/scrollView1" >
+		<LinearLayout
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/linearLayout4">
+			<RelativeLayout
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="match_parent"
+				android:layout_height="500dp"
+				android:id="@+id/relativeLayout2">
+				<RelativeLayout
+					android:background="@drawable/publicprofileheaderbg"
+					android:orientation="vertical"
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:layout_width="match_parent"
+					android:layout_height="468.0dp"
+					android:id="@+id/pagerhazne">
+					<android.support.v4.view.ViewPager
+						android:minWidth="25px"
+						android:minHeight="25px"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:id="@+id/viewPager1" />
+					<RelativeLayout
+						android:layout_marginTop="80dp"
+						android:layout_marginLeft="20dp"
+						android:layout_marginRight="20dp"
+						android:minWidth="25px"
+						android:minHeight="25px"
+						android:layout_width="match_parent"
+						android:layout_height="40dp"
+						android:id="@+id/relativeLayout1">
+						<ImageButton
+							android:tint="#ef003a"
+							android:padding="6dp"
+							android:background="@null"
+							android:scaleType="centerInside"
+							android:src="@mipmap/geriicon"
+							android:layout_width="40dp"
+							android:layout_height="match_parent"
+							android:id="@+id/ımageButton1" />
+					</RelativeLayout>
+					<dk.ostebaronen.droid.viewpagerindicator.LinePageIndicator
+						android:id="@+id/indicator"
+						android:padding="10dip"
+						android:layout_height="wrap_content"
+						android:layout_width="match_parent"
+						android:layout_alignParentBottom="true"
+						android:layout_centerHorizontal="true"
+						android:layout_marginBottom="16dp" />
+				</RelativeLayout>
+				<ImageButton
+					android:layout_marginBottom="50dp"
+					android:layout_alignParentBottom="true"
+					android:layout_alignParentRight="true"
+					android:layout_marginRight="50dp"
+					android:paddingTop="5dp"
+					android:paddingLeft="15dp"
+					android:paddingRight="20dp"
+					android:scaleType="centerInside"
+					android:background="@drawable/pinyapbg2"
+					android:src="@mipmap/messagesend"
+					android:layout_width="59.0dp"
+					android:layout_height="60.5dp"
+					android:id="@+id/ımageButton4" />
+			</RelativeLayout>
+			<LinearLayout
+				android:orientation="horizontal"
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="259.5dp"
+				android:layout_height="wrap_content"
+				android:id="@+id/linearLayout5"
+				android:layout_marginLeft="20dp">
+				<ImageView
+					android:padding="9dp"
+					android:scaleType="centerInside"
+					android:background="@drawable/pinyapbg2"
+					android:src="@mipmap/yildiz1"
+					android:layout_width="35dp"
+					android:layout_height="35dp"
+					android:id="@+id/ımageView1" />
+				<TextView
+					android:gravity="center_vertical"
+					android:textSize="15dp"
+					android:textStyle="bold"
+					android:layout_marginLeft="8dp"
+					android:textColor="#fff"
+					android:text="Seda C. 26"
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:id="@+id/textView2" />
+			</LinearLayout>
+			<View
+				android:layout_margin="20dp"
+				android:background="#E6E6E6"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:id="@+id/view1" />
+			<TextView
+				android:textSize="15dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="Hakkımda"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+			<TextView
+				android:textSize="15dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView3" />
+			<View
+				android:layout_margin="20dp"
+				android:background="#E6E6E6"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:id="@+id/view1" />
+			<TextView
+				android:textSize="15dp"
+				android:textStyle="bold"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="En son lokasyon"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2" />
+			<TextView
+				android:textSize="15dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="20dp"
+				android:textColor="#fff"
+				android:text="İstanbul, Beyoğlu"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView3" />
+			<View
+				android:layout_margin="20dp"
+				android:background="#E6E6E6"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:id="@+id/view1" />
+			<TextView
+				android:gravity="center"
+				android:textSize="15dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="20dp"
+				android:layout_marginBottom="15dp"
+				android:textColor="#fff"
+				android:text="Engelle - Şikayet Et"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/engelle" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

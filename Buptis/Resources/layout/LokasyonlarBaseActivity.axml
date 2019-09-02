@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:background="#221e20"
+	android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<LinearLayout
+		android:background="@drawable/lokasyonlarheadergradient"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="259.0dp"
+		android:id="@+id/linearLayout1">
+		<RelativeLayout
+			android:layout_marginTop="28.5dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:id="@+id/relativeLayout1">
+			<ImageButton
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/auser"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton1" />
+			<ImageButton
+				android:padding="3dp"
+				android:layout_alignParentRight="true"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/messagesend"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton2" />
+		</RelativeLayout>
+		<TextView
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:textSize="45dp"
+			android:textStyle="bold"
+			android:textColor="#fff"
+			android:text="Etrafındaki"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView1" />
+		<TextView
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:textSize="45dp"
+			android:textStyle="bold"
+			android:textColor="#fff"
+			android:text="insanlarla tanış"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView1" />
+		<LinearLayout
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:background="@drawable/customtablayoutbg"
+			android:weightSum="99"
+			android:orientation="horizontal"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="42.0dp"
+			android:id="@+id/linearLayout2">
+			<Button
+				android:textColor="#fff"
+				android:background="@drawable/customtabselecteditem"
+				android:text="Bana Yakın"
+				android:layout_weight="33"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:id="@+id/button1" />
+			<Button
+				android:textColor="#000"
+				android:background="@null"
+				android:text="Popüler"
+				android:layout_weight="33"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:id="@+id/button2" />
+			<Button
+				android:textColor="#000"
+				android:background="@null"
+				android:text="Bir yer seç"
+				android:layout_weight="33"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:id="@+id/button3" />
+		</LinearLayout>
+	</LinearLayout>
+	<FrameLayout
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/contentframe" />
+
+</LinearLayout>

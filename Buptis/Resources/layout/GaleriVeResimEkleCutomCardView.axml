@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="130dp"
+    android:layout_height="match_parent">
+	<android.support.v7.widget.CardView
+		android:layout_marginRight="10dp"
+		app:cardBackgroundColor="#000"
+		android:id="@+id/card_view"
+		app:cardUseCompatPadding="false"
+		app:cardPreventCornerOverlap="false"
+		app:cardElevation="0dp"
+		app:cardCornerRadius="20dp"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<RelativeLayout
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/relativeLayout1">
+			<FFImageLoading.Views.ImageViewAsync
+				android:layout_gravity="center_horizontal"
+				android:src="@mipmap/userforgaleri"
+				android:id="@+id/imgPortada_item2"
+				android:scaleType="centerCrop"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
+			<ImageButton
+				android:elevation="5dp"
+				android:scaleType="centerInside"
+				android:layout_marginTop="10dp"
+				android:layout_marginRight="10dp"
+				android:tint="#fff"
+				android:layout_alignParentRight="true"
+				android:padding="5dp"
+				android:background="@drawable/custombuton"
+				android:src="@drawable/delete"
+				android:layout_width="30dp"
+				android:layout_height="30dp"
+				android:id="@+id/ımageButton1" />
+		</RelativeLayout>
+	</android.support.v7.widget.CardView>
+</LinearLayout>

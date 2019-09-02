@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+	android:background="@null"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
+	<RelativeLayout
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="fill_parent"
+		android:layout_height="match_parent"
+		android:background="@null"
+		android:id="@+id/relativeLayout1">
+		<LinearLayout
+			android:background="@drawable/actionsheetsubbuttonsbg"
+			android:layout_marginLeft="30dp"
+			android:layout_marginRight="30dp"
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_above="@+id/linearLayout1"
+			android:id="@+id/buttonhaznesilin">
+			<TextView
+				android:textColor="#000"
+				android:text="Title"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView1"
+				android:gravity="center_horizontal"
+				android:layout_marginBottom="8.0dp"
+				android:layout_marginTop="8.0dp" />
+			<TextView
+				android:textColor="#000"
+				android:textSize="12sp"
+				android:text="description description"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2"
+				android:gravity="center_horizontal"
+				android:layout_marginBottom="28.0dp" />
+		</LinearLayout>
+		<LinearLayout
+			android:layout_alignParentBottom="true"
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="fill_parent"
+			android:layout_height="70.0dp"
+			android:paddingTop="10dp"
+			android:paddingBottom="10dp"
+			android:paddingLeft="30dp"
+			android:paddingRight="30dp"
+			android:id="@+id/linearLayout1">
+			<Button
+				android:text="Kapat"
+				android:layout_width="fill_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/button1"
+				android:background="@drawable/actionsheetclosebuttonbg"
+				android:textColor="#FFFFFF" />
+		</LinearLayout>
+	</RelativeLayout>
+
+</LinearLayout>
