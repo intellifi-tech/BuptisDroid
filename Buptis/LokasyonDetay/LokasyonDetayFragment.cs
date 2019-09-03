@@ -20,7 +20,7 @@ namespace Buptis.LokasyonDetay
 {
     public class LokasyonDetayFragment : Android.Support.V7.App.AppCompatDialogFragment 
     {
-        Button Kaydet;
+        Button Kaydet,MekandakiKisiler;
         ImageButton Geri;
         int[] resourseids = new int[] {
             Resource.Id.ımageButton2,
@@ -59,6 +59,7 @@ namespace Buptis.LokasyonDetay
             view.FindViewById<RelativeLayout>(Resource.Id.rootView).ClipToOutline = true;
             Kaydet = view.FindViewById<Button>(Resource.Id.button4);
             Geri = view.FindViewById<ImageButton>(Resource.Id.ımageButton1);
+           
             for (int i = 0; i < Buttonss.Length; i++)
             {
                 Buttonss[i] = view.FindViewById<Button>(resourseids[i]);
