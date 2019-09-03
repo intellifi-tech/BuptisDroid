@@ -5,17 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Buptis.GenericClass;
+using Buptis.Lokasyonlar;
 
 namespace Buptis.LokasyonDetay
 {
-    [Activity(Label = "LokasyonDetayFragment")]
-    public class LokasyonDetayFragment : Android.Support.V7.App.AppCompatDialogFragment
+    public class LokasyonDetayFragment : Android.Support.V7.App.AppCompatDialogFragment 
     {
         Button Kaydet;
         ImageButton Geri;
@@ -33,11 +36,14 @@ namespace Buptis.LokasyonDetay
   
         };
         Button[] Buttonss = new Button[10];
+
+      
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            base.OnActivityCreated(savedInstanceState);
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
             Dialog.Window.Attributes.WindowAnimations = Resource.Style.dialog_animation3;
+            base.OnActivityCreated(savedInstanceState);
+           
         }
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
@@ -81,11 +87,14 @@ namespace Buptis.LokasyonDetay
                 });
             });
         }
-
         public override void OnStart()
         {
             base.OnStart();
+            Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+            Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Bottom);
             SetBackGround();
+            
+
         }
         void SetBackGround()
         {
@@ -115,5 +124,6 @@ namespace Buptis.LokasyonDetay
         {
             
         }
+        
     }
 }

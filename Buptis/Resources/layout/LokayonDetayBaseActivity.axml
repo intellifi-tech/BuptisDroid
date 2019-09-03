@@ -6,56 +6,7 @@
 	android:id="@+id/rootView"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-	<LinearLayout
-		android:background="@drawable/lokasyonlarheadergradient"
-		android:orientation="vertical"
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:layout_width="match_parent"
-		android:layout_height="87.0dp"
-		android:id="@+id/linearLayout1">
-		<RelativeLayout
-			android:layout_marginTop="28.5dp"
-			android:layout_marginLeft="20dp"
-			android:layout_marginRight="20dp"
-			android:minWidth="25px"
-			android:minHeight="25px"
-			android:layout_width="match_parent"
-			android:layout_height="40dp"
-			android:id="@+id/relativeLayout1">
-			<ImageButton
-				android:padding="6dp"
-				android:background="@null"
-				android:scaleType="centerInside"
-				android:src="@mipmap/geriicon"
-				android:layout_width="40dp"
-				android:layout_height="match_parent"
-				android:id="@+id/ımageButton1" />
-			<ImageButton
-				android:padding="5dp"
-				android:layout_alignParentRight="true"
-				android:background="@null"
-				android:scaleType="centerInside"
-				android:src="@mipmap/messagesend"
-				android:layout_width="40dp"
-				android:layout_height="match_parent"
-				android:id="@+id/ımageButton2" />
-			<TextView
-				android:gravity="center"
-				android:layout_toRightOf="@+id/ımageButton1"
-				android:layout_toLeftOf="@+id/ımageButton2"
-				android:layout_marginLeft="20dp"
-				android:layout_marginRight="20dp"
-				android:textSize="30dp"
-				android:textStyle="bold"
-				android:textColor="#fff"
-				android:text="Zorlu Center"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/textView1" />
-		</RelativeLayout>
-	</LinearLayout>
+	
 	<RelativeLayout
 		android:layout_marginBottom="25dp"
 		android:layout_alignParentBottom="true"
@@ -179,5 +130,55 @@
 					android:id="@+id/button1" />
 			</LinearLayout>
 		</ScrollView>
+	</LinearLayout>
+<LinearLayout
+		android:background="@drawable/lokasyonlarheadergradient"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="87.0dp"
+		android:id="@+id/linearLayout1">
+		<RelativeLayout
+			android:layout_marginTop="28.5dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:id="@+id/relativeLayout1">
+			<ImageButton
+				android:padding="6dp"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/geriicon"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton1" />
+			<ImageButton
+				android:padding="5dp"
+				android:layout_alignParentRight="true"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/messagesend"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton2" />
+			<TextView
+				android:gravity="center"
+				android:layout_toRightOf="@+id/ımageButton1"
+				android:layout_toLeftOf="@+id/ımageButton2"
+				android:layout_marginLeft="20dp"
+				android:layout_marginRight="20dp"
+				android:textSize="30dp"
+				android:textStyle="bold"
+				android:textColor="#fff"
+				android:text="Zorlu Center"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView1" />
+		</RelativeLayout>
 	</LinearLayout>
 </RelativeLayout>
