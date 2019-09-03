@@ -41,31 +41,26 @@ namespace Buptis.PrivateProfile.Ayarlar
         private void TViewEngelli_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(PrivateProfileEngelleActivity));
-            Finish();
         }
 
         private void TViewHakkimizda_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(PrivateProfileHakkimizdaActivity));
-            Finish();
         }
 
         private void TviewBizeYazin_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(PrivateProfileBizeYazinActivity));
-            Finish();
         }
 
         private void TViewHesap_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(PrivateProfileHesapActivity));
-            Finish();
         }
 
         private void TViewTemelBilgi_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
-            Finish();
         }
     }
 }

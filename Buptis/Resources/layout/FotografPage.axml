@@ -6,7 +6,7 @@
 	<FFImageLoading.Views.ImageViewAsync
 		android:layout_marginTop="50dp"
 		android:scaleType="centerCrop"
-		android:src="@mipmap/ornekfoto"
+		android:src="@mipmap/placeholderauser"
 		android:background="@drawable/lokasyonlarheadergradient"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"

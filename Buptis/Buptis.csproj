@@ -137,6 +137,7 @@
     <Compile Include="PrivateProfile\PrivateProfileFiltreleDialogFragment.cs" />
     <Compile Include="PrivateProfile\PrivateProfileViewPager.cs" />
     <Compile Include="PublicProfile\PublicProfileBaseActivity.cs" />
+    <Compile Include="PublicProfile\PublicProfileDataModel.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Splashh\Splash.cs" />
