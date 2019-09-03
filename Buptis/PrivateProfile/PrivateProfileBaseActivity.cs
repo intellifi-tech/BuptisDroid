@@ -19,9 +19,6 @@ using Org.Json;
 namespace Buptis.PrivateProfile
 {
     [Activity(Label = "Buptis")]
-
-  
-
     public class PrivateProfileBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar 
