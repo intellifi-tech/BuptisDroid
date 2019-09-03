@@ -14,6 +14,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Buptis.GenericClass;
+using Buptis.LokasyondakiKisiler;
 using Buptis.Lokasyonlar;
 
 namespace Buptis.LokasyonDetay
@@ -22,7 +23,7 @@ namespace Buptis.LokasyonDetay
     public class LokayonDetayBaseActivity : Android.Support.V7.App.AppCompatActivity, IOnMapReadyCallback
     {
         ImageButton navigationmap, locationPhone;
-        Button ratingButton;
+        Button ratingButton,MekandakiKisiler;
         private GoogleMap _map;
         private MapFragment _mapFragment;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -32,9 +33,17 @@ namespace Buptis.LokasyonDetay
             navigationmap = FindViewById<ImageButton>(Resource.Id.ımageButton4);
             ratingButton = FindViewById<Button>(Resource.Id.ımageButton5);
             locationPhone = FindViewById<ImageButton>(Resource.Id.ımageButton6);
+            MekandakiKisiler = FindViewById<Button>(Resource.Id.button1);
+            MekandakiKisiler.Click += MekandakiKisiler_Click;
             navigationmap.Click += Navigationmap_Click;
             locationPhone.Click += LocationPhone_Click;
             ratingButton.Click += RatingButton_Click;
+        }
+
+        private void MekandakiKisiler_Click(object sender, EventArgs e)
+        {
+            StartActivity(typeof(LokasyondakiKisilerBaseActivity));
+            Finish();
         }
 
         private void RatingButton_Click(object sender, EventArgs e)
