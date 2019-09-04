@@ -30,7 +30,7 @@
 				android:src="@mipmap/timee"
 				android:layout_width="70dp"
 				android:layout_height="70dp"
-				android:id="@+id/ımageButton3" />
+				android:id="@+id/checkinwait" />
 			<ImageButton
 				android:layout_marginLeft="15dp"
 				android:padding="15dp"
@@ -39,7 +39,7 @@
 				android:src="@mipmap/pinn"
 				android:layout_width="70dp"
 				android:layout_height="70dp"
-				android:id="@+id/ımageButton3" />
+				android:id="@+id/checkin" />
 		</LinearLayout>
 	</RelativeLayout>
 	<LinearLayout

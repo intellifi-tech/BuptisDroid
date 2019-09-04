@@ -13,6 +13,12 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
 {
     public class PrivateProfileGaleriVeResim
     {
-        
+        public string createdDate { get; set; }
+        public int id { get; set; }
+        public string imagePath { get; set; } 
+        public string lastModifiedDate { get; set; }
+        public int userId { get; set; }
+        //--------------------
+        public bool isAddedCell { get; set; }
     }
 }

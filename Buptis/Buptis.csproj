@@ -39,6 +39,7 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>PdbOnly</DebugType>
@@ -55,7 +56,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DK.Ostebaronen.Droid.ViewPagerIndicator">
-      <HintPath>..\..\..\..\..\..\..\Desktop\dll\DK.Ostebaronen.Droid.ViewPagerIndicator.dll</HintPath>
+      <HintPath>..\..\..\..\..\DLL\Android\DK.Ostebaronen.Droid.ViewPagerIndicator.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />

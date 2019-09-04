@@ -14,15 +14,17 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Buptis.GenericClass;
+using Buptis.GenericUI;
 using Buptis.LokasyondakiKisiler;
 using Buptis.Lokasyonlar;
+using Buptis.WebServicee;
 
 namespace Buptis.LokasyonDetay
 {
     [Activity(Label = "Buptis")]
     public class LokayonDetayBaseActivity : Android.Support.V7.App.AppCompatActivity, IOnMapReadyCallback
     {
-        ImageButton navigationmap, locationPhone;
+        ImageButton navigationmap, locationPhone,CheckInButton,WaitingButton;
         Button ratingButton,MekandakiKisiler;
         private GoogleMap _map;
         private MapFragment _mapFragment;
@@ -34,10 +36,62 @@ namespace Buptis.LokasyonDetay
             ratingButton = FindViewById<Button>(Resource.Id.ımageButton5);
             locationPhone = FindViewById<ImageButton>(Resource.Id.ımageButton6);
             MekandakiKisiler = FindViewById<Button>(Resource.Id.button1);
+            CheckInButton = FindViewById<ImageButton>(Resource.Id.checkin);
+            WaitingButton = FindViewById<ImageButton>(Resource.Id.checkinwait);
             MekandakiKisiler.Click += MekandakiKisiler_Click;
             navigationmap.Click += Navigationmap_Click;
             locationPhone.Click += LocationPhone_Click;
             ratingButton.Click += RatingButton_Click;
+            CheckInButton.Click += CheckInButton_Click;
+            WaitingButton.Click += WaitingButton_Click;
+        }
+
+        private void WaitingButton_Click(object sender, EventArgs e)
+        {
+            ShowLoading.Show(this, "Check-in Bekletme Yapılıyor...");
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("users/location/" + SecilenLokasyonn.LokID.ToString() + "/waiting");
+                if (Donus != null)
+                {
+                    this.RunOnUiThread(() => {
+                        AlertHelper.AlertGoster("Check-in Bekletme Yapıldı...", this);
+                        ShowLoading.Hide();
+                        StartActivity(typeof(LokasyondakiKisilerBaseActivity));
+                    });
+                }
+                else
+                {
+                    this.RunOnUiThread(() => {
+                        ShowLoading.Hide();
+                    });
+                }
+            })).Start();
+        }
+
+        private void CheckInButton_Click(object sender, EventArgs e)
+        {
+            ShowLoading.Show(this, "Check-in Yapılıyor...");
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("users/location/" + SecilenLokasyonn.LokID.ToString() + "/online");
+                if (Donus != null)
+                {
+                    this.RunOnUiThread(() => {
+                        AlertHelper.AlertGoster("Check-in Yapıldı...", this);
+                        ShowLoading.Hide();
+                        StartActivity(typeof(LokasyondakiKisilerBaseActivity));
+                    });
+                }
+                else
+                {
+                    this.RunOnUiThread(() => {
+                        ShowLoading.Hide();
+                    });
+                }
+            })).Start();
         }
 
         private void MekandakiKisiler_Click(object sender, EventArgs e)

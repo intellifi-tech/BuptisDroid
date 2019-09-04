@@ -4239,8 +4239,8 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0049
 			public const int SYM = 2131624009;
 			
-			// aapt resource value: 0x7f0e00f9
-			public const int action0 = 2131624185;
+			// aapt resource value: 0x7f0e00fb
+			public const int action0 = 2131624187;
 			
 			// aapt resource value: 0x7f0e0099
 			public const int action_bar = 2131624089;
@@ -4263,17 +4263,17 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0075
 			public const int action_bar_title = 2131624053;
 			
-			// aapt resource value: 0x7f0e00f6
-			public const int action_container = 2131624182;
+			// aapt resource value: 0x7f0e00f8
+			public const int action_container = 2131624184;
 			
 			// aapt resource value: 0x7f0e009a
 			public const int action_context_bar = 2131624090;
 			
-			// aapt resource value: 0x7f0e00fd
-			public const int action_divider = 2131624189;
+			// aapt resource value: 0x7f0e00ff
+			public const int action_divider = 2131624191;
 			
-			// aapt resource value: 0x7f0e00f7
-			public const int action_image = 2131624183;
+			// aapt resource value: 0x7f0e00f9
+			public const int action_image = 2131624185;
 			
 			// aapt resource value: 0x7f0e0003
 			public const int action_menu_divider = 2131623939;
@@ -4290,11 +4290,11 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0077
 			public const int action_mode_close_button = 2131624055;
 			
-			// aapt resource value: 0x7f0e00f8
-			public const int action_text = 2131624184;
+			// aapt resource value: 0x7f0e00fa
+			public const int action_text = 2131624186;
 			
-			// aapt resource value: 0x7f0e0106
-			public const int actions = 2131624198;
+			// aapt resource value: 0x7f0e0108
+			public const int actions = 2131624200;
 			
 			// aapt resource value: 0x7f0e0078
 			public const int activity_chooser_view_content = 2131624056;
@@ -4368,8 +4368,8 @@ namespace Buptis
 			// aapt resource value: 0x7f0e00ab
 			public const int buttonhaznesilin = 2131624107;
 			
-			// aapt resource value: 0x7f0e00fa
-			public const int cancel_action = 2131624186;
+			// aapt resource value: 0x7f0e00fc
+			public const int cancel_action = 2131624188;
 			
 			// aapt resource value: 0x7f0e00bb
 			public const int card_view = 2131624123;
@@ -4386,8 +4386,14 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0092
 			public const int checkbox = 2131624082;
 			
-			// aapt resource value: 0x7f0e0102
-			public const int chronometer = 2131624194;
+			// aapt resource value: 0x7f0e00f6
+			public const int checkin = 2131624182;
+			
+			// aapt resource value: 0x7f0e00f5
+			public const int checkinwait = 2131624181;
+			
+			// aapt resource value: 0x7f0e0104
+			public const int chronometer = 2131624196;
 			
 			// aapt resource value: 0x7f0e006b
 			public const int clip_horizontal = 2131624043;
@@ -4470,11 +4476,11 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0042
 			public const int end = 2131624002;
 			
-			// aapt resource value: 0x7f0e0108
-			public const int end_padder = 2131624200;
+			// aapt resource value: 0x7f0e010a
+			public const int end_padder = 2131624202;
 			
-			// aapt resource value: 0x7f0e0116
-			public const int engelle = 2131624214;
+			// aapt resource value: 0x7f0e0118
+			public const int engelle = 2131624216;
 			
 			// aapt resource value: 0x7f0e0051
 			public const int enterAlways = 2131624017;
@@ -4536,8 +4542,8 @@ namespace Buptis
 			// aapt resource value: 0x7f0e007d
 			public const int icon = 2131624061;
 			
-			// aapt resource value: 0x7f0e0107
-			public const int icon_group = 2131624199;
+			// aapt resource value: 0x7f0e0109
+			public const int icon_group = 2131624201;
 			
 			// aapt resource value: 0x7f0e002b
 			public const int icon_only = 2131623979;
@@ -4554,11 +4560,11 @@ namespace Buptis
 			// aapt resource value: 0x7f0e00da
 			public const int imgPortada_item2 = 2131624154;
 			
-			// aapt resource value: 0x7f0e0115
-			public const int indicator = 2131624213;
+			// aapt resource value: 0x7f0e0117
+			public const int indicator = 2131624215;
 			
-			// aapt resource value: 0x7f0e0103
-			public const int info = 2131624195;
+			// aapt resource value: 0x7f0e0105
+			public const int info = 2131624197;
 			
 			// aapt resource value: 0x7f0e0072
 			public const int italic = 2131624050;
@@ -4614,11 +4620,11 @@ namespace Buptis
 			// aapt resource value: 0x7f0e007c
 			public const int list_item = 2131624060;
 			
-			// aapt resource value: 0x7f0e0119
-			public const int masked = 2131624217;
+			// aapt resource value: 0x7f0e011b
+			public const int masked = 2131624219;
 			
-			// aapt resource value: 0x7f0e00fc
-			public const int media_actions = 2131624188;
+			// aapt resource value: 0x7f0e00fe
+			public const int media_actions = 2131624190;
 			
 			// aapt resource value: 0x7f0e00a8
 			public const int message = 2131624104;
@@ -4650,20 +4656,20 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0026
 			public const int normal = 2131623974;
 			
-			// aapt resource value: 0x7f0e0105
-			public const int notification_background = 2131624197;
+			// aapt resource value: 0x7f0e0107
+			public const int notification_background = 2131624199;
 			
-			// aapt resource value: 0x7f0e00ff
-			public const int notification_main_column = 2131624191;
+			// aapt resource value: 0x7f0e0101
+			public const int notification_main_column = 2131624193;
 			
-			// aapt resource value: 0x7f0e00fe
-			public const int notification_main_column_container = 2131624190;
+			// aapt resource value: 0x7f0e0100
+			public const int notification_main_column_container = 2131624192;
 			
 			// aapt resource value: 0x7f0e006a
 			public const int outline = 2131624042;
 			
-			// aapt resource value: 0x7f0e0114
-			public const int pagerhazne = 2131624212;
+			// aapt resource value: 0x7f0e0116
+			public const int pagerhazne = 2131624214;
 			
 			// aapt resource value: 0x7f0e0061
 			public const int parallax = 2131624033;
@@ -4689,17 +4695,17 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0093
 			public const int radio = 2131624083;
 			
-			// aapt resource value: 0x7f0e010f
-			public const int radioButton1 = 2131624207;
-			
 			// aapt resource value: 0x7f0e0111
-			public const int radioButton2 = 2131624209;
+			public const int radioButton1 = 2131624209;
+			
+			// aapt resource value: 0x7f0e0113
+			public const int radioButton2 = 2131624211;
+			
+			// aapt resource value: 0x7f0e0114
+			public const int radioButton3 = 2131624212;
 			
 			// aapt resource value: 0x7f0e0112
-			public const int radioButton3 = 2131624210;
-			
-			// aapt resource value: 0x7f0e0110
-			public const int rangeSliderControl1 = 2131624208;
+			public const int rangeSliderControl1 = 2131624210;
 			
 			// aapt resource value: 0x7f0e00b2
 			public const int recyclerView1 = 2131624114;
@@ -4725,11 +4731,11 @@ namespace Buptis
 			// aapt resource value: 0x7f0e005f
 			public const int right = 2131624031;
 			
-			// aapt resource value: 0x7f0e0104
-			public const int right_icon = 2131624196;
+			// aapt resource value: 0x7f0e0106
+			public const int right_icon = 2131624198;
 			
-			// aapt resource value: 0x7f0e0100
-			public const int right_side = 2131624192;
+			// aapt resource value: 0x7f0e0102
+			public const int right_side = 2131624194;
 			
 			// aapt resource value: 0x7f0e00c3
 			public const int rootView = 2131624131;
@@ -4854,8 +4860,8 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0060
 			public const int start = 2131624032;
 			
-			// aapt resource value: 0x7f0e00fb
-			public const int status_bar_latest_event_content = 2131624187;
+			// aapt resource value: 0x7f0e00fd
+			public const int status_bar_latest_event_content = 2131624189;
 			
 			// aapt resource value: 0x7f0e0065
 			public const int stretch = 2131624037;
@@ -4917,14 +4923,14 @@ namespace Buptis
 			// aapt resource value: 0x7f0e00dc
 			public const int textView4 = 2131624156;
 			
-			// aapt resource value: 0x7f0e00f5
-			public const int textView5 = 2131624181;
-			
-			// aapt resource value: 0x7f0e010b
-			public const int textView6 = 2131624203;
+			// aapt resource value: 0x7f0e00f7
+			public const int textView5 = 2131624183;
 			
 			// aapt resource value: 0x7f0e010d
-			public const int textView7 = 2131624205;
+			public const int textView6 = 2131624205;
+			
+			// aapt resource value: 0x7f0e010f
+			public const int textView7 = 2131624207;
 			
 			// aapt resource value: 0x7f0e00d8
 			public const int text_input_password_toggle = 2131624152;
@@ -4938,11 +4944,11 @@ namespace Buptis
 			// aapt resource value: 0x7f0e001a
 			public const int textinput_helper_text = 2131623962;
 			
-			// aapt resource value: 0x7f0e0101
-			public const int time = 2131624193;
+			// aapt resource value: 0x7f0e0103
+			public const int time = 2131624195;
 			
-			// aapt resource value: 0x7f0e0117
-			public const int timePicker1 = 2131624215;
+			// aapt resource value: 0x7f0e0119
+			public const int timePicker1 = 2131624217;
 			
 			// aapt resource value: 0x7f0e0023
 			public const int title = 2131623971;
@@ -5001,26 +5007,26 @@ namespace Buptis
 			// aapt resource value: 0x7f0e00cc
 			public const int view1 = 2131624140;
 			
-			// aapt resource value: 0x7f0e0109
-			public const int view2 = 2131624201;
-			
-			// aapt resource value: 0x7f0e010a
-			public const int view3 = 2131624202;
+			// aapt resource value: 0x7f0e010b
+			public const int view2 = 2131624203;
 			
 			// aapt resource value: 0x7f0e010c
-			public const int view4 = 2131624204;
+			public const int view3 = 2131624204;
 			
 			// aapt resource value: 0x7f0e010e
-			public const int view5 = 2131624206;
+			public const int view4 = 2131624206;
 			
-			// aapt resource value: 0x7f0e0113
-			public const int viewPager1 = 2131624211;
+			// aapt resource value: 0x7f0e0110
+			public const int view5 = 2131624208;
+			
+			// aapt resource value: 0x7f0e0115
+			public const int viewPager1 = 2131624213;
 			
 			// aapt resource value: 0x7f0e001b
 			public const int view_offset_helper = 2131623963;
 			
-			// aapt resource value: 0x7f0e0118
-			public const int visible = 2131624216;
+			// aapt resource value: 0x7f0e011a
+			public const int visible = 2131624218;
 			
 			// aapt resource value: 0x7f0e002d
 			public const int wide = 2131623981;

@@ -13,6 +13,7 @@ using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
 using Buptis.GenericClass;
+using Buptis.WebServicee;
 using Xamarin.RangeSlider;
 
 namespace Buptis.PrivateProfile
@@ -30,11 +31,24 @@ namespace Buptis.PrivateProfile
             SetContentView(Resource.Layout.PrivateProfileViewPager);
             profileViewPager = FindViewById<ViewPager>(Resource.Id.viewPager1);
             DinamikStatusBarColor1.SetFullScreen(this);
-            ViewPagerSetup();
+            
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            ViewPagerSetup();
+        }
+        
         void ViewPagerSetup()
         {
+
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("answers/user/all");
+            if (Donus != null)
+            {
+
+            }
 
             var fragments = new Android.Support.V4.App.Fragment[]
             {
@@ -46,8 +60,6 @@ namespace Buptis.PrivateProfile
             });
             profileViewPager.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, titles, true);
         }
-
-
 
         public void OnPageScrolled(int position, float positionOffset, int positionOffsetPixels)
         {
