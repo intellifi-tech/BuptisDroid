@@ -15,12 +15,13 @@
 		android:id="@+id/linearLayout3"
 		android:layout_marginTop="27.0dp">
 		<TextView
+			android:layout_marginLeft="10dp"
 			android:text="1/8"
 			android:textColor="#fff"
 			android:textSize="20dp"
 			android:gravity="center"
 			android:textStyle="bold"
-			android:layout_width="50dp"
+			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:layout_alignParentLeft="true"
 			android:id="@+id/textView2"/>

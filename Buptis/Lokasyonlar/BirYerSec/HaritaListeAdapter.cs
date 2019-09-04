@@ -108,7 +108,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
                     var Donus2 = webService.OkuGetir("categories/ " + catid.ToString());
                     if (Donus2 != null)
                     {
-                        JSONObject js = new JSONObject(Donus2);
+                        JSONObject js = new JSONObject(Donus2.ToString());
                         var KategoriAdi = js.GetString("name");
                         BaseActivity.RunOnUiThread(() => {
                             LokasyonTuru.Text = KategoriAdi;

@@ -18,6 +18,7 @@ using Buptis.GenericUI;
 using Buptis.LokasyondakiKisiler;
 using Buptis.Lokasyonlar;
 using Buptis.WebServicee;
+using Newtonsoft.Json;
 
 namespace Buptis.LokasyonDetay
 {
@@ -48,39 +49,32 @@ namespace Buptis.LokasyonDetay
 
         private void WaitingButton_Click(object sender, EventArgs e)
         {
-            ShowLoading.Show(this, "Check-in Bekletme Yapılıyor...");
-            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
-            {
-                WebService webService = new WebService();
-                var Donus = webService.OkuGetir("users/location/" + SecilenLokasyonn.LokID.ToString() + "/waiting");
-                if (Donus != null)
-                {
-                    this.RunOnUiThread(() => {
-                        AlertHelper.AlertGoster("Check-in Bekletme Yapıldı...", this);
-                        ShowLoading.Hide();
-                        StartActivity(typeof(LokasyondakiKisilerBaseActivity));
-                    });
-                }
-                else
-                {
-                    this.RunOnUiThread(() => {
-                        ShowLoading.Hide();
-                    });
-                }
-            })).Start();
+            CheckInYap("WAITING", "Check-in Bekletme Yapılıyor...", "Check-in Bekletme Yapıldı...");
         }
 
         private void CheckInButton_Click(object sender, EventArgs e)
         {
-            ShowLoading.Show(this, "Check-in Yapılıyor...");
+            CheckInYap("ONLINE", "Check-in Yapılıyor...", "Check-in Yapıldı...");
+        }
+
+        void CheckInYap(string statuss,string startprogresstext,string alert)
+        {
+            ShowLoading.Show(this, startprogresstext);
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
                 WebService webService = new WebService();
-                var Donus = webService.OkuGetir("users/location/" + SecilenLokasyonn.LokID.ToString() + "/online");
-                if (Donus != null)
+
+                CheckInIslemiIcinDataModel checkInIslemiIcinDataModel = new CheckInIslemiIcinDataModel()
+                {
+                    locationId = Convert.ToInt32(SecilenLokasyonn.LokID),
+                    status = statuss
+                };
+                var jsonstring = JsonConvert.SerializeObject(checkInIslemiIcinDataModel);
+                var Donus = webService.ServisIslem("locations/check-in", jsonstring);
+                if (Donus != "Hata")
                 {
                     this.RunOnUiThread(() => {
-                        AlertHelper.AlertGoster("Check-in Yapıldı...", this);
+                        AlertHelper.AlertGoster(alert, this);
                         ShowLoading.Hide();
                         StartActivity(typeof(LokasyondakiKisilerBaseActivity));
                     });
@@ -88,12 +82,12 @@ namespace Buptis.LokasyonDetay
                 else
                 {
                     this.RunOnUiThread(() => {
+                        AlertHelper.AlertGoster("Bir sorun oluştu...", this);
                         ShowLoading.Hide();
                     });
                 }
             })).Start();
         }
-
         private void MekandakiKisiler_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(LokasyondakiKisilerBaseActivity));
@@ -190,5 +184,12 @@ namespace Buptis.LokasyonDetay
             }
         }
         #endregion
+
+
+        public class CheckInIslemiIcinDataModel
+        {
+            public int locationId { get; set; }
+            public string status { get; set; }
+        }
     }
 }

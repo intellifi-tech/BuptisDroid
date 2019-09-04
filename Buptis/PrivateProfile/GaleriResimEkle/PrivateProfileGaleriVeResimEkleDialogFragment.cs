@@ -95,7 +95,8 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         void ResimleriGetir()
         {
             WebService webService = new WebService();
-            var Donus = webService.OkuGetir("images/user");
+            var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+            var Donus = webService.OkuGetir("images/user"+ MeID.ToString());
             if (Donus != null)
             {
                 var aa = Donus.ToString();
