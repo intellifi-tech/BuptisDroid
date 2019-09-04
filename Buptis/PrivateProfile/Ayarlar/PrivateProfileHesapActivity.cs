@@ -31,7 +31,6 @@ namespace Buptis.PrivateProfile.Ayarlar
 
         private void Profileback_Click(object sender, EventArgs e)
         {
-            StartActivity(typeof(PrivateProfileAyarlarActivity));
             Finish();
         }
     }

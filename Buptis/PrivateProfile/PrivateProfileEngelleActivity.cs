@@ -14,7 +14,7 @@ using Buptis.PrivateProfile.Ayarlar;
 namespace Buptis.PrivateProfile
 {
     [Activity(Label = "Buptis")]
-    public class PrivateProfileEngelleActivity : Activity
+    public class PrivateProfileEngelleActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region
         ImageButton profileback;
@@ -29,8 +29,7 @@ namespace Buptis.PrivateProfile
 
         private void Profileback_Click(object sender, EventArgs e)
         {
-            StartActivity(typeof(PrivateProfileAyarlarActivity));
-            Finish();
+            this.Finish();
         }
     }
 }

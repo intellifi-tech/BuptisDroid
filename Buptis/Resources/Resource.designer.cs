@@ -4481,7 +4481,9 @@ namespace Buptis
 			
 			// aapt resource value: 0x7f0e0118
 			public const int engelle = 2131624216;
-			
+			// aapt resource value: 0x7f0e0117
+			public const int engelle = 2131624215;
+
 			// aapt resource value: 0x7f0e0051
 			public const int enterAlways = 2131624017;
 			
@@ -4622,6 +4624,8 @@ namespace Buptis
 			
 			// aapt resource value: 0x7f0e011b
 			public const int masked = 2131624219;
+			// aapt resource value: 0x7f0e011a
+			public const int masked = 2131624218;
 			
 			// aapt resource value: 0x7f0e00fe
 			public const int media_actions = 2131624190;
@@ -4911,6 +4915,9 @@ namespace Buptis
 			// aapt resource value: 0x7f0e0064
 			public const int textStart = 2131624036;
 			
+			// aapt resource value: 0x7f0e0116
+			public const int textView = 2131624214;
+			
 			// aapt resource value: 0x7f0e00ac
 			public const int textView1 = 2131624108;
 			
@@ -4949,6 +4956,8 @@ namespace Buptis
 			
 			// aapt resource value: 0x7f0e0119
 			public const int timePicker1 = 2131624217;
+			// aapt resource value: 0x7f0e0118
+			public const int timePicker1 = 2131624216;
 			
 			// aapt resource value: 0x7f0e0023
 			public const int title = 2131623971;
@@ -5027,6 +5036,8 @@ namespace Buptis
 			
 			// aapt resource value: 0x7f0e011a
 			public const int visible = 2131624218;
+			// aapt resource value: 0x7f0e0119
+			public const int visible = 2131624217;
 			
 			// aapt resource value: 0x7f0e002d
 			public const int wide = 2131623981;
