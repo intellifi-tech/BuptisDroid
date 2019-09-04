@@ -28,7 +28,7 @@ namespace Buptis.PrivateProfile
         ViewPager profileViewPager;
         List<QuestionDTO> SoruListesi = new List<QuestionDTO>();
         List<UserAnswersDTO> KullanicininCevaplari = new List<UserAnswersDTO>();
-        TextView SoruCounterText;
+        TextView SoruCounterText,AtlaTxt;
         ImageButton KapatButton,GeriButton,IleriButton;
         Android.Support.V4.App.Fragment[] fragments;
         #endregion
@@ -41,12 +41,20 @@ namespace Buptis.PrivateProfile
             KapatButton = FindViewById<ImageButton>(Resource.Id.ımageButton3);
             GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             IleriButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            AtlaTxt = FindViewById<TextView>(Resource.Id.textView1);
+            AtlaTxt.Click += AtlaTxt_Click;
             KapatButton.Click += KapatButton_Click;
             GeriButton.Click += GeriButton_Click;
             IleriButton.Click += IleriButton_Click;
+
             profileViewPager.PageSelected += ProfileViewPager_PageSelected;
             DinamikStatusBarColor1.SetFullScreen(this);
 
+        }
+
+        private void AtlaTxt_Click(object sender, EventArgs e)
+        {
+            StartActivity(typeof(PrivateProfileViewPagerSonuc));
         }
 
         private void IleriButton_Click(object sender, EventArgs e)
@@ -140,7 +148,6 @@ namespace Buptis.PrivateProfile
         {
 
         }
-
 
         public class QuestionDTO
         {
@@ -321,7 +328,7 @@ namespace Buptis.PrivateProfile
             var aaa = GelenAnswer.FindAll(item => item.questionId == GelenSoru.id);
             if (aaa.Count>0)
             {
-                slider.SetSelectedMinValue(Convert.ToInt32(aaa[0].option));
+                //slider.SetSelectedMinValue(Convert.ToInt32(aaa[0].option));
             }
         }
 

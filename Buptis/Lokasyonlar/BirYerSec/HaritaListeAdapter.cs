@@ -87,7 +87,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
                     var Donus1 = webService.OkuGetir("towns/" + townid.ToString());
                     if (Donus1 != null)
                     {
-                        JSONObject js = new JSONObject(Donus1);
+                        JSONObject js = new JSONObject(Donus1.ToString());
                         var TownName = js.GetString("townName");
                         BaseActivity.RunOnUiThread(() => {
                             UzaklikveSemt.Text = TownName;
