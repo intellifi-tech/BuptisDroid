@@ -59,7 +59,16 @@ namespace Buptis.PrivateProfile
 
         private void IleriButton_Click(object sender, EventArgs e)
         {
-            profileViewPager.SetCurrentItem(profileViewPager.CurrentItem + 1, true);
+            if (profileViewPager.CurrentItem == SoruListesi.Count)
+            {
+                SorularActivity.PrivateProfileViewPager1 = this;
+                StartActivity(typeof(PrivateProfileViewPagerSonuc));
+            }
+            else
+            {
+                profileViewPager.SetCurrentItem(profileViewPager.CurrentItem + 1, true);
+            }
+            
         }
 
         private void GeriButton_Click(object sender, EventArgs e)
@@ -366,5 +375,10 @@ namespace Buptis.PrivateProfile
             markerLayout.Draw(canvas);
             return bitmap;
         }
+    }
+
+    public static class SorularActivity
+    {
+        public static PrivateProfileViewPager PrivateProfileViewPager1 { get; set; }
     }
 }

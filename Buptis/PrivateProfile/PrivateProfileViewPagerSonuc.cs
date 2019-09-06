@@ -17,6 +17,8 @@ namespace Buptis.PrivateProfile
     public class PrivateProfileViewPagerSonuc : Android.Support.V7.App.AppCompatActivity
     {
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
+        TextView AciklamaText, DahaSonraText,Counter;
+        ImageButton Kapat;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
