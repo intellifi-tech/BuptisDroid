@@ -94,7 +94,6 @@ namespace Buptis.PublicProfile
                    
                 });
 
-              
             })).Start();
         }
 
@@ -191,7 +190,7 @@ namespace Buptis.PublicProfile
                 var Donus3 = webService.OkuGetir("locations/user");
                 if (Donus3 != null)
                 {
-                    EnSonLokasyonu.Text = userlastloc.townName + ", " + userlastloc.place;
+                    EnSonLokasyonu.Text = userlastloc.townName + ", " + userlastloc.name;
                 }
             });
 
