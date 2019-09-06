@@ -85,11 +85,34 @@ namespace Buptis.PrivateProfile
                 Meslegi.Text = UserInfo[0].job;
                 HakkindaYazisi.Text = "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
                 UserInfo[0].townId = "0";
-                GetUserTown(UserInfo[0].townId.ToString());
+                GetUserTown(UserInfo[0].townId.ToString(),Konumu);
+                GetLastCechin(UserInfo[0].id);
+            }
+        }
+        void GetLastCechin(int USERID)
+        {
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("locations/user/" + USERID);
+            if (Donus != null)
+            {
+                var LasLoc = Newtonsoft.Json.JsonConvert.DeserializeObject<LastLocationDTO>(Donus.ToString());
+                if (!string.IsNullOrEmpty(LasLoc.townId))
+                {
+                    var TownID = LasLoc.townId;
+                    GetUserTown(TownID, EnSonLokasyonu);
+                }
+                else
+                {
+                    EnSonLokasyonu.Text = "Henüz check-in yok.";
+                }
+                
+            }
+            else
+            {
                 EnSonLokasyonu.Text = "Henüz check-in yok.";
             }
         }
-        void GetUserTown(string townid)
+        void GetUserTown(string townid,TextView HangiText)
         {
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
@@ -97,29 +120,29 @@ namespace Buptis.PrivateProfile
                 var Donus1 = webService.OkuGetir("towns/" + townid.ToString());
                 if (Donus1 != null)
                 {
-                    JSONObject js = new JSONObject(Donus1);
+                    JSONObject js = new JSONObject(Donus1.ToString());
                     var TownName = js.GetString("townName");
                     var CityID = js.GetString("cityId");
                     var Donus2 = webService.OkuGetir("cities/ " + CityID.ToString());
-                    if (Donus1 != null)
+                    if (Donus2 != null)
                     {
-                        JSONObject js2 = new JSONObject(Donus1);
+                        JSONObject js2 = new JSONObject(Donus2.ToString());
                         var CityName = js2.GetString("cityName");
                         this.RunOnUiThread(() => {
-                            Konumu.Text = CityName + ", " + TownName;
+                            HangiText.Text = CityName + ", " + TownName;
                         });
                     }
                     else
                     {
                         this.RunOnUiThread(() => {
-                            Konumu.Text =  TownName;
+                            HangiText.Text =  TownName;
                         });
                     }
                 }
                 else
                 {
                     this.RunOnUiThread(() => {
-                        Konumu.Text = "";
+                        HangiText.Text = "";
                     });
                 }
 
@@ -128,7 +151,7 @@ namespace Buptis.PrivateProfile
         private void ProfileEdit_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(PrivateProfileViewPager));
-            Finish();
+          
         }
         private void GeriButton_Click(object sender, EventArgs e)
         {
@@ -137,7 +160,25 @@ namespace Buptis.PrivateProfile
         private void İmageayarlar_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(PrivateProfileAyarlarActivity));
-            Finish();
+        }
+
+
+        public class LastLocationDTO
+        {
+            public int capacity { get; set; }
+            public double coordinateX { get; set; }
+            public double coordinateY { get; set; }
+            public string createdDate { get; set; }
+            public int environment { get; set; }
+            public int id { get; set; }
+            public string lastModifiedDate { get; set; }
+            public string name { get; set; }
+            public string place { get; set; }
+            public double rating { get; set; }
+            public string townId { get; set; }
+            public string townName { get; set; }
+            public int checkincount { get; set; }
+            public string catid { get; set; }
         }
     }
 }

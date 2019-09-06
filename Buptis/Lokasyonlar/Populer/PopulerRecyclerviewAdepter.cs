@@ -85,7 +85,7 @@ namespace Buptis.Lokasyonlar.Populer
                     var Donus1 = webService.OkuGetir("towns/" + townid.ToString());
                     if (Donus1 != null)
                     {
-                        JSONObject js = new JSONObject(Donus1);
+                        JSONObject js = new JSONObject(Donus1.ToString());
                         var TownName = js.GetString("townName");
                         BaseActivity.RunOnUiThread(() => {
                             UzaklikveSemt.Text = TownName;
@@ -106,7 +106,7 @@ namespace Buptis.Lokasyonlar.Populer
                     var Donus2 = webService.OkuGetir("categories/ " + catid.ToString());
                     if (Donus2 != null)
                     {
-                        JSONObject js = new JSONObject(Donus2);
+                        JSONObject js = new JSONObject(Donus2.ToString());
                         var KategoriAdi = js.GetString("name");
                         BaseActivity.RunOnUiThread(() => {
                             LokasyonTuru.Text = KategoriAdi;

@@ -53,6 +53,7 @@
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DK.Ostebaronen.Droid.ViewPagerIndicator">
@@ -137,6 +138,7 @@
     <Compile Include="PrivateProfile\PrivateProfileEngelleActivity.cs" />
     <Compile Include="PrivateProfile\PrivateProfileFiltreleDialogFragment.cs" />
     <Compile Include="PrivateProfile\PrivateProfileViewPager.cs" />
+    <Compile Include="PrivateProfile\PrivateProfileViewPagerSonuc.cs" />
     <Compile Include="PublicProfile\PublicProfileBaseActivity.cs" />
     <Compile Include="PublicProfile\PublicProfileDataModel.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -385,6 +387,17 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\LokasyonDetayFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileViewPagerSonuc.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\circular_progress_bar.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\circle_shape.xml.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
