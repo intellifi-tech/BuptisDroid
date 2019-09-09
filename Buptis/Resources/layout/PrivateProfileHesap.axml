@@ -5,44 +5,44 @@
 	android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-		<LinearLayout
-			android:background="@drawable/lokasyonlarheadergradient"
-			android:orientation="vertical"
+	<LinearLayout
+		android:background="@drawable/lokasyonlarheadergradient"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="105.5dp"
+		android:id="@+id/linearLayout1">
+		<RelativeLayout
+			android:layout_marginTop="39.5dp"
+			android:layout_marginLeft="15dp"
+			android:layout_marginRight="20dp"
 			android:minWidth="25px"
 			android:minHeight="25px"
 			android:layout_width="match_parent"
-			android:layout_height="80dp"
-			android:id="@+id/linearLayout1">
-			<RelativeLayout
-				android:layout_marginTop="20dp"
-				android:layout_marginLeft="15dp"
-				android:layout_marginRight="20dp"
-				android:minWidth="25px"
-				android:minHeight="25px"
-				android:layout_width="match_parent"
-				android:layout_height="40dp"
-				android:id="@+id/relativeLayout1">
-				<ImageButton
-					android:padding="10dp"
-					android:background="@null"
-					android:scaleType="centerInside"
-					android:src="@mipmap/geriicon"
-					android:layout_width="40dp"
-					android:layout_height="match_parent"
-					android:id="@+id/ımageButton1" />
-                <TextView
-                    android:text="Hesap"
-                    android:layout_width="150dp"
-                    android:textColor="#fff"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="22dp"
-                    android:textStyle="bold"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/ımageButton1"
-                    android:id="@+id/textView1" />
-			</RelativeLayout>
-		</LinearLayout>
+			android:layout_height="40dp"
+			android:id="@+id/relativeLayout1">
+			<ImageButton
+				android:padding="10dp"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/geriicon"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton1" />
+			<TextView
+				android:text="Hesap"
+				android:layout_width="150dp"
+				android:textColor="#fff"
+				android:layout_marginTop="3dp"
+				android:layout_marginLeft="5dp"
+				android:textSize="22dp"
+				android:textStyle="bold"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@+id/ımageButton1"
+				android:id="@+id/textView1" />
+		</RelativeLayout>
+	</LinearLayout>
 		<LinearLayout
 			android:orientation="vertical"
 			android:minWidth="25px"
@@ -50,30 +50,31 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:id="@+id/linearLayout4" >
-			<TextView
-				android:textSize="16dp"
-				android:textStyle="bold"
-                android:gravity="center"
-				android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-				android:textColor="#EEEFEF"
-				android:text="Şifreyi hatırlayabileceğinizden emin olun,tekrar giriş yapmak için size gerekli olacak."
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/textView2" />
-            <TextView
-				android:textSize="16dp"
-				android:textStyle="bold"
-                android:gravity="center"
-				android:layout_margin="20dp"
-				android:textColor="#EEEFEF"
-				android:text="a*****@gmail.com"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/textView2" />
+		<TextView
+			android:textSize="16dp"
+			android:textStyle="bold"
+			android:gravity="center"
+			android:layout_marginLeft="20dp"
+			android:layout_marginRight="20dp"
+			android:layout_marginTop="20dp"
+			android:textColor="#EEEFEF"
+			android:text="Şifreyi hatırlayabileceğinizden emin olun,tekrar giriş yapmak için size gerekli olacak."
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView2"
+			android:layout_marginBottom="15.0dp" />
+		<TextView
+			android:textSize="16dp"
+			android:textStyle="bold"
+			android:gravity="center"
+			android:layout_margin="20dp"
+			android:textColor="#EEEFEF"
+			android:text="a*****@gmail.com"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/textView3" />
 			<View
 				android:layout_margin="20dp"
 				android:background="#6E6E6E"
@@ -88,24 +89,25 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/linearLayout5">
-            <Button
-            android:text="Çıkış Yap"
-            android:layout_width="250dp"
-            android:textColor="#EEEFEF"
-            android:textSize="22dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custombuton"
-            android:id="@+id/button1" />
-             <TextView
+			<Button
+				android:text="Çıkış Yap"
+				android:layout_width="250dp"
+				android:textColor="#EEEFEF"
 				android:textSize="22dp"
-                android:gravity="center"
+				android:layout_height="wrap_content"
+				android:background="@drawable/custombuton"
+				android:id="@+id/button1"
+				android:layout_marginBottom="22.0dp" />
+			<TextView
+				android:textSize="22dp"
+				android:gravity="center"
 				android:layout_margin="20dp"
 				android:textColor="#EEEFEF"
 				android:text="Şifrenizi mi unuttunuz?"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:id="@+id/textView2" />
+				android:id="@+id/textView4" />
             </LinearLayout>
         	<View
 				android:layout_marginLeft="20dp"
@@ -130,7 +132,7 @@
             android:textColor="#E10068"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/textView3" />
+            android:id="@+id/textView5" />
     </LinearLayout>
         
 </LinearLayout>

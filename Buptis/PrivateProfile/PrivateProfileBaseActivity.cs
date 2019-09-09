@@ -15,6 +15,7 @@ using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PrivateProfile.GaleriResimEkle;
 using Buptis.WebServicee;
 using Org.Json;
+using static Buptis.PrivateProfile.PrivateProfileViewPager;
 
 namespace Buptis.PrivateProfile
 {
@@ -83,11 +84,33 @@ namespace Buptis.PrivateProfile
                 }
 
                 Meslegi.Text = UserInfo[0].job;
-                HakkindaYazisi.Text = "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
+                HakkindaYazisi.Text = GetUserAbout();
                 UserInfo[0].townId = "0";
                 GetUserTown(UserInfo[0].townId.ToString(),Konumu);
                 GetLastCechin(UserInfo[0].id);
             }
+        }
+
+        string GetUserAbout()
+        {
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("answers/user/all");
+            if (Donus != null)
+            {
+                string CevaplarBirlesmis = "";
+                var Cevaplar= Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserAnswersDTO>>(Donus.ToString());
+                for (int i = 0; i < Cevaplar.Count; i++)
+                {
+                    CevaplarBirlesmis += Cevaplar[i].option + ", ";
+                }
+
+                return CevaplarBirlesmis;
+            }
+            else
+            {
+                return "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
+            }
+                
         }
         void GetLastCechin(int USERID)
         {
@@ -147,6 +170,10 @@ namespace Buptis.PrivateProfile
                 }
 
             })).Start();
+        }
+
+        public override void OnBackPressed()
+        {
         }
         private void ProfileEdit_Click(object sender, EventArgs e)
         {

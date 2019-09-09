@@ -6,43 +6,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 		<LinearLayout
-			android:background="@drawable/lokasyonlarheadergradient"
-			android:orientation="vertical"
+		android:background="@drawable/lokasyonlarheadergradient"
+		android:orientation="vertical"
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="105.5dp"
+		android:id="@+id/linearLayout1">
+		<RelativeLayout
+			android:layout_marginTop="39.5dp"
+			android:layout_marginLeft="15dp"
+			android:layout_marginRight="20dp"
 			android:minWidth="25px"
 			android:minHeight="25px"
 			android:layout_width="match_parent"
-			android:layout_height="80dp"
-			android:id="@+id/linearLayout1">
-			<RelativeLayout
-				android:layout_marginTop="20dp"
-				android:layout_marginLeft="15dp"
-				android:layout_marginRight="20dp"
-				android:minWidth="25px"
-				android:minHeight="25px"
-				android:layout_width="match_parent"
-				android:layout_height="40dp"
-				android:id="@+id/relativeLayout1">
-				<ImageButton
-					android:padding="10dp"
-					android:background="@null"
-					android:scaleType="centerInside"
-					android:src="@mipmap/geriicon"
-					android:layout_width="40dp"
-					android:layout_height="match_parent"
-					android:id="@+id/ımageButton1" />
-                <TextView
-                    android:text="Ayarlar"
-                    android:layout_width="150dp"
-                    android:textColor="#fff"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="22dp"
-                    android:textStyle="bold"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/ımageButton1"
-                    android:id="@+id/textView1" />
-			</RelativeLayout>
-		</LinearLayout>
+			android:layout_height="40dp"
+			android:id="@+id/relativeLayout1">
+			<ImageButton
+				android:padding="10dp"
+				android:background="@null"
+				android:scaleType="centerInside"
+				android:src="@mipmap/geriicon"
+				android:layout_width="40dp"
+				android:layout_height="match_parent"
+				android:id="@+id/ımageButton1" />
+			<TextView
+				android:text="Ayarlar"
+				android:layout_width="150dp"
+				android:textColor="#fff"
+				android:layout_marginTop="3dp"
+				android:layout_marginLeft="5dp"
+				android:textSize="22dp"
+				android:textStyle="bold"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@+id/ımageButton1"
+				android:id="@+id/textView1" />
+		</RelativeLayout>
+	</LinearLayout>
 	
 		<LinearLayout
 			android:orientation="vertical"

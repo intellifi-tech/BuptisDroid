@@ -31,7 +31,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         RecyclerView mRecyclerView;
         Android.Support.V7.Widget.LinearLayoutManager mLayoutManager;
         PrivateProfileGaleriVeResimRecyclerViewAdapter mViewAdapter;
-        public List<PrivateProfileGaleriVeResim> GaleriDataModel1;
+        public List<PrivateProfileGaleriVeResim> GaleriDataModel1 = new List<PrivateProfileGaleriVeResim>();
         public static readonly int PickImageId = 1000;
         #endregion  
         public override void OnActivityCreated(Bundle savedInstanceState)
@@ -73,6 +73,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
                 });
             }); 
         }
+
 
         public override void OnStart()
         {
@@ -172,6 +173,27 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             }
             else
             {
+                GaleriDataModel1.Add(new PrivateProfileGaleriVeResim()
+                {
+                    isAddedCell = true
+                });
+                 Atla:
+                try
+                {
+                    mRecyclerView.HasFixedSize = true;
+                    mLayoutManager = new LinearLayoutManager(this.Activity);
+                    mRecyclerView.SetLayoutManager(mLayoutManager);
+                    mViewAdapter = new PrivateProfileGaleriVeResimRecyclerViewAdapter(this, (Android.Support.V7.App.AppCompatActivity)this.Activity, GaleriDataModel1);
+                    mRecyclerView.SetAdapter(mViewAdapter);
+                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                    mLayoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
+                    mRecyclerView.SetLayoutManager(mLayoutManager);
+                }
+                catch
+                {
+                    goto Atla;
+                }
+
                 ShowLoading.Hide();
             }
         }

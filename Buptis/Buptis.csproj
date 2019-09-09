@@ -57,7 +57,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DK.Ostebaronen.Droid.ViewPagerIndicator">
-      <HintPath>..\..\..\..\..\..\..\Desktop\dll\DK.Ostebaronen.Droid.ViewPagerIndicator.dll</HintPath>
+      <HintPath>..\..\..\..\..\DLL\Android\DK.Ostebaronen.Droid.ViewPagerIndicator.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />
@@ -128,6 +128,7 @@
     <Compile Include="Mesajlar\Mesajlarr\MesajlarListViewDataModel.cs" />
     <Compile Include="PrivateProfile\Ayarlar\PrivateProfileAyarlarActivity.cs" />
     <Compile Include="PrivateProfile\Ayarlar\PrivateProfileBizeYazinActivity.cs" />
+    <Compile Include="PrivateProfile\Ayarlar\PrivateProfileEngelliListesi.cs" />
     <Compile Include="PrivateProfile\Ayarlar\PrivateProfileHakkimizdaActivity.cs" />
     <Compile Include="PrivateProfile\Ayarlar\PrivateProfileHesapActivity.cs" />
     <Compile Include="PrivateProfile\Ayarlar\PrivateProfileTemelBilgilerActivity.cs" />
@@ -398,6 +399,16 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\circle_shape.xml.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileEngelliListesi.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\EngellilerListCustomView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
