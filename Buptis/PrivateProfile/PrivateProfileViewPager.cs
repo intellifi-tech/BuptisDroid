@@ -54,14 +54,19 @@ namespace Buptis.PrivateProfile
 
         private void AtlaTxt_Click(object sender, EventArgs e)
         {
+            SorularActivity.PrivateProfileViewPager1 = this;
+            SorularActivity.SoruListesii = this.SoruListesi;
+            SorularActivity.OlusanFragmentler = fragments;
             StartActivity(typeof(PrivateProfileViewPagerSonuc));
         }
 
         private void IleriButton_Click(object sender, EventArgs e)
         {
-            if (profileViewPager.CurrentItem == SoruListesi.Count)
+            if (profileViewPager.CurrentItem == SoruListesi.Count-1)
             {
                 SorularActivity.PrivateProfileViewPager1 = this;
+                SorularActivity.SoruListesii = this.SoruListesi;
+                SorularActivity.OlusanFragmentler = fragments;
                 StartActivity(typeof(PrivateProfileViewPagerSonuc));
             }
             else
@@ -85,11 +90,17 @@ namespace Buptis.PrivateProfile
         {
             SoruCounterText.Text = (profileViewPager.CurrentItem + 1).ToString() + "/" + SoruListesi.Count.ToString();
         }
-
+        bool Actinmi = false;
         protected override void OnStart()
         {
             base.OnStart();
-            ViewPagerSetup();
+            if (!Actinmi)
+            {
+                ViewPagerSetup();
+                Actinmi = true;
+            }
+
+            
         }
 
         void ViewPagerSetup()
@@ -168,7 +179,7 @@ namespace Buptis.PrivateProfile
 
         public class UserAnswersDTO
         {
-            public int id { get; set; }
+            public string id { get; set; }
             public string option { get; set; }
             public int questionId { get; set; }
         }
@@ -182,6 +193,7 @@ namespace Buptis.PrivateProfile
         List<OptionsDTO> Secenekler = new List<OptionsDTO>();
         List<RadioButton> OlusanButtonlar = new List<RadioButton>();
         List<UserAnswersDTO> GelenAnswer;
+        UserAnswersDTO ApiyeGidecekCevap;
         public PrivateProfileCoktanSecmeli(QuestionDTO GelenSoru2,List<UserAnswersDTO> GelenAnswer2)
         {
             GelenSoru = GelenSoru2;
@@ -218,7 +230,7 @@ namespace Buptis.PrivateProfile
                         var Radioo = ButtonLayout.FindViewById<RadioButton>(Resource.Id.radioButton2);
                         Radioo.Text = Secenekler[i].option;
                         radioGroup.AddView(ButtonLayout);
-                        var Durum = GelenAnswer.FindAll(item => item.id == Secenekler[i].id);
+                        var Durum = GelenAnswer.FindAll(item => item.id.ToString() == Secenekler[i].id);
                         if (Durum.Count > 0)
                         {
                             Radioo.Checked = true;
@@ -230,21 +242,24 @@ namespace Buptis.PrivateProfile
                 }
             }
         }
-        public double GetSelectedIndex()
+        public UserAnswersDTO GetSelectedAnswer()
         {
-            bool SecimVarmi = false;
-            double secim = -1;
+            ApiyeGidecekCevap = null;
             for (int i = 0; i < OlusanButtonlar.Count; i++)
             {
                 if (OlusanButtonlar[i].Checked)
                 {
-                    secim = i;
-                    SecimVarmi = true;
+                    ApiyeGidecekCevap = new UserAnswersDTO()
+                    {
+                        id = Secenekler[i].id.ToString(),
+                        option= Secenekler[i].option,
+                        questionId = Secenekler[i].questionId
+                    };
                     break;
                 }
             }
 
-            return secim;
+            return ApiyeGidecekCevap;
         }
         private void Radioo_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
@@ -269,7 +284,7 @@ namespace Buptis.PrivateProfile
         }
         public class OptionsDTO
         {
-            public int id { get; set; }
+            public string id { get; set; }
             public string option { get; set; }
             public int questionId { get; set; }
         }
@@ -282,7 +297,9 @@ namespace Buptis.PrivateProfile
         QuestionDTO GelenSoru;
         TextView SoruTextt,Sifirla;
         List<UserAnswersDTO> GelenAnswer;
+
         bool SecimYapildimi = false;
+        UserAnswersDTO ApiyeGidecekCevap = null;
         public PrivateProfileRatingFragment(QuestionDTO GelenSoru2, List<UserAnswersDTO> GelenAnswer2)
         {
             GelenSoru = GelenSoru2;
@@ -308,7 +325,7 @@ namespace Buptis.PrivateProfile
             BoyText.Text = "";
             //slider.AbsoluteMaxValue = 20f;
             slider.MaxThumbHidden = true;
-            slider.SetSelectedMinValue(40);
+            slider.SetSelectedMinValue((int)(25/2.5f));
             slider.SetSelectedMaxValue(250);
             slider.ActiveColor = activecolor;
             slider.DefaultColor = defaultcolor;
@@ -331,14 +348,47 @@ namespace Buptis.PrivateProfile
             BoyText.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
             SecimYapildimi = true;
         }
+        public UserAnswersDTO GetSelectedAnswer()
+        {
+            if (BoyText.Text == "0")
+            {
+                ApiyeGidecekCevap = null;
+            }
+            else
+            {
+                var aaa = GelenAnswer.FindAll(item => item.questionId == GelenSoru.id);
+                if (aaa.Count > 0)
+                {
+                    ApiyeGidecekCevap = new UserAnswersDTO()
+                    {
+                        questionId = GelenSoru.id,
+                        option = BoyText.Text,
+                        id = aaa[0].id
+                    };
+                }
+                else
+                {
+                    ApiyeGidecekCevap = new UserAnswersDTO()
+                    {
+                        questionId = GelenSoru.id,
+                        option = BoyText.Text,
+                    };
+                }
 
+                
+            }
+
+            return ApiyeGidecekCevap;
+        }
         void CevapYansit()
         {
             var aaa = GelenAnswer.FindAll(item => item.questionId == GelenSoru.id);
-            if (aaa.Count>0)
+            if (aaa.Count > 0)
             {
-                //slider.SetSelectedMinValue(Convert.ToInt32(aaa[0].option));
+                slider.SetSelectedMinValue((int)(Convert.ToInt32(aaa[aaa.Count - 1].option)/2.5f));
+                BoyText.Text = aaa[aaa.Count - 1].option;
             }
+
         }
 
         void PinYerlestir()
@@ -354,18 +404,6 @@ namespace Buptis.PrivateProfile
             slider.SetTextAboveThumbsColor(Color.Transparent);
 
         }
-        public double GetValuee()
-        {
-            if (SecimYapildimi)
-            {
-                return slider.GetSelectedMinValue() * 2.5f;
-            }
-            else
-            {
-                return -1;
-            }
-            
-        }
         public Bitmap LayoutToBitmap(Android.Views.View markerLayout)
         {
             markerLayout.Measure(Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified), Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));
@@ -380,5 +418,7 @@ namespace Buptis.PrivateProfile
     public static class SorularActivity
     {
         public static PrivateProfileViewPager PrivateProfileViewPager1 { get; set; }
+        public static List<QuestionDTO> SoruListesii { get; set; }
+        public static Android.Support.V4.App.Fragment[] OlusanFragmentler { get; set; }
     }
 }
