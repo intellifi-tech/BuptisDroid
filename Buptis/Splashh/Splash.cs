@@ -216,10 +216,6 @@ namespace Buptis.Splashh
                 }
             }
         }
-
-       
-
-
         async void BekletVeUygula()
         {
            await Task.Run(async delegate ()  {
