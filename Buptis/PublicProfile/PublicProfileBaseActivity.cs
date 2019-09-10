@@ -22,6 +22,7 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using FFImageLoading.Work;
 using Org.Json;
+using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
 
 namespace Buptis.PublicProfile
 {
@@ -70,13 +71,8 @@ namespace Buptis.PublicProfile
             HakkindaYazisi.Text = "";
             EnSonLokasyonu.Text = "";
 
-            //((LinePageIndicator)_indicator).Snap = true;
-            var density = Resources.DisplayMetrics.Density;
-            //((CirclePageIndicator)_indicator).SetBackgroundColor(Color.Argb(255, 204, 204, 204));
-            ((LinePageIndicator)_indicator).LineWidth = 30 * density;
-            ((LinePageIndicator)_indicator).SelectedColor = Color.Argb(255, 239, 62, 85);
-            ((LinePageIndicator)_indicator).UnselectedColor = Color.ParseColor("#90EF3E55");
-            ((LinePageIndicator)_indicator).StrokeWidth = 4 * density;
+           
+           
         }
         protected override void OnStart()
         {
@@ -86,14 +82,6 @@ namespace Buptis.PublicProfile
             {
                 GetUserInfo();
                 ViewPagerSetup();
-               
-                RunOnUiThread(delegate ()
-                {
-
-                    _indicator.SetViewPager(_viewpageer);
-                   
-                });
-
             })).Start();
         }
 
@@ -140,7 +128,8 @@ namespace Buptis.PublicProfile
                         }
 
                         _viewpageer.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, null);
-
+                        ShowLoading.Hide();
+                        SetupViewPagerIndicator();
                     }
                     else
                     {
@@ -149,8 +138,30 @@ namespace Buptis.PublicProfile
                         _viewpageer.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, null);
                         AlertHelper.AlertGoster("Kullanıcıya ait fotoğraf bulunamadı...", this);
                         ShowLoading.Hide();
+                        SetupViewPagerIndicator();
                     }
                 }
+                else
+                {
+                    fragments = new Android.Support.V4.App.Fragment[1];
+                    fragments[0] = new FotografPage("");
+                    _viewpageer.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, null);
+                    AlertHelper.AlertGoster("Kullanıcıya ait fotoğraf bulunamadı...", this);
+                    ShowLoading.Hide();
+                    SetupViewPagerIndicator();
+                }
+            });
+        }
+        void SetupViewPagerIndicator()
+        {
+            RunOnUiThread(delegate ()
+            {
+                var density = Resources.DisplayMetrics.Density;
+                ((LinePageIndicator)_indicator).LineWidth = 30 * density;
+                ((LinePageIndicator)_indicator).SelectedColor = Color.Argb(255, 239, 62, 85);
+                ((LinePageIndicator)_indicator).UnselectedColor = Color.ParseColor("#90EF3E55");
+                ((LinePageIndicator)_indicator).StrokeWidth = 4 * density;
+                _indicator.SetViewPager(_viewpageer);
             });
         }
         void GetUserInfo()
@@ -158,8 +169,7 @@ namespace Buptis.PublicProfile
             WebService webService = new WebService();
             RunOnUiThread(delegate ()
             {
-              
-                var Donus1 = webService.OkuGetir("users/0");
+                var Donus1 = webService.OkuGetir("users/"+ SecilenKisi.SecilenKisiDTO.id);
                 if (Donus1 != null)
                 {
                     UserDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<PublicProfileDataModel>(Donus1.ToString());
@@ -174,27 +184,72 @@ namespace Buptis.PublicProfile
 
             RunOnUiThread(delegate ()
             {
-                var Donus2 = webService.OkuGetir("answers/user/all");
+                var Donus2 = webService.OkuGetir("answers/user/all"+ SecilenKisi.SecilenKisiDTO.id);
                 if (Donus2 != null)
                 {
                     for (int i = 0; i < UserAnswers.Count; i++)
                     {
                         HakkindaYazisi.Text += UserAnswers[i].option + " ";
                     }
-
+                }
+                else
+                {
+                    HakkindaYazisi.Text = "Henüz " + SecilenKisi.SecilenKisiDTO.firstName + " hakkında bir bilgi bulamadık..";
                 }
             });
             
             RunOnUiThread(delegate ()
             {
-                var Donus3 = webService.OkuGetir("locations/user");
+                var Donus3 = webService.OkuGetir("locations/user/"+ SecilenKisi.SecilenKisiDTO.id);
                 if (Donus3 != null)
                 {
-                    EnSonLokasyonu.Text = userlastloc.townName + ", " + userlastloc.name;
+                    userlastloc = Newtonsoft.Json.JsonConvert.DeserializeObject<GetUserLastLocation>(Donus3.ToString());
+                    GetUserTown(userlastloc.townId, EnSonLokasyonu);
+                }
+                else
+                {
+                    EnSonLokasyonu.Text = "Henüz Check-in yapılmadı.";
                 }
             });
-
         }
+
+        void GetUserTown(string townid, TextView HangiText)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus1 = webService.OkuGetir("towns/" + townid.ToString());
+                if (Donus1 != null)
+                {
+                    JSONObject js = new JSONObject(Donus1.ToString());
+                    var TownName = js.GetString("townName");
+                    var CityID = js.GetString("cityId");
+                    var Donus2 = webService.OkuGetir("cities/ " + CityID.ToString());
+                    if (Donus2 != null)
+                    {
+                        JSONObject js2 = new JSONObject(Donus2.ToString());
+                        var CityName = js2.GetString("cityName");
+                        this.RunOnUiThread(() => {
+                            HangiText.Text = CityName + ", " + TownName;
+                        });
+                    }
+                    else
+                    {
+                        this.RunOnUiThread(() => {
+                            HangiText.Text = TownName;
+                        });
+                    }
+                }
+                else
+                {
+                    this.RunOnUiThread(() => {
+                        HangiText.Text = "";
+                    });
+                }
+
+            })).Start();
+        }
+
         public class FotografPage : Android.Support.V4.App.Fragment
         {
             ImageViewAsync Fotograf;

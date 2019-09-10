@@ -31,6 +31,7 @@ namespace Buptis.DataBasee
             var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
             conn.CreateTable<MEMBER_DATA>();
             conn.CreateTable<BILDIRIM>();
+            conn.CreateTable<FILTRELER>();
             conn.Close();
         }
 
@@ -145,5 +146,49 @@ namespace Buptis.DataBasee
 
         }
         #endregion
+
+        #region FILTRELER
+        public static bool FILTRELER_EKLE(FILTRELER GelenDoluTablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+                conn.Insert(GelenDoluTablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var exx = ex.Message;
+                return false;
+            }
+        }
+        public static List<FILTRELER> FILTRELER_GETIR()
+        {
+            var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+            var gelenler = conn.Query<FILTRELER>("Select * From FILTRELER");
+            conn.Close();
+            return gelenler;
+        }
+       
+        public static bool FILTRELER_TEMIZLE()
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+                conn.Query<FILTRELER>("Delete From FILTRELER");
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+        }
+
+        #endregion
+
+
     }
 }

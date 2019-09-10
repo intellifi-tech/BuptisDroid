@@ -10,12 +10,14 @@ using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.WebServicee;
 
 namespace Buptis.Mesajlar.Chat
 {
 
-    [Activity(Label = "Buptis"/*,MainLauncher =true*/)]
+    [Activity(Label = "Buptis"/*, MainLauncher = true*/)]
 
     public class ChatBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
@@ -24,12 +26,15 @@ namespace Buptis.Mesajlar.Chat
         RecyclerView.LayoutManager mLayoutManager;
         ChatRecyclerViewAdapter mViewAdapter;
         List<ChatRecyclerViewDataModel> chatList;
+        List<HazirMesaklarDTO> HazirMesaklarDTO1 = new List<HazirMesaklarDTO>();
+        HorizontalScrollView HazirMesajScroll;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.ChatBaseActivity);
             TextHazneLinear = FindViewById<LinearLayout>(Resource.Id.linearLayout5);
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView1);
+            HazirMesajScroll = FindViewById<HorizontalScrollView>(Resource.Id.horizontalScrollView1);
             // Create your application here
         }
 
@@ -37,7 +42,7 @@ namespace Buptis.Mesajlar.Chat
         protected override void OnStart()
         {
             base.OnStart();
-            EtietleriYerlestir();
+            KategoriyeGoreHazirMesajlariGetir();
             FillDataModel();
         }
 
@@ -94,15 +99,58 @@ namespace Buptis.Mesajlar.Chat
             
         }
 
+        #region Hazir Mesajlar
+        void KategoriyeGoreHazirMesajlariGetir()
+        {
+            var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("locations/user/" + MeID);
+            if (Donus != null)
+            {
+                var LokasyonCatids = Newtonsoft.Json.JsonConvert.DeserializeObject<EnSonLokasyonCategoriler>(Donus.ToString());
+                if (LokasyonCatids.catIds.Count > 0)
+                {
+                    for (int i = 0; i < LokasyonCatids.catIds.Count; i++)
+                    {
+                        HazirMesajlariCagir(LokasyonCatids.catIds[i].ToString());
+                    }
+                    if (HazirMesaklarDTO1.Count > 0)
+                    {
+                        EtietleriYerlestir();
+                        HazirMesajScroll.Visibility = ViewStates.Visible;
+                    }
+                    else
+                    {
+                        HazirMesajScroll.Visibility = ViewStates.Gone;
+                    }
+                }
+            }
+            else
+            {
+                HazirMesajScroll.Visibility = ViewStates.Visible;
+            }
+        }
+
+        void HazirMesajlariCagir(string CatID)
+        {
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("questions/category/" + CatID);
+            if (Donus != null)
+            {
+                var HazirMesajCopy = Newtonsoft.Json.JsonConvert.DeserializeObject<List<HazirMesaklarDTO>>(Donus.ToString());
+                HazirMesajCopy = HazirMesajCopy.FindAll(item => item.type == "CATEGORY_QUESTION");
+                HazirMesaklarDTO1.AddRange(HazirMesajCopy);
+            }
+        }
+
         int IsimIcinTextId = 9001;
         void EtietleriYerlestir()
         {
             var PaddingSize = DPX.dpToPx(this, 8);
-            var EtiketParcali = new string[] {"Birşeyler içelim mi?", "Dans edelim mi?" , "Favori içeceğin nedir?","Birşeyler içelim mi?", "Dans edelim mi?", "Favori içeceğin nedir?" };
-            for (int i = 0; i < EtiketParcali.Length; i++)
+            for (int i = 0; i < HazirMesaklarDTO1.Count; i++)
             {
                 var EtiketLabel = new TextView(this) { Id = IsimIcinTextId };
-                EtiketLabel.Text = EtiketParcali[i];
+                EtiketLabel.Text = HazirMesaklarDTO1[i].name;
                 EtiketLabel.SetTextColor(Color.White);
                 EtiketLabel.TextAlignment = TextAlignment.Center;
                 EtiketLabel.Gravity = GravityFlags.Center | GravityFlags.CenterHorizontal | GravityFlags.CenterVertical;
@@ -115,5 +163,19 @@ namespace Buptis.Mesajlar.Chat
                 TextHazneLinear.AddView(EtiketLabel, param);
             }
         }
+
+        public class EnSonLokasyonCategoriler
+        {
+            public List<int> catIds { get; set; }
+        }
+        public class HazirMesaklarDTO
+        {
+            public int categoryId { get; set; }
+            public int id { get; set; }
+            public string name { get; set; }
+            public string type { get; set; }
+        }
+
+        #endregion
     }
 }

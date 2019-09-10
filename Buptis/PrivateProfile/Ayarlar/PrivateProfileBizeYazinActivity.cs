@@ -92,7 +92,7 @@ namespace Buptis.PrivateProfile.Ayarlar
         public class ContactDTO
         {
             public string createdDate { get; set; }
-            public int id { get; set; }
+            public string id { get; set; }
             public string lastModifiedDate { get; set; }
             public string text { get; set; }
             public string topic { get; set; }

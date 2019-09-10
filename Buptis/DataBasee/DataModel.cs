@@ -45,11 +45,20 @@ namespace Buptis.DataBasee
         public string password { get; set; }
     }
 
-   public class BILDIRIM
+    public class BILDIRIM
    {
         [PrimaryKey,AutoIncrement]
         public int id { get; set; }
         public string BildirimID { get; set; }
         public bool isRead { get; set; }
+    }
+
+    public class FILTRELER
+    {
+        [PrimaryKey, AutoIncrement]
+        public int id { get; set; }
+        public int Cinsiyet { get; set; }
+        public int minAge { get; set; }
+        public int maxAge { get; set; }
     }
 }

@@ -53,6 +53,7 @@ namespace Buptis.Lokasyonlar.BanaYakin
             SecilenLokasyonn.LokName = favorilerRecyclerViewDataModels[e].name.ToString();
             SecilenLokasyonn.lat = favorilerRecyclerViewDataModels[e].coordinateX;
             SecilenLokasyonn.lon = favorilerRecyclerViewDataModels[e].coordinateY;
+            SecilenLokasyonn.Rate = favorilerRecyclerViewDataModels[e].rating;
             this.Activity.StartActivity(typeof(LokasyondakiKisilerBaseActivity));
         }
         

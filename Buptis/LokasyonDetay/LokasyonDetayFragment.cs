@@ -14,7 +14,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Buptis.GenericClass;
+using Buptis.GenericUI;
 using Buptis.Lokasyonlar;
+using Buptis.WebServicee;
 
 namespace Buptis.LokasyonDetay
 {
@@ -76,6 +78,36 @@ namespace Buptis.LokasyonDetay
         private void Buttonss_Click(object sender, EventArgs e)
         {
             var Tagg = (int)((Button)sender).Tag;
+            
+            ArkaPlanSifirla(Tagg);
+        }
+
+        int SonSecilenRate = 10;
+        void ArkaPlanSifirla(int index)
+        {
+            for (int i = 0; i < Buttonss.Length; i++)
+            {
+                Buttonss[i].SetBackgroundResource(Resource.Mipmap.stariconn2);
+            }
+
+            Buttonss[index-1].SetBackgroundResource(Resource.Mipmap.stariconmavi);
+            SonSecilenRate = index;
+        }
+
+        void LokasyonRate(string Ratee)
+        {
+            WebService webService = new WebService();
+            var Donus = webService.ServisIslem("locations/rating/" + SecilenLokasyonn.LokID, Ratee);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster("Değerlendirme için teşekkürler!", this.Activity);
+                return;
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorun oluştu!", this.Activity);
+                return;
+            }
         }
 
         private void Geri_Click(object sender, EventArgs e)
@@ -123,7 +155,8 @@ namespace Buptis.LokasyonDetay
         //}
         private void Kaydet_Click(object sender, EventArgs e)
         {
-            
+            LokasyonRate(SonSecilenRate.ToString());
+            Geri.PerformClick();
         }
         
     }

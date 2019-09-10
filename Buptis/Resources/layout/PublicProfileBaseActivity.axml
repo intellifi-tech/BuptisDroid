@@ -99,7 +99,7 @@
 					android:id="@+id/ımageView1" />
 				<TextView
 					android:gravity="center_vertical"
-					android:textSize="15dp"
+					android:textSize="18dp"
 					android:textStyle="bold"
 					android:layout_marginLeft="8dp"
 					android:textColor="#fff"

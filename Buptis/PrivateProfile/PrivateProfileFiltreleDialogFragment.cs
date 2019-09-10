@@ -12,6 +12,8 @@ using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
+using Buptis.GenericUI;
 using Xamarin.RangeSlider;
 
 namespace Buptis.PrivateProfile
@@ -23,6 +25,7 @@ namespace Buptis.PrivateProfile
         TextView txtStart, textEnd;
         RangeSliderControl slider;
         ImageButton Geri;
+        Button Erkek, Kadin, HerIkisi,Onayla;
         #endregion  
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
@@ -42,16 +45,27 @@ namespace Buptis.PrivateProfile
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View view = inflater.Inflate(Resource.Layout.PrivateProfileFiltreleActivity, container, false);
-
             //Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             //Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Top);
-
             view.FindViewById<LinearLayout>(Resource.Id.rootView).ClipToOutline = true;
             Kaydet = view.FindViewById<Button>(Resource.Id.button1);
             Geri = view.FindViewById<ImageButton>(Resource.Id.ımageButton1);
             Geri.Click += Geri_Click;
             textEnd = view.FindViewById<TextView>(Resource.Id.textView6);
             txtStart = view.FindViewById<TextView>(Resource.Id.textView4);
+            Erkek = view.FindViewById<Button>(Resource.Id.button1);
+            Kadin = view.FindViewById<Button>(Resource.Id.button2);
+            HerIkisi = view.FindViewById<Button>(Resource.Id.button3);
+            Onayla = view.FindViewById<Button>(Resource.Id.button4);
+            Onayla.Click += Onayla_Click;
+            Erkek.Tag = 1;
+            Kadin.Tag = 2;
+            HerIkisi.Tag = 3;
+
+            Erkek.Click += CinsiyetClick;
+            Kadin.Click += CinsiyetClick;
+            HerIkisi.Click += CinsiyetClick;
+
             var activecolor = Android.Graphics.Color.ParseColor("#E8004F");
             var defaultcolor = Android.Graphics.Color.ParseColor("#221E20");
             slider = view.FindViewById<RangeSliderControl>(Resource.Id.rangeSliderControl1);
@@ -71,15 +85,67 @@ namespace Buptis.PrivateProfile
             return view;
         }
 
+        private void Onayla_Click(object sender, EventArgs e)
+        {
+            var MinValue = slider.GetSelectedMinValue();
+            var MaxValue = slider.GetSelectedMaxValue();
+
+            FILTRELER fILTRELER = new FILTRELER() {
+                Cinsiyet = SonCinsiyetSecim,
+                minAge = (int)Math.Round(Convert.ToDouble(MinValue), 0),
+                maxAge = (int)Math.Round(Convert.ToDouble(MaxValue), 0)
+            };
+
+            if (DataBase.FILTRELER_TEMIZLE())
+            {
+                if (DataBase.FILTRELER_EKLE(fILTRELER))
+                {
+                    AlertHelper.AlertGoster("Filtreler kaydedildi.", this.Activity);
+                    Geri.PerformClick();
+                }
+                else
+                {
+                    AlertHelper.AlertGoster("Bir sorun oluştu.", this.Activity);
+                }
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Filtreler sorun oluştu.", this.Activity);
+            }
+        }
+
+        int SonCinsiyetSecim = 1;
+        private void CinsiyetClick(object sender, EventArgs e)
+        {
+            var Tagg = (int)((Button)sender).Tag;
+            HepsiniSifirla(Erkek);
+            HepsiniSifirla(Kadin);
+            HepsiniSifirla(HerIkisi);
+            ((Button)sender).SetBackgroundResource(Resource.Drawable.customtabselecteditem);
+            SonCinsiyetSecim = Tagg;
+        }
+
+        void HepsiniSifirla(Button GelenButon)
+        {
+            GelenButon.SetBackgroundColor(Color.Transparent);
+        }
+     
         private void Geri_Click(object sender, EventArgs e)
         {
-            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
-            Task.Run(delegate () {
-                this.Activity.RunOnUiThread(delegate ()
-                {
-                    this.Dismiss();
+            try
+            {
+                Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
+                Task.Run(delegate () {
+                    this.Activity.RunOnUiThread(delegate ()
+                    {
+                        this.Dismiss();
+                    });
                 });
-            }); 
+
+            }
+            catch 
+            {
+            }
            
         }
 
@@ -96,16 +162,23 @@ namespace Buptis.PrivateProfile
         {
             var sayac = 10;
             Task.Run(async delegate () {
-                Atla:
-                await  Task.Delay(10);
-                this.Activity.RunOnUiThread(delegate () {
-                    sayac += 1;
-                    Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#" + sayac + "0000f5")));
-                });
-                if (sayac <= 90)
+                try
                 {
-                    goto Atla;
+                    Atla:
+                    await Task.Delay(10);
+                    this.Activity.RunOnUiThread(delegate () {
+                        sayac += 1;
+                        Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#" + sayac + "0000f5")));
+                    });
+                    if (sayac <= 90)
+                    {
+                        goto Atla;
+                    }
                 }
+                catch
+                {
+                }
+                
             });
         }
 
