@@ -19,6 +19,7 @@ namespace Buptis.PrivateProfile.Ayarlar
     {
         #region
         TextView tViewTemelBilgi, tViewHesap, tviewBizeYazin, tViewHakkimizda, tViewEngelli,UserEmaill;
+        ImageButton Geri;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,12 +33,19 @@ namespace Buptis.PrivateProfile.Ayarlar
             tViewHakkimizda = FindViewById<TextView>(Resource.Id.textView6);
             tViewEngelli = FindViewById<TextView>(Resource.Id.textView7);
             UserEmaill = FindViewById<TextView>(Resource.Id.textView4);
+            Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            Geri.Click += Geri_Click;
             tViewTemelBilgi.Click += TViewTemelBilgi_Click;
             tViewHesap.Click += TViewHesap_Click;
             tviewBizeYazin.Click += TviewBizeYazin_Click;
             tViewHakkimizda.Click += TViewHakkimizda_Click;
             tViewEngelli.Click += TViewEngelli_Click;
             GetEmail();
+        }
+
+        private void Geri_Click(object sender, EventArgs e)
+        {
+            this.Finish();
         }
 
         private void TViewEngelli_Click(object sender, EventArgs e)
