@@ -5651,19 +5651,22 @@ namespace Buptis
 			public const int profilsetting = 2130903061;
 			
 			// aapt resource value: 0x7f030016
-			public const int stariconn2 = 2130903062;
+			public const int stariconmavi = 2130903062;
 			
 			// aapt resource value: 0x7f030017
-			public const int timee = 2130903063;
+			public const int stariconn2 = 2130903063;
 			
 			// aapt resource value: 0x7f030018
-			public const int unSelectMapMarker = 2130903064;
+			public const int timee = 2130903064;
 			
 			// aapt resource value: 0x7f030019
-			public const int userforgaleri = 2130903065;
+			public const int unSelectMapMarker = 2130903065;
 			
 			// aapt resource value: 0x7f03001a
-			public const int yildiz1 = 2130903066;
+			public const int userforgaleri = 2130903066;
+			
+			// aapt resource value: 0x7f03001b
+			public const int yildiz1 = 2130903067;
 			
 			static Mipmap()
 			{

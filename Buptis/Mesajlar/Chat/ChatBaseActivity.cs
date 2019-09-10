@@ -17,7 +17,7 @@ using Buptis.WebServicee;
 namespace Buptis.Mesajlar.Chat
 {
 
-    [Activity(Label = "Buptis", MainLauncher = true)]
+    [Activity(Label = "Buptis"/*, MainLauncher = true*/)]
 
     public class ChatBaseActivity : Android.Support.V7.App.AppCompatActivity
     {

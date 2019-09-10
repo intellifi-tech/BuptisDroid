@@ -29,6 +29,7 @@ namespace Buptis.LokasyonDetay
         Button ratingButton,MekandakiKisiler;
         private GoogleMap _map;
         private MapFragment _mapFragment;
+        TextView LokasyonNamee;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -39,10 +40,13 @@ namespace Buptis.LokasyonDetay
             MekandakiKisiler = FindViewById<Button>(Resource.Id.button1);
             CheckInButton = FindViewById<ImageButton>(Resource.Id.checkin);
             WaitingButton = FindViewById<ImageButton>(Resource.Id.checkinwait);
+            LokasyonNamee = FindViewById<TextView>(Resource.Id.textView1);
             MekandakiKisiler.Click += MekandakiKisiler_Click;
             navigationmap.Click += Navigationmap_Click;
             locationPhone.Click += LocationPhone_Click;
             ratingButton.Click += RatingButton_Click;
+            ratingButton.Text = SecilenLokasyonn.Rate.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            LokasyonNamee.Text = SecilenLokasyonn.LokName;
             CheckInButton.Click += CheckInButton_Click;
             WaitingButton.Click += WaitingButton_Click;
         }
@@ -184,7 +188,6 @@ namespace Buptis.LokasyonDetay
             }
         }
         #endregion
-
 
         public class CheckInIslemiIcinDataModel
         {
