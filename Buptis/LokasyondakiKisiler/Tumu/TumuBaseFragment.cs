@@ -18,6 +18,7 @@ using Buptis.GenericUI;
 using Buptis.Lokasyonlar;
 using Buptis.PublicProfile;
 using Buptis.WebServicee;
+using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
 
 namespace Buptis.LokasyondakiKisiler.Tumu
 {
@@ -102,6 +103,7 @@ namespace Buptis.LokasyondakiKisiler.Tumu
 
         private void MViewAdapter_ItemClick(object sender, object[] e)
         {
+            SecilenKisi.SecilenKisiDTO = UserGallery1[(int)e[0]];
             this.Activity.StartActivity(typeof(PublicProfileBaseActivity));
         }
 

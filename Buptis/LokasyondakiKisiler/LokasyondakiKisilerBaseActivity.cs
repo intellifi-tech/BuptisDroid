@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.LokasyondakiKisiler.Bekleyenler;
 using Buptis.LokasyondakiKisiler.CevrimIci;
@@ -116,7 +117,6 @@ namespace Buptis.LokasyondakiKisiler
                 default:
                     break;
             }
-
         }
         void ClearFragment()
         {
@@ -129,6 +129,11 @@ namespace Buptis.LokasyondakiKisiler
         public override void OnBackPressed()
         {
             this.Finish();
+        }
+
+        public static class SecilenKisi
+        {
+            public static MEMBER_DATA SecilenKisiDTO { get; set; }
         }
 
     }

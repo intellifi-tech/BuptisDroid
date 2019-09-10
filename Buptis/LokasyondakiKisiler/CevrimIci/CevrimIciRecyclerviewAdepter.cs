@@ -12,6 +12,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.WebServicee;
 using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
@@ -24,12 +25,12 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
     {
 
         public ImageViewAsync Imagee;
-
+        public TextView UserNameSurName;
         public CevrimIciRecyclerViewHolder(View itemView, Action<object[]> listener) : base(itemView)
         {
 
             Imagee = itemView.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
-
+            UserNameSurName = itemView.FindViewById<TextView>(Resource.Id.textView1);
             itemView.Click += (sender, e) => listener(new object[] { base.Position,itemView });
         }
     }
@@ -63,10 +64,29 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
             CevrimIciRecyclerViewHolder viewholder = holder as CevrimIciRecyclerViewHolder;
             HolderForAnimation = holder as CevrimIciRecyclerViewHolder;
             var item = mData[position];
-            ImageService.Instance.LoadUrl("https://demo.intellifi.tech/demo/Buptis/Generic/ornekfoto.png").LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Transform(new CircleTransformation(15, "#FFFFFF")).Into(viewholder.Imagee);
+            //ImageService.Instance.LoadUrl("https://demo.intellifi.tech/demo/Buptis/Generic/ornekfoto.png").LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Transform(new CircleTransformation(15, "#FFFFFF")).Into(viewholder.Imagee);
+            viewholder.UserNameSurName.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
+            GetUserImage(item.id.ToString(), viewholder.Imagee);
+        }
+        void GetUserImage(string USERID, ImageViewAsync UserImage)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("images/user/" + USERID);
+                if (Donus != null)
+                {
+                    BaseActivity.RunOnUiThread(delegate () {
+                        var Images = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UsaerImageDTO>>(Donus.ToString());
+                        if (Images.Count > 0)
+                        {
+                            ImageService.Instance.LoadUrl(Images[Images.Count - 1].imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Transform(new CircleTransformation(15, "#FFFFFF")).Into(UserImage);
+                        }
+                    });
+                }
+            })).Start();
         }
 
-      
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
@@ -82,6 +102,15 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
         {
             if (ItemClick != null)
                 ItemClick(this, Icerik);
+        }
+
+        public class UsaerImageDTO
+        {
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string imagePath { get; set; }
+            public string lastModifiedDate { get; set; }
+            public int userId { get; set; }
         }
     }
 }

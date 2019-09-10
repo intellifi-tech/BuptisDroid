@@ -252,10 +252,10 @@ namespace Buptis.PrivateProfile.Ayarlar
 
             public class UsaerImageDTO
             {
-                public DateTime createdDate { get; set; }
+                public string createdDate { get; set; }
                 public int id { get; set; }
                 public string imagePath { get; set; }
-                public DateTime lastModifiedDate { get; set; }
+                public string lastModifiedDate { get; set; }
                 public int userId { get; set; }
             }
         }
