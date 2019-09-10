@@ -24,7 +24,7 @@ using Android.Gms.Common.Apis;
 
 namespace Buptis.Splashh
 {
-    [Activity(Label = "Buptis", MainLauncher = true)]
+    [Activity(Label = "Buptis"/*, MainLauncher = true*/)]
     public class Splash : Android.Support.V7.App.AppCompatActivity
     {
 
