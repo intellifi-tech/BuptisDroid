@@ -9,10 +9,16 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.WebServicee;
+using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Views;
+using FFImageLoading.Work;
+using Newtonsoft.Json;
 
 namespace Buptis.Mesajlar.Chat
 {
@@ -28,6 +34,12 @@ namespace Buptis.Mesajlar.Chat
         List<ChatRecyclerViewDataModel> chatList;
         List<HazirMesaklarDTO> HazirMesaklarDTO1 = new List<HazirMesaklarDTO>();
         HorizontalScrollView HazirMesajScroll;
+        TextView UserName;
+        ImageViewAsync UserPhoto;
+        Button GonderButton;
+        EditText MesajEdittext;
+        MEMBER_DATA MeDTO;
+        ImageButton Geri,Emoji;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -35,63 +47,101 @@ namespace Buptis.Mesajlar.Chat
             TextHazneLinear = FindViewById<LinearLayout>(Resource.Id.linearLayout5);
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView1);
             HazirMesajScroll = FindViewById<HorizontalScrollView>(Resource.Id.horizontalScrollView1);
-            // Create your application here
+            UserName = FindViewById<TextView>(Resource.Id.textView1);
+            UserPhoto = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
+            GonderButton = FindViewById<Button>(Resource.Id.button1);
+            GonderButton.Click += GonderButton_Click;
+            MesajEdittext = FindViewById<EditText>(Resource.Id.editText1);
+            Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            Emoji = FindViewById<ImageButton>(Resource.Id.ımageButton3);
+            Geri.Click += Geri_Click;
+            Emoji.Click += Emoji_Click;
+            MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
         }
 
+        private void Emoji_Click(object sender, EventArgs e)
+        {
+            InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            imm.ToggleSoftInput(ShowFlags.Forced, 0);
+        }
+
+        private void Geri_Click(object sender, EventArgs e)
+        {
+            this.Finish();
+        }
+
+        private void GonderButton_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(MesajEdittext.Text))
+            {
+                ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
+                {
+                    userId = MeDTO.id,
+                    receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
+                    text = MesajEdittext.Text.Trim(),
+                    //createdDate = DateTime.Now.ToString(),
+                    //lastModifiedDate = DateTime.Now.ToString()
+                };
+                WebService webService = new WebService();
+                string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
+                var Donus = webService.ServisIslem("chats", jsonString);
+                if (Donus != "Hata")
+                {
+                    MesajlariGetir();
+                }
+            }
+        }
 
         protected override void OnStart()
         {
             base.OnStart();
+            GetUserInfo();
             KategoriyeGoreHazirMesajlariGetir();
-            FillDataModel();
+            MesajlariGetir();
+        }
+        void GetUserInfo()
+        {
+            UserName.Text = MesajlarIcinSecilenKullanici.Kullanici.firstName + " " + MesajlarIcinSecilenKullanici.Kullanici.lastName.Substring(0, 1).ToString() + ".";
+            GetUserImage(MesajlarIcinSecilenKullanici.Kullanici.id.ToString(), UserPhoto);
+        }
+        void GetUserImage(string USERID, ImageViewAsync UserImage)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("images/user/" + USERID);
+                if (Donus != null)
+                {
+                    this.RunOnUiThread(delegate () {
+
+                        var Images = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UsaerImageDTO>>(Donus.ToString());
+                        if (Images.Count > 0)
+                        {
+                            ImageService.Instance.LoadUrl(Images[Images.Count - 1].imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Transform(new CircleTransformation(15, "#FFFFFF")).Into(UserImage);
+                        }
+                    });
+                }
+            })).Start();
         }
 
-        void FillDataModel()
+        void MesajlariGetir()
         {
-            chatList = new List<ChatRecyclerViewDataModel>();
-            chatList.Add(new ChatRecyclerViewDataModel() {
-                GelenGiden=0,
-                MessageContent = "Lorem Impus Sit"
-            });
-            chatList.Add(new ChatRecyclerViewDataModel()
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("chats/user/" + MesajlarIcinSecilenKullanici.Kullanici.id.ToString());
+            if (Donus!= null)
             {
-                GelenGiden = 1,
-                MessageContent = "Lorem Impus Sit"
-            });
-            chatList.Add(new ChatRecyclerViewDataModel()
-            {
-                GelenGiden = 0,
-                MessageContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
-            });
-            chatList.Add(new ChatRecyclerViewDataModel()
-            {
-                GelenGiden = 1,
-                MessageContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo"
-            });
-            chatList.Add(new ChatRecyclerViewDataModel()
-            {
-                GelenGiden = 1,
-                MessageContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis"
-            });
-            chatList.Add(new ChatRecyclerViewDataModel()
-            {
-                GelenGiden = 0,
-                MessageContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod"
-            });
-            chatList.Add(new ChatRecyclerViewDataModel()
-            {
-                GelenGiden = 0,
-                MessageContent = "Lorem Impus Sit"
-            });
-
-
-            mViewAdapter = new ChatRecyclerViewAdapter(chatList, (Android.Support.V7.App.AppCompatActivity)this);
-            mRecyclerView.HasFixedSize = true;
-            mLayoutManager = new LinearLayoutManager(this);
-            mRecyclerView.SetLayoutManager(mLayoutManager);
-            mRecyclerView.SetAdapter(mViewAdapter);
-            mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-            mRecyclerView.ScrollToPosition(chatList.Count - 1);
+                chatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
+                if (chatList.Count > 0)
+                {
+                    mViewAdapter = new ChatRecyclerViewAdapter(chatList, this);
+                    mRecyclerView.HasFixedSize = true;
+                    mLayoutManager = new LinearLayoutManager(this);
+                    mRecyclerView.SetLayoutManager(mLayoutManager);
+                    mRecyclerView.SetAdapter(mViewAdapter);
+                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                    mRecyclerView.ScrollToPosition(chatList.Count - 1);
+                }
+            }
         }
 
         private void MViewAdapter_ItemClick(object sender, int e)
@@ -177,5 +227,18 @@ namespace Buptis.Mesajlar.Chat
         }
 
         #endregion
+
+        public class UsaerImageDTO
+        {
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string imagePath { get; set; }
+            public string lastModifiedDate { get; set; }
+            public int userId { get; set; }
+        }
+    }
+    public static class MesajlarIcinSecilenKullanici
+    {
+        public static MEMBER_DATA Kullanici { get; set; }
     }
 }

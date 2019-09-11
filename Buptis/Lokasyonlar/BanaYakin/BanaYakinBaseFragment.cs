@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using Buptis.GenericUI;
 using Buptis.LokasyondakiKisiler;
+using Buptis.LokasyonDetay;
 using Buptis.Splashh;
 using Buptis.WebServicee;
 
@@ -53,8 +54,8 @@ namespace Buptis.Lokasyonlar.BanaYakin
             SecilenLokasyonn.LokName = favorilerRecyclerViewDataModels[e].name.ToString();
             SecilenLokasyonn.lat = favorilerRecyclerViewDataModels[e].coordinateX;
             SecilenLokasyonn.lon = favorilerRecyclerViewDataModels[e].coordinateY;
-            SecilenLokasyonn.Rate = favorilerRecyclerViewDataModels[e].rating;
-            this.Activity.StartActivity(typeof(LokasyondakiKisilerBaseActivity));
+            SecilenLokasyonn.Rate = Convert.ToDouble(favorilerRecyclerViewDataModels[e].rating);
+            this.Activity.StartActivity(typeof(LokayonDetayBaseActivity));
         }
         
         void BanaYakinLokasyonlariGetir()
@@ -66,9 +67,10 @@ namespace Buptis.Lokasyonlar.BanaYakin
             if (Donus != null)
             {
                 var aa = Donus.ToString();
-                var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<List<BanaYakinRecyclerViewDataModel>>(Donus.ToString());
-                if (Icerik.Count > 0)
+                favorilerRecyclerViewDataModels = Newtonsoft.Json.JsonConvert.DeserializeObject<List<BanaYakinRecyclerViewDataModel>>(Donus.ToString());
+                if (favorilerRecyclerViewDataModels.Count > 0)
                 {
+                    favorilerRecyclerViewDataModels = favorilerRecyclerViewDataModels.OrderBy(o => o.environment).ToList();
                     this.Activity.RunOnUiThread(() => {
                         mViewAdapter = new BanaYakinRecyclerViewAdapter(favorilerRecyclerViewDataModels, (Android.Support.V7.App.AppCompatActivity)this.Activity);
                         mRecyclerView.HasFixedSize = true;

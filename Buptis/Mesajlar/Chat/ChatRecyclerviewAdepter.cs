@@ -11,6 +11,7 @@ using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.WebServicee;
 using Org.Json;
 
@@ -30,11 +31,12 @@ namespace Buptis.Mesajlar.Chat
         private List<ChatRecyclerViewDataModel> mData = new List<ChatRecyclerViewDataModel>();
         AppCompatActivity BaseActivity;
         public event EventHandler<int> ItemClick;
-
+        MEMBER_DATA ME;
         public ChatRecyclerViewAdapter(List<ChatRecyclerViewDataModel> GelenData, AppCompatActivity GelenContex)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
+            ME = DataBase.MEMBER_DATA_GETIR()[0];
         }
 
         public override int GetItemViewType(int position)
@@ -54,7 +56,7 @@ namespace Buptis.Mesajlar.Chat
             ChatRecyclerViewHolder viewholder = holder as ChatRecyclerViewHolder;
             HolderForAnimation = holder as ChatRecyclerViewHolder;
             var item = mData[position];
-            viewholder.MesajText.Text = item.MessageContent;
+            viewholder.MesajText.Text = item.text;
 
         }
         void GetLocationOtherInfo(int catid,int townid,TextView LokasyonTuru,TextView UzaklikveSemt)
@@ -106,16 +108,15 @@ namespace Buptis.Mesajlar.Chat
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
             View v;
 
-            var Durum = mData[viewType].GelenGiden;
-
-            if (Durum==0)
+            if (ME.id == mData[viewType].receiverId)//Eğer Alıcı Bensem
             {
-                v = inflater.Inflate(Resource.Layout.GidenMesajBalon, parent, false);
+                v = inflater.Inflate(Resource.Layout.GelenMesajLayout, parent, false);
             }
             else
             {
-                v =  inflater.Inflate(Resource.Layout.GelenMesajLayout, parent, false);
+                v = inflater.Inflate(Resource.Layout.GidenMesajBalon, parent, false);
             }
+          
 
             return new ChatRecyclerViewHolder(v, OnClick);
         }

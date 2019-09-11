@@ -14,8 +14,12 @@ namespace Buptis.Mesajlar.Chat
 {
     public class ChatRecyclerViewDataModel
     {
-        public int GelenGiden { get; set; }
-        public string MessageContent { get; set; }
-        
+        public string createdDate { get; set; }
+        public string id { get; set; }
+        public string lastModifiedDate { get; set; }
+        public bool read { get; set; }
+        public int receiverId { get; set; }
+        public string text { get; set; }
+        public int userId { get; set; }
     }
 }

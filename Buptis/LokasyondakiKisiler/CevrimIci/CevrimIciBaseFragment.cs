@@ -49,12 +49,15 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
         public override void OnStart()
         {
             base.OnStart();
-            ShowLoading.Show(this.Activity, "Kişiler Yükleniyor...");
-            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            if (UserGallery1.Count <= 0)
             {
-                LokasyondakiKisileriGetir();
+                ShowLoading.Show(this.Activity, "Kişiler Yükleniyor...");
+                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                {
+                    LokasyondakiKisileriGetir();
 
-            })).Start();
+                })).Start();
+            }
         }
 
         void LokasyondakiKisileriGetir()
@@ -77,6 +80,8 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
                 if (UserGallery1.Count > 0)
                 {
                     this.Activity.RunOnUiThread(() => {
+                        var MeId = DataBase.MEMBER_DATA_GETIR()[0].id;
+                        UserGallery1 = UserGallery1.FindAll(item => item.id != MeId);
                         mViewAdapter = new CevrimIciRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik);
                         mRecyclerView.SetAdapter(mViewAdapter);
                         mViewAdapter.ItemClick += MViewAdapter_ItemClick;

@@ -29,14 +29,10 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
         RecyclerView.LayoutManager mLayoutManager;
         BekleyenlerRecyclerViewAdapter mViewAdapter;
         List<MEMBER_DATA> UserGallery1 = new List<MEMBER_DATA>();
-        
-        
         #endregion
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,12 +46,15 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
         public override void OnStart()
         {
             base.OnStart();
-            ShowLoading.Show(this.Activity, "Kişiler Yükleniyor...");
-            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            if (UserGallery1.Count <= 0)
             {
-                LokasyondakiKisileriGetir();
+                ShowLoading.Show(this.Activity, "Kişiler Yükleniyor...");
+                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                {
+                    LokasyondakiKisileriGetir();
 
-            })).Start();
+                })).Start();
+            }
         }
 
         void LokasyondakiKisileriGetir()
@@ -78,6 +77,8 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
                 if (UserGallery1.Count > 0)
                 {
                     this.Activity.RunOnUiThread(() => {
+                        var MeId = DataBase.MEMBER_DATA_GETIR()[0].id;
+                        UserGallery1 = UserGallery1.FindAll(item => item.id != MeId);
                         mViewAdapter = new BekleyenlerRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik);
                         mRecyclerView.SetAdapter(mViewAdapter);
                         mViewAdapter.ItemClick += MViewAdapter_ItemClick;

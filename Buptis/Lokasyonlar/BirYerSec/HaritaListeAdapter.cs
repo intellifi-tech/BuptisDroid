@@ -66,16 +66,15 @@ namespace Buptis.Lokasyonlar.BirYerSec
             var item = GelenBase.MapDataModel1[position];
             viewholder.LokasyonAdi.Text = "";
             viewholder.LokasyonTuru.Text = "";
-            viewholder.UzaklikveSemt.Text = "";
-            viewholder.Puan.Text = "";
+            viewholder.UzaklikveSemt.Text = " / " + item.environment + " km";
+            viewholder.Puan.Text = item.rating;
             viewholder.LokasyonAdi.Text = item.name;
-            viewholder.LokasyonAdi.Selected = true;
-            viewholder.DolulukOrani.Max = item.capacity;
-            viewholder.DolulukOrani.Progress = item.checkincount;
-            GetLocationOtherInfo(item.id, item.catid, item.townId, viewholder.LokasyonTuru, viewholder.UzaklikveSemt, viewholder.DolulukOrani);
+            viewholder.DolulukOrani.Max = (item.capacity);
+            viewholder.DolulukOrani.Progress = item.allUserCheckIn;
+            GetLocationOtherInfo(item.id, item.catIds, item.townId, viewholder.LokasyonTuru, viewholder.UzaklikveSemt);
         }
 
-        void GetLocationOtherInfo(int locid, string catid, string townid, TextView LokasyonTuru, TextView UzaklikveSemt, ProgressBar DolulukProgress)
+        void GetLocationOtherInfo(int locid, List<string> catid, string townid, TextView LokasyonTuru, TextView UzaklikveSemt)
         {
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
@@ -90,7 +89,8 @@ namespace Buptis.Lokasyonlar.BirYerSec
                         JSONObject js = new JSONObject(Donus1.ToString());
                         var TownName = js.GetString("townName");
                         BaseActivity.RunOnUiThread(() => {
-                            UzaklikveSemt.Text = TownName;
+                            var km = UzaklikveSemt.Text;
+                            UzaklikveSemt.Text = TownName + km;
                         });
                     }
                     else
@@ -103,47 +103,35 @@ namespace Buptis.Lokasyonlar.BirYerSec
                 #endregion
 
                 #region LokasyonTuru
-                if (!string.IsNullOrEmpty(catid))
+                if (catid != null)
                 {
-                    var Donus2 = webService.OkuGetir("categories/ " + catid.ToString());
-                    if (Donus2 != null)
+                    if (catid.Count > 0)
                     {
-                        JSONObject js = new JSONObject(Donus2.ToString());
-                        var KategoriAdi = js.GetString("name");
-                        BaseActivity.RunOnUiThread(() => {
-                            LokasyonTuru.Text = KategoriAdi;
-                        });
+                        if (!string.IsNullOrEmpty(catid[0]))
+                        {
+                            var Donus2 = webService.OkuGetir("categories/ " + catid[0].ToString());
+                            if (Donus2 != null)
+                            {
+                                JSONObject js = new JSONObject(Donus2.ToString());
+                                var KategoriAdi = js.GetString("name");
+                                BaseActivity.RunOnUiThread(() => {
+                                    LokasyonTuru.Text = KategoriAdi;
+                                });
+                            }
+                            else
+                            {
+                                BaseActivity.RunOnUiThread(() => {
+                                    LokasyonTuru.Text = "";
+                                });
+                            }
+                        }
                     }
-                    else
-                    {
-                        BaseActivity.RunOnUiThread(() => {
-                            LokasyonTuru.Text = "";
-                        });
-                    }
-                }
-
-                #endregion
-
-
-                #region Doluluk
-                var Donus3 = webService.OkuGetir("users/location/" + locid.ToString() + "/online");
-                if (Donus3 != null)
-                {
-                    var UserList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MEMBER_DATA>>(Donus3.ToString());
-                    BaseActivity.RunOnUiThread(() => {
-                        DolulukProgress.Progress = UserList.Count;
-                    });
-                }
-                else
-                {
-                    BaseActivity.RunOnUiThread(() => {
-                        LokasyonTuru.Text = "";
-                    });
                 }
                 #endregion
 
             })).Start();
         }
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);

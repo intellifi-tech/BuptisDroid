@@ -15,7 +15,9 @@ namespace Buptis.Lokasyonlar.BanaYakin
     
     public class BanaYakinRecyclerViewDataModel
     {
+        public int allUserCheckIn { get; set; }
         public int capacity { get; set; }
+        public List<string> catIds { get; set; }
         public double coordinateX { get; set; }
         public double coordinateY { get; set; }
         public string createdDate { get; set; }
@@ -24,10 +26,9 @@ namespace Buptis.Lokasyonlar.BanaYakin
         public string lastModifiedDate { get; set; }
         public string name { get; set; }
         public string place { get; set; }
-        public double rating { get; set; }
+        public string rating { get; set; }
+        public string telephone { get; set; }
         public string townId { get; set; }
         public string townName { get; set; }
-        public int checkincount { get; set; }
-        public string catid { get; set; }
     }
 }

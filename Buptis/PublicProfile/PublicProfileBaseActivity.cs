@@ -14,6 +14,7 @@ using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.GenericUI;
+using Buptis.Mesajlar.Chat;
 using Buptis.PrivateProfile;
 using Buptis.WebServicee;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
@@ -34,7 +35,7 @@ namespace Buptis.PublicProfile
         ViewPager _viewpageer;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         protected IPageIndicator _indicator;
-        ImageButton GeriButton;
+        ImageButton GeriButton,MesajAtButton;
         TextView Engelle, KullaniciAdiYasi, HakkindaYazisi, EnSonLokasyonu;
         List<UserGalleryDataModel> FotografList = new List<UserGalleryDataModel>();
         PublicProfileDataModel UserDatas = new PublicProfileDataModel();
@@ -54,6 +55,8 @@ namespace Buptis.PublicProfile
             KullaniciAdiYasi = FindViewById<TextView>(Resource.Id.textView);
             HakkindaYazisi = FindViewById<TextView>(Resource.Id.textView3);
             EnSonLokasyonu = FindViewById<TextView>(Resource.Id.textView5);
+            MesajAtButton = FindViewById<ImageButton>(Resource.Id.ımageButton4);
+            MesajAtButton.Click += MesajAtButton_Click;
             GeriButton.Click += GeriButton_Click;
             Engelle = FindViewById<TextView>(Resource.Id.engelle);
             Engelle.Click += Engelle_Click;
@@ -74,6 +77,14 @@ namespace Buptis.PublicProfile
            
            
         }
+
+        private void MesajAtButton_Click(object sender, EventArgs e)
+        {
+            MesajlarIcinSecilenKullanici.Kullanici = SecilenKisi.SecilenKisiDTO;
+            StartActivity(typeof(ChatBaseActivity));
+            this.Finish();
+        }
+
         protected override void OnStart()
         {
             base.OnStart();
