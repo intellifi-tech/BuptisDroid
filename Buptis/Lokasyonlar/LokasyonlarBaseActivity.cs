@@ -143,7 +143,7 @@ namespace Buptis.Lokasyonlar
         public static double lat { get; set; }
         public static double lon { get; set; }
         public static string telephone { get; set; }
-        public static double Rate { get; set; }
+        public static string Rate { get; set; }
 
     }
 }

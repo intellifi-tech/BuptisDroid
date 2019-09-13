@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.GenericUI;
 using Buptis.Mesajlar.Chat;
 using Buptis.WebServicee;
@@ -40,7 +41,7 @@ namespace Buptis.Mesajlar.Mesajlarr
         public override void OnStart()
         {
             base.OnStart();
-            ShowLoading.Show(this.Activity, "Lokasyonlar Yükleniyor...");
+            ShowLoading.Show(this.Activity, "Mesajlar Bekleniyor...");
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
                 SonMesajlariGetir();
@@ -51,7 +52,20 @@ namespace Buptis.Mesajlar.Mesajlarr
 
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            this.Activity.StartActivity(typeof(ChatBaseActivity));
+            GetUserInfo(mFriends[e.Position].userId.ToString());
+        }
+
+        void GetUserInfo(string UserID)
+        {
+            //MesajlarIcinSecilenKullanici.Kullanici
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("users/"+UserID);
+            if (Donus != null)
+            {
+                var Userrr = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                MesajlarIcinSecilenKullanici.Kullanici = Userrr;
+                this.Activity.StartActivity(typeof(ChatBaseActivity));
+            }
         }
 
         void SonMesajlariGetir()

@@ -131,19 +131,33 @@ namespace Buptis.LokasyonDetay
         }
         void SetBackGround()
         {
-            var sayac = 10;
-            Task.Run(async delegate () {
+            try
+            {
+                var sayac = 10;
+                Task.Run(async delegate () {
                 Atla:
-                await Task.Delay(10);
-                this.Activity.RunOnUiThread(delegate () {
-                    sayac += 1;
-                    Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#" + sayac + "0000f5")));
+                    await Task.Delay(10);
+                    this.Activity.RunOnUiThread(delegate () {
+                        sayac += 1;
+                        try
+                        {
+                            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#" + sayac + "0000f5")));
+                        }
+                        catch 
+                        {
+                        }
+                        
+                    });
+                    if (sayac <= 90)
+                    {
+                        goto Atla;
+                    }
                 });
-                if (sayac <= 90)
-                {
-                    goto Atla;
-                }
-            });
+            }
+            catch 
+            {
+            }
+           
         }
         //void FillDataModel()
         //{

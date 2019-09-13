@@ -15,7 +15,10 @@ namespace Buptis.Mesajlar.Mesajlarr
 {
     class SonMesajlarListViewDataModel
     {
+        public string firstName { get; set; }
         public string lastChatText { get; set; }
-        public MEMBER_DATA userName { get; set; }
+        public string lastName { get; set; }
+        public string unreadMessageCount { get; set; }
+        public int userId { get; set; }
     }
 }

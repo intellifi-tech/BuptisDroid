@@ -12,6 +12,7 @@ using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Buptis.LokasyonDetay;
 
 namespace Buptis.Lokasyonlar.BirYerSec
 {
@@ -53,6 +54,8 @@ namespace Buptis.Lokasyonlar.BirYerSec
             mRecyclerView.SetLayoutManager(mLayoutManager);
             //ScrollDinleyici = new HaritaListeRecyclerViewOnScrollListener(mLayoutManager, this);
             //mRecyclerView.AddOnScrollListener(ScrollDinleyici);
+            // mRecyclerView.AddOnScrollListener(new HaritaListeRecyclerViewOnScrollListener(mLayoutManager, this));
+            mRecyclerView.AddOnScrollListener(new HaritaListeRecyclerViewOnScrollListener(mLayoutManager, this));
             try
             {
                 SnapHelper snapHelper = new LinearSnapHelper();
@@ -66,10 +69,80 @@ namespace Buptis.Lokasyonlar.BirYerSec
 
         private void MViewAdapter_ItemClick(object sender, int e)
         {
-            //SecilenLokasyonn.lat = favorilerRecyclerViewDataModels[e].coordinateX;
-            //SecilenLokasyonn.lon = favorilerRecyclerViewDataModels[e].coordinateY;
+            SecilenLokasyonn.LokID = MapDataModel1[e].id.ToString();
+            SecilenLokasyonn.LokName = MapDataModel1[e].name.ToString();
+            SecilenLokasyonn.lat = MapDataModel1[e].coordinateX;
+            SecilenLokasyonn.lon = MapDataModel1[e].coordinateY;
+            SecilenLokasyonn.Rate = MapDataModel1[e].rating;
+            this.Activity.StartActivity(typeof(LokayonDetayBaseActivity));
+        }
+        public void ScrollZoomMarker(int e)
+        {
             GelenBase.MarkerSec(e);
             mViewAdapter.NotifyItemChanged(e);
+        }
+
+        class HaritaListeRecyclerViewOnScrollListener : RecyclerView.OnScrollListener
+        {
+            int mLastFirstVisibleItem = 0;
+            private LinearLayoutManager mLinearLayoutManager;
+            HaritaListeBaseFragment GelenBase;
+            public HaritaListeRecyclerViewOnScrollListener(LinearLayoutManager layoutManager, HaritaListeBaseFragment Base)
+            {
+                mLinearLayoutManager = layoutManager;
+                GelenBase = Base;
+            }
+            int sonDurum = -1;
+            public override void OnScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                base.OnScrollStateChanged(recyclerView, newState);
+                switch (newState)
+                {
+                    case RecyclerView.ScrollStateIdle:
+                        try
+                        {
+                            var positionn = mLinearLayoutManager.FindFirstVisibleItemPosition();
+                            //if (positionn != 0)
+                            //{
+                            //    positionn += 1;
+                            //}
+                            GelenBase.ScrollZoomMarker(positionn);
+                            Console.WriteLine(positionn);
+                        }
+                        catch
+                        {
+                        }
+                        sonDurum = RecyclerView.ScrollStateIdle;
+                        break;
+                    case RecyclerView.ScrollStateDragging:
+                        sonDurum = RecyclerView.ScrollStateDragging;
+                        break;
+                    case RecyclerView.ScrollStateSettling:
+                        sonDurum = RecyclerView.ScrollStateSettling;
+                        break;
+
+                }
+            }
+
+            //public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
+            //{
+            //    base.OnScrolled(recyclerView, dx, dy);
+            //    int currentFirstVisibleItem = mLinearLayoutManager.FindFirstVisibleItemPosition();
+
+
+            //    this.mLastFirstVisibleItem = currentFirstVisibleItem;
+            //    Console.WriteLine("-------------------------- "+this.mLastFirstVisibleItem.ToString());
+            //    try
+            //    {
+            //        if (sonDurum == RecyclerView.ScrollStateIdle)
+            //        {
+            //            GelenBase.SecimYapScrollsuz(currentFirstVisibleItem);
+            //        }
+            //    }
+            //    catch
+            //    {
+            //    }
+            //}
         }
     }
 }

@@ -76,17 +76,17 @@ namespace Buptis.PrivateProfile
             {
                 //TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu;
                 KullaniciAdiYasi.Text = UserInfo[0].firstName + " " + UserInfo[0].lastName.Substring(0, 1) + ". ";
-                if (!string.IsNullOrEmpty(UserInfo[0].birthday))
+                if (!string.IsNullOrEmpty(UserInfo[0].birthDayDate))
                 {
                     DateTime zeroTime = new DateTime(1, 1, 1);
-                    var Fark = (DateTime.Now - Convert.ToDateTime(UserInfo[0].birthday));
+                    var Fark = (DateTime.Now - Convert.ToDateTime(UserInfo[0].birthDayDate));
                     KullaniciAdiYasi.Text += ((zeroTime + Fark).Year - 1).ToString();
                 }
 
-                Meslegi.Text = UserInfo[0].job;
+                Meslegi.Text = UserInfo[0].userJob;
                 HakkindaYazisi.Text = GetUserAbout();
-                UserInfo[0].townId = "0";
-                GetUserTown(UserInfo[0].townId.ToString(),Konumu);
+                //UserInfo[0].townId = "0";
+                //GetUserTown(UserInfo[0].townId.ToString(),Konumu);
                 GetLastCechin(UserInfo[0].id);
             }
         }

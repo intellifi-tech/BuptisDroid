@@ -55,11 +55,11 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             var User = DataBase.MEMBER_DATA_GETIR()[0];
             AdSoyad.Text = User.firstName + " " + User.lastName;
-            if (!string.IsNullOrEmpty(User.birthday))
+            if (!string.IsNullOrEmpty(User.birthDayDate))
             {
-                Dogum.Text = Convert.ToDateTime(User.birthday).ToShortDateString();
+                Dogum.Text = Convert.ToDateTime(User.birthDayDate).ToShortDateString();
             }
-            Meslek.Text = User.job;
+            Meslek.Text = User.userJob;
         }
     }
 }

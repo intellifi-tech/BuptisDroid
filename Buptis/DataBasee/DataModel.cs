@@ -26,6 +26,7 @@ namespace Buptis.DataBasee
         public int local_id { get; set; }
         public bool activated { get; set; }
         //public List<string> authorities { get; set; }
+        public string birthDayDate { get; set; }
         public string createdBy { get; set; }
         public string createdDate { get; set; }
         public string email { get; set; }
@@ -37,9 +38,7 @@ namespace Buptis.DataBasee
         public string lastModifiedDate { get; set; }
         public string lastName { get; set; }
         public string login { get; set; }
-        public string birthday { get; set; }
-        public string job { get; set; }
-        public string townId { get; set; }
+        public string userJob { get; set; }
         //------------------------------------
         public string API_TOKEN { get; set; }
         public string password { get; set; }

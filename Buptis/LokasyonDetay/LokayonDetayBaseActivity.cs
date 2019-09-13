@@ -30,10 +30,12 @@ namespace Buptis.LokasyonDetay
         private GoogleMap _map;
         private MapFragment _mapFragment;
         TextView LokasyonNamee;
+        DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.LokayonDetayBaseActivity);
+            DinamikStatusBarColor1.SetFullScreen(this);
             navigationmap = FindViewById<ImageButton>(Resource.Id.ımageButton4);
             ratingButton = FindViewById<Button>(Resource.Id.ımageButton5);
             locationPhone = FindViewById<ImageButton>(Resource.Id.ımageButton6);
@@ -45,7 +47,7 @@ namespace Buptis.LokasyonDetay
             navigationmap.Click += Navigationmap_Click;
             locationPhone.Click += LocationPhone_Click;
             ratingButton.Click += RatingButton_Click;
-            ratingButton.Text = SecilenLokasyonn.Rate.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            ratingButton.Text = SecilenLokasyonn.Rate;
             LokasyonNamee.Text = SecilenLokasyonn.LokName;
             CheckInButton.Click += CheckInButton_Click;
             WaitingButton.Click += WaitingButton_Click;

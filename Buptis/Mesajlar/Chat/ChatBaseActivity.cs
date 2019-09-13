@@ -31,7 +31,7 @@ namespace Buptis.Mesajlar.Chat
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         ChatRecyclerViewAdapter mViewAdapter;
-        List<ChatRecyclerViewDataModel> chatList;
+        List<ChatRecyclerViewDataModel> chatList = new List<ChatRecyclerViewDataModel>();
         List<HazirMesaklarDTO> HazirMesaklarDTO1 = new List<HazirMesaklarDTO>();
         HorizontalScrollView HazirMesajScroll;
         TextView UserName;
@@ -58,6 +58,16 @@ namespace Buptis.Mesajlar.Chat
             Emoji.Click += Emoji_Click;
             MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
         }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            GetUserInfo();
+            KategoriyeGoreHazirMesajlariGetir();
+            MessageListenerr();
+        }
+
+        #region Mesaj Gönder Dinle
 
         private void Emoji_Click(object sender, EventArgs e)
         {
@@ -87,18 +97,12 @@ namespace Buptis.Mesajlar.Chat
                 var Donus = webService.ServisIslem("chats", jsonString);
                 if (Donus != "Hata")
                 {
-                    MesajlariGetir();
+                    MesajEdittext.Text = "";
+                    //MesajlariGetir();
                 }
             }
         }
-
-        protected override void OnStart()
-        {
-            base.OnStart();
-            GetUserInfo();
-            KategoriyeGoreHazirMesajlariGetir();
-            MesajlariGetir();
-        }
+      
         void GetUserInfo()
         {
             UserName.Text = MesajlarIcinSecilenKullanici.Kullanici.firstName + " " + MesajlarIcinSecilenKullanici.Kullanici.lastName.Substring(0, 1).ToString() + ".";
@@ -124,23 +128,35 @@ namespace Buptis.Mesajlar.Chat
             })).Start();
         }
 
-        void MesajlariGetir()
+        bool MesajlariGetir()
         {
             WebService webService = new WebService();
             var Donus = webService.OkuGetir("chats/user/" + MesajlarIcinSecilenKullanici.Kullanici.id.ToString());
             if (Donus!= null)
             {
-                chatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
-                if (chatList.Count > 0)
+                var NewChatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
+                if (NewChatList.Count > 0)//chatList
                 {
-                    mViewAdapter = new ChatRecyclerViewAdapter(chatList, this);
-                    mRecyclerView.HasFixedSize = true;
-                    mLayoutManager = new LinearLayoutManager(this);
-                    mRecyclerView.SetLayoutManager(mLayoutManager);
-                    mRecyclerView.SetAdapter(mViewAdapter);
-                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-                    mRecyclerView.ScrollToPosition(chatList.Count - 1);
+                    NewChatList.Reverse();
+
+                    if (NewChatList.Count != chatList.Count)
+                    {
+                        chatList = NewChatList;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -148,6 +164,59 @@ namespace Buptis.Mesajlar.Chat
         {
             
         }
+
+        System.Threading.Timer _timer;
+        void MessageListenerr()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+
+                _timer = new System.Threading.Timer((o) =>
+                {
+                    try
+                    {
+                        var Durum = MesajlariGetir();
+                        this.RunOnUiThread(() =>
+                        {
+                            if (Durum) //İçerik  Değişmişse Uygula
+                            {
+                                mViewAdapter = new ChatRecyclerViewAdapter(chatList, this);
+                                mRecyclerView.HasFixedSize = true;
+                                mLayoutManager = new LinearLayoutManager(this);
+                                mRecyclerView.SetLayoutManager(mLayoutManager);
+                                mRecyclerView.SetAdapter(mViewAdapter);
+                                mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                                mRecyclerView.ScrollToPosition(chatList.Count - 1);
+                                MesajOkunduYap();
+                            }
+                        });
+                    }
+                    catch
+                    {
+                    }
+
+                }, null, 0, 3000);
+            })).Start();
+        }
+
+        #endregion
+
+        void MesajOkunduYap()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                //Bana gelen ve okumadıklarım
+                var BanaGelenler = chatList.FindAll(item => item.read == false && item.receiverId == MeDTO.id);
+                for (int i = 0; i < BanaGelenler.Count; i++)
+                {
+                    WebService webService = new WebService();
+                    BanaGelenler[i].read = true;
+                    string jsonString = JsonConvert.SerializeObject(BanaGelenler[i]);
+                    webService.ServisIslem("chats", jsonString, Method: "PUT");
+                }
+            })).Start();
+        }
+
 
         #region Hazir Mesajlar
         void KategoriyeGoreHazirMesajlariGetir()
@@ -204,13 +273,39 @@ namespace Buptis.Mesajlar.Chat
                 EtiketLabel.SetTextColor(Color.White);
                 EtiketLabel.TextAlignment = TextAlignment.Center;
                 EtiketLabel.Gravity = GravityFlags.Center | GravityFlags.CenterHorizontal | GravityFlags.CenterVertical;
-                EtiketLabel.TextSize = 14f;
+                EtiketLabel.TextSize = 10f;
                 var param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
                     ViewGroup.LayoutParams.WrapContent);
                 param.RightMargin = 10;
                 EtiketLabel.SetPadding(PaddingSize, PaddingSize, PaddingSize, PaddingSize);
                 EtiketLabel.SetBackgroundResource(Resource.Drawable.custombuton);
+                EtiketLabel.Tag = i;
+                EtiketLabel.Click += EtiketLabel_Click;
                 TextHazneLinear.AddView(EtiketLabel, param);
+            }
+        }
+
+        private void EtiketLabel_Click(object sender, EventArgs e)
+        {
+            var Indexx = (int)((TextView)sender).Tag;
+            //HazirMesaklarDTO1
+            if (!string.IsNullOrEmpty(HazirMesaklarDTO1[Indexx].name))
+            {
+                ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
+                {
+                    userId = MeDTO.id,
+                    receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
+                    text = HazirMesaklarDTO1[Indexx].name,
+                    //createdDate = DateTime.Now.ToString(),
+                    //lastModifiedDate = DateTime.Now.ToString()
+                };
+                WebService webService = new WebService();
+                string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
+                var Donus = webService.ServisIslem("chats", jsonString);
+                if (Donus != "Hata")
+                {
+                    //MesajlariGetir();
+                }
             }
         }
 
