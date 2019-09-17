@@ -17,6 +17,7 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.Lokasyonlar;
 using Buptis.WebServicee;
+using Org.Json;
 
 namespace Buptis.LokasyonDetay
 {
@@ -38,8 +39,8 @@ namespace Buptis.LokasyonDetay
   
         };
         Button[] Buttonss = new Button[10];
+        public LokayonDetayBaseActivity LokayonDetayBaseActivity1;
 
-      
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
@@ -47,7 +48,7 @@ namespace Buptis.LokasyonDetay
             base.OnActivityCreated(savedInstanceState);
            
         }
-
+        
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             var dialog = base.OnCreateDialog(savedInstanceState);
@@ -101,6 +102,7 @@ namespace Buptis.LokasyonDetay
             if (Donus != "Hata")
             {
                 AlertHelper.AlertGoster("Değerlendirme için teşekkürler!", this.Activity);
+                LokayonDetayBaseActivity1.RatingDurumYenile();
                 return;
             }
             else
@@ -126,8 +128,6 @@ namespace Buptis.LokasyonDetay
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Bottom);
             SetBackGround();
-            
-
         }
         void SetBackGround()
         {

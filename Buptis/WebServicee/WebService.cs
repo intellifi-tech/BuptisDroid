@@ -58,9 +58,18 @@ namespace Buptis.WebServicee
                     string aas = reader.ReadToEnd();
                     try
                     {
-                        var bob = Newtonsoft.Json.Linq.JObject.Parse(aas);
-                        var json_string = bob.ToString();
-                        return json_string;
+                        if (!string.IsNullOrEmpty(aas))
+                        {
+                            var bob = Newtonsoft.Json.Linq.JObject.Parse(aas);
+                            var json_string = bob.ToString();
+                            return json_string;
+                        }
+                        else
+                        {
+                            return "";
+                        }
+                        
+                   
                     }
                     catch 
                     {

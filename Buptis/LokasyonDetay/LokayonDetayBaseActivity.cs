@@ -19,6 +19,7 @@ using Buptis.LokasyondakiKisiler;
 using Buptis.Lokasyonlar;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
+using Org.Json;
 
 namespace Buptis.LokasyonDetay
 {
@@ -47,7 +48,7 @@ namespace Buptis.LokasyonDetay
             navigationmap.Click += Navigationmap_Click;
             locationPhone.Click += LocationPhone_Click;
             ratingButton.Click += RatingButton_Click;
-            ratingButton.Text = SecilenLokasyonn.Rate;
+            ratingButton.Text = "";
             LokasyonNamee.Text = SecilenLokasyonn.LokName;
             CheckInButton.Click += CheckInButton_Click;
             WaitingButton.Click += WaitingButton_Click;
@@ -103,6 +104,7 @@ namespace Buptis.LokasyonDetay
         private void RatingButton_Click(object sender, EventArgs e)
         {
             var LokasyonDetayFragments = new LokasyonDetayFragment();
+            LokasyonDetayFragments.LokayonDetayBaseActivity1 = this;
             LokasyonDetayFragments.Show(this.SupportFragmentManager, "LokasyonDetayFragments");
 
         }
@@ -124,9 +126,32 @@ namespace Buptis.LokasyonDetay
         protected override void OnStart()
         {
             base.OnStart();
+            RatingDurumYenile();
             InitMapFragment(); //Map Ayarlarını yap markerleri datamodele yerleştir
             MapsInitializer.Initialize(this.ApplicationContext);
         }
+
+        public void RatingDurumYenile()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("locations/" + SecilenLokasyonn.LokID);
+                if (Donus != null)
+                {
+                    var aa = Donus.ToString();
+                    JSONObject js = new JSONObject(Donus.ToString());
+                    var Rating = js.GetString("rating");
+
+                    this.RunOnUiThread(() =>
+                    {
+                        SecilenLokasyonn.Rate = Rating.ToString();
+                        ratingButton.Text = SecilenLokasyonn.Rate;
+                    });
+                }
+            })).Start();
+        }
+
         #region Map
 
         private void InitMapFragment()

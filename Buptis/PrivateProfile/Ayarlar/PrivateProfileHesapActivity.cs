@@ -15,7 +15,10 @@ using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.GenericUI;
 using Buptis.Splashh;
+using Buptis.WebServicee;
+using Newtonsoft.Json;
 
 namespace Buptis.PrivateProfile.Ayarlar
 {
@@ -24,7 +27,7 @@ namespace Buptis.PrivateProfile.Ayarlar
     {
         #region Tanımlamalar
         ImageButton profileback;
-        TextView Emaill;
+        TextView Emaill,SifremiUnuttum,HesabiSil;
         Button CikisYap;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
@@ -34,11 +37,71 @@ namespace Buptis.PrivateProfile.Ayarlar
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
             profileback = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            SifremiUnuttum = FindViewById<TextView>(Resource.Id.textView4);
+            HesabiSil = FindViewById<TextView>(Resource.Id.textView5);
+            HesabiSil.Click += HesabiSil_Click;
+            SifremiUnuttum.Click += SifremiUnuttum_Click;
             Emaill = FindViewById<TextView>(Resource.Id.textView3);
             CikisYap = FindViewById<Button>(Resource.Id.button1);
             CikisYap.Click += CikisYap_Click;
             profileback.Click += Profileback_Click;
             GetEmail();
+        }
+
+        private void HesabiSil_Click(object sender, EventArgs e)
+        {
+            AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+            cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+            cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+            cevap.SetMessage(Spannla(Color.DarkGray, "Hesabınızı silerseniz bu kullanıcı ile Buptis'e birdaha giriş yapamazsınız.\nHesabı silmek istiyor musunuz?"));
+            cevap.SetPositiveButton("Evet", delegate
+            {
+                if (HesabiSilApi())
+                {
+                    string path;
+                    path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                    File.Delete(System.IO.Path.Combine(path, "Buptis.db"));
+                    this.FinishAffinity();
+                    StartActivity(typeof(Splash));
+                    cevap.Dispose();
+                }
+            });
+            cevap.SetNegativeButton("Hayır", delegate
+            {
+                cevap.Dispose();
+            });
+            cevap.Show();
+        }
+
+        bool HesabiSilApi()
+        {
+            WebService webService = new WebService();
+            var Mee = DataBase.MEMBER_DATA_GETIR()[0];
+            string jsonString = JsonConvert.SerializeObject(Mee);
+            var Donus = webService.ServisIslem("update-user", jsonString);
+            if (Donus != "Hata")
+            {
+                return true;
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorun oluştu", this);
+                return false;
+            }
+        }
+
+        private void SifremiUnuttum_Click(object sender, EventArgs e)
+        {
+            var MePass = DataBase.MEMBER_DATA_GETIR()[0].password;
+            AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+            cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+            cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+            cevap.SetMessage(Spannla(Color.DarkGray, "Şifreniz: "+ MePass));
+            cevap.SetPositiveButton("Tamam", delegate
+            {
+                cevap.Dispose();
+            });
+            cevap.Show();
         }
 
         private void CikisYap_Click(object sender, EventArgs e)

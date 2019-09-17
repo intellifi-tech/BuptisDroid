@@ -51,7 +51,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                     userId = Me.id
                 };
                 string jsonString = JsonConvert.SerializeObject(contactDTO);
-                var Donus = webService.ServisIslem("blocked-users", jsonString);
+                var Donus = webService.ServisIslem("contacts", jsonString);
                 if (Donus != "Hata")
                 {
                     AlertHelper.AlertGoster("Destek talebiniz iletildi. Teşekkürler...", this);

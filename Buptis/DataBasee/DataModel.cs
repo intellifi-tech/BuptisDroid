@@ -31,6 +31,7 @@ namespace Buptis.DataBasee
         public string createdDate { get; set; }
         public string email { get; set; }
         public string firstName { get; set; }
+        public string gender { get; set; }
         public int id { get; set; }
         public string imageUrl { get; set; }
         public string langKey { get; set; }

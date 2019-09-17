@@ -65,6 +65,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                 {
                     this.RunOnUiThread(() => {
                         mAdapter = new EngelliUserListViewAdapter(this, Resource.Layout.EngellilerListCustomView, EngelliKullanicilarDTOs);
+                        Listvieww.Adapter = null;
                         Listvieww.Adapter = mAdapter;
                         Listvieww.ItemClick += Listvieww_ItemClick;
                         ShowLoading.Hide();
@@ -72,6 +73,10 @@ namespace Buptis.PrivateProfile.Ayarlar
                 }
                 else
                 {
+                    this.RunOnUiThread(() => {
+                        Listvieww.Adapter = null;
+                        ShowLoading.Hide();
+                    });
                     AlertHelper.AlertGoster("Hiç Engelli Kullanıcı Yok.", this);
                     ShowLoading.Hide();
                 }
@@ -92,8 +97,9 @@ namespace Buptis.PrivateProfile.Ayarlar
             cevap.SetMessage(Spannla(Color.DarkGray, "Engellemeyi kaldırmak istiyor musun?"));
             cevap.SetPositiveButton("Evet", delegate
             {
-                EngeliKaldir(EngelliKullanicilarDTOs[e.Position].id);
                 cevap.Dispose();
+                EngeliKaldir(EngelliKullanicilarDTOs[e.Position].id);
+                
             });
             cevap.SetNegativeButton("Hayır", delegate
             {
@@ -200,7 +206,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                     var item = mDepartmanlar[position];
                     holder.KisiAdi = row.FindViewById<TextView>(Resource.Id.textView1);
                     holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
-                    GetUserDTO(item.userId.ToString(),holder.ProfilFoto,holder.KisiAdi);
+                    GetUserDTO(item.blockUserId.ToString(),holder.ProfilFoto,holder.KisiAdi);
 
                     row.Tag = holder;
                 }
@@ -218,7 +224,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                         ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
 
                            var Userr=  Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
-                            UserName.Text = Userr.firstName + " " + Userr.lastName.ToString();
+                            UserName.Text = Userr.firstName + " " + Userr.lastName.Substring(0,1) + ".";
                             GetUserImage(USERID, UserImage);
                         });
                     }

@@ -167,8 +167,15 @@ namespace Buptis.PrivateProfile
                     Atla:
                     await Task.Delay(10);
                     this.Activity.RunOnUiThread(delegate () {
-                        sayac += 1;
-                        Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#" + sayac + "0000f5")));
+                        try
+                        {
+                            sayac += 1;
+                            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#" + sayac + "0000f5")));
+                        }
+                        catch 
+                        {
+                        }
+                        
                     });
                     if (sayac <= 90)
                     {

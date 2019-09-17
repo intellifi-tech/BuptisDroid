@@ -70,7 +70,7 @@
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/textView4" />
+			android:id="@+id/textView3" />
 		<View
 			android:layout_margin="20dp"
 			android:background="#6E6E6E"
@@ -86,7 +86,7 @@
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/textView3" />
+			android:id="@+id/textView4" />
 		<TextView
 			android:textSize="15dp"
 			android:layout_marginLeft="20dp"
@@ -111,7 +111,7 @@
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/textView3" />
+			android:id="@+id/textView5" />
 		<EditText
 			android:textColorHint="#EEEFEF"
 			android:hint="Mesleğini yaz..."
@@ -141,7 +141,7 @@
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/textView3" />
+			android:id="@+id/textView6" />
 		<RadioGroup
 			android:orientation="horizontal"
 			android:minWidth="25px"
