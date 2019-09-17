@@ -197,4 +197,8 @@ namespace Buptis.WebServicee
     {
         public static string TOKEN { get; set; } 
     }
+    public static class CDN
+    {
+        public static string CDN_Path { get; set; } = "http://590333323.origin.radorecdn.net/";
+    }
 }

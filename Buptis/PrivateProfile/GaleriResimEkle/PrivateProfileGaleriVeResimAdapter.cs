@@ -35,7 +35,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             itemView.Click += (sender, e) => listener(base.Position);
         }
     }
-    class PrivateProfileGaleriVeResimRecyclerViewAdapter : RecyclerView.Adapter
+    class PrivateProfileGaleriVeResimRecyclerViewAdapter : RecyclerView.Adapter,View.IOnClickListener
     {
       
         AppCompatActivity BaseActivity;
@@ -73,8 +73,10 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             else
             {
                 viewholder.DeleteButton.Visibility = ViewStates.Visible;
-                ImageService.Instance.LoadUrl(item.imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Into(viewholder.UserImage);
-
+                ImageService.Instance.LoadUrl(CDN.CDN_Path+item.imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Into(viewholder.UserImage);
+                viewholder.DeleteButton.Tag = position;
+                viewholder.DeleteButton.SetOnClickListener(this);
+             
             }
         }
 
@@ -90,6 +92,54 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         {
             if (ItemClick != null)
                 ItemClick(this, position);
+        }
+
+        public void OnClick(View v)
+        {
+            Android.Support.V7.App.AlertDialog.Builder cevap = new Android.Support.V7.App.AlertDialog.Builder(GelenBase.Activity);
+            cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+            cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+            cevap.SetMessage(Spannla(Color.DarkGray, "Fotoğrafı silmek istediğinizden emin misiniz?"));
+            cevap.SetPositiveButton("Evet", delegate
+            {
+                cevap.Dispose();
+                PrivateProfileGaleriVeResim DTO = mDataModel[(int)v.Tag];
+                WebService webService = new WebService();
+                var Donus = webService.ServisIslem("images/" + DTO.id, "", Method: "DELETE");
+                if (Donus != "Hata")
+                {
+                    var positionn = mDataModel.FindIndex(item => item.id == DTO.id);
+                    removeAt(positionn);
+                }
+
+            });
+            cevap.SetNegativeButton("Hayır", delegate
+            {
+                cevap.Dispose();
+            });
+            cevap.Show();
+        }
+
+        SpannableStringBuilder Spannla(Color Renk, string textt)
+        {
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Renk);
+
+            string title = textt;
+            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
+            ssBuilder.SetSpan(
+                    foregroundColorSpan,
+                    0,
+                    title.Length,
+                    SpanTypes.ExclusiveExclusive
+            );
+
+            return ssBuilder;
+        }
+        public void removeAt(int position)
+        {
+            mDataModel.RemoveAt(position);
+            NotifyItemRemoved(position);
+            NotifyItemRangeChanged(position, mDataModel.Count);
         }
     }
 }

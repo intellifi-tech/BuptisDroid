@@ -60,6 +60,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             mRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView1);
             Geri.Click += Geri_Click;
             Kaydet.Click += Kaydet_Click;
+            FillDataModel();
             return view;
         }
 
@@ -81,7 +82,6 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Bottom);
             SetBackGround();
-            FillDataModel();
             var a = GaleriDataModel1;
         }
 
@@ -97,7 +97,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         {
             WebService webService = new WebService();
             var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
-            var Donus = webService.OkuGetir("images/user"+ MeID.ToString());
+            var Donus = webService.OkuGetir("images/user/"+ MeID.ToString());
             if (Donus != null)
             {
                 var aa = Donus.ToString();
@@ -228,21 +228,23 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             if ((requestCode == PickImageId) && (resultCode == -1) && (data != null))
             {
                 Android.Net.Uri uri = data.Data;
-
-                using (var inputStream = this.Activity.ContentResolver.OpenInputStream(uri))
+                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                 {
-                    using (var streamReader = new StreamReader(inputStream))
+                    using (var inputStream = this.Activity.ContentResolver.OpenInputStream(uri))
                     {
-                        var bytes = default(byte[]);
-                        using (var memstream = new MemoryStream())
+                        using (var streamReader = new StreamReader(inputStream))
                         {
-                            streamReader.BaseStream.CopyTo(memstream);
-                            bytes = memstream.ToArray();
-                            base64String = Convert.ToBase64String(bytes);
-                            FotografEkle(base64String);
+                            var bytes = default(byte[]);
+                            using (var memstream = new MemoryStream())
+                            {
+                                streamReader.BaseStream.CopyTo(memstream);
+                                bytes = memstream.ToArray();
+                                base64String = Convert.ToBase64String(bytes);
+                                FotografEkle(base64String);
+                            }
                         }
                     }
-                }
+                })).Start();
             }
         }
 
@@ -250,8 +252,10 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         {
             var UserId = DataBase.MEMBER_DATA_GETIR()[0].id;
             FotografEkleDataModel fotografEkleDataModel = new FotografEkleDataModel() {
-                imagePath = base64String
-             //   userId = UserId
+                imagePath = base64String,
+                userId = UserId.ToString(),
+                createdDate = DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ssZ"),
+                lastModifiedDate = DateTime.Now.ToString("yyyy-MM-dd'T'HH:mm:ssZ")
             };
 
             WebService webService = new WebService();
@@ -260,12 +264,14 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             if (Donus != "Hata")
             {
                 AlertHelper.AlertGoster("Fotoğraf yüklendi...", this.Activity);
-                FillDataModel();
+                ShowLoading.Hide();
             }
             else
             {
                 AlertHelper.AlertGoster("Fotoğraf Yüklenemedi!", this.Activity);
+                ShowLoading.Hide();
             }
+            FillDataModel();
         }
         void SetBackGround()
         {
@@ -279,9 +285,6 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
                     {
                         Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.ParseColor("#" + sayac + "0000f5")));
                     }catch{}
-                     
-                   
-                    
                 });
                 if (sayac <= 90)
                 {
@@ -296,7 +299,11 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
 
         public class FotografEkleDataModel
         {
+            public string createdDate { get; set; }
+            public string id { get; set; }
             public string imagePath { get; set; }
+            public string lastModifiedDate { get; set; }
+            public string userId { get; set; }
         }
     }
 }
