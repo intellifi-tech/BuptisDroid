@@ -81,7 +81,7 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             var User = DataBase.MEMBER_DATA_GETIR()[0];
             AdSoyad.Text = User.firstName + " " + User.lastName;
-            if (!string.IsNullOrEmpty(User.birthDayDate))
+            if (!string.IsNullOrEmpty(User.birthDayDate.ToString()))
             {
                 Dogum.Text = Convert.ToDateTime(User.birthDayDate).ToShortDateString();
             }
@@ -102,7 +102,7 @@ namespace Buptis.PrivateProfile.Ayarlar
             var Mee = DataBase.MEMBER_DATA_GETIR()[0];
             if (!string.IsNullOrEmpty(Dogum.Text))
             {
-                Mee.birthDayDate = Convert.ToDateTime(Dogum.Text).ToString("yyyy-MM-dd'T'HH:mm:ssZ");
+                Mee.birthDayDate = Convert.ToDateTime(Convert.ToDateTime(Dogum.Text).ToString("yyyy-MM-dd'T'HH:mm:ssZ"));
             }
             if (Erkek.Checked)
             {

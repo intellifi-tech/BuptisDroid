@@ -26,7 +26,7 @@ namespace Buptis.DataBasee
         public int local_id { get; set; }
         public bool activated { get; set; }
         //public List<string> authorities { get; set; }
-        public string birthDayDate { get; set; }
+        public DateTime? birthDayDate { get; set; }
         public string createdBy { get; set; }
         public string createdDate { get; set; }
         public string email { get; set; }

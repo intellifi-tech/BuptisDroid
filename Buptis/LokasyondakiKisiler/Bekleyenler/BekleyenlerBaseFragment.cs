@@ -56,7 +56,6 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
                 })).Start();
             }
         }
-
         void LokasyondakiKisileriGetir()
         {
             #region Genislik Alır
@@ -79,6 +78,7 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
                     this.Activity.RunOnUiThread(() => {
                         var MeId = DataBase.MEMBER_DATA_GETIR()[0].id;
                         UserGallery1 = UserGallery1.FindAll(item => item.id != MeId);
+                        FilterUsers();
                         mViewAdapter = new BekleyenlerRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik);
                         mRecyclerView.SetAdapter(mViewAdapter);
                         mViewAdapter.ItemClick += MViewAdapter_ItemClick;
@@ -102,12 +102,69 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
             }
         }
 
+        void FilterUsers()
+        {
+            var GetUserFilter1 = DataBase.FILTRELER_GETIR();
+            if (GetUserFilter1.Count > 0)
+            {
+                var GetUserFilter = GetUserFilter1[0];
+                var minDT = DateTime.Now.AddYears((-1) * (GetUserFilter.minAge));
+                var maxDate = DateTime.Now.AddYears(GetUserFilter.maxAge);
+                if (GetUserFilter.Cinsiyet != 0)
+                {
+                    if (GetUserFilter.Cinsiyet == 1)
+                    {
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Erkek" & item.birthDayDate >= minDT & item.birthDayDate <= maxDate);
+                    }
+                    else if (GetUserFilter.Cinsiyet == 2)
+                    {
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadın" & item.birthDayDate >= minDT & item.birthDayDate <= maxDate);
+                    }
+                    else
+                    {
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadın" | item.gender == "Erkek" & item.birthDayDate >= minDT & item.birthDayDate <= maxDate);
+                    }
+                }
+            }
+            FilterBlockedUser();
+        }
+
+        void FilterBlockedUser()
+        {
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("blocked-user/block-list");
+            if (Donus != null)
+            {
+                var EngelliKullanicilarDTOs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EngelliKullanicilarDTO>>(Donus.ToString());
+                if (EngelliKullanicilarDTOs.Count > 0)
+                {
+                    List<MEMBER_DATA> Ayiklanmis = (from list1 in UserGallery1
+                                                    join list2 in EngelliKullanicilarDTOs
+                                                    on list1.id equals list2.blockUserId
+                                                    select list1).ToList();
+
+                    List<MEMBER_DATA> Karsilastir = UserGallery1.Except(Ayiklanmis).ToList();
+                    UserGallery1 = Karsilastir.ToList();
+                }
+            }
+        }
+
         private void MViewAdapter_ItemClick(object sender, object[] e)
         {
             SecilenKisi.SecilenKisiDTO = UserGallery1[(int)e[0]];
             this.Activity.StartActivity(typeof(PublicProfileBaseActivity));
         }
 
+        public class EngelliKullanicilarDTO
+        {
+            public int blockUserId { get; set; }
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string lastModifiedDate { get; set; }
+            public string reasonType { get; set; }
+            public string status { get; set; }
+            public int userId { get; set; }
+        }
         public class SpacesItemDecoration : RecyclerView.ItemDecoration
         {
             private int space;
