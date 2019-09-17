@@ -22,13 +22,13 @@
 			android:layout_width="match_parent"
 			android:layout_height="40dp"
 			android:id="@+id/relativeLayout1">
-			<ImageButton
+			<FFImageLoading.Views.ImageViewAsync
 				android:background="@null"
-				android:scaleType="centerInside"
+				android:scaleType="centerCrop"
 				android:src="@mipmap/auser"
 				android:layout_width="40dp"
 				android:layout_height="match_parent"
-				android:id="@+id/ımageButton1" />
+				android:id="@+id/imgPortada_item2" />
 			<ImageButton
 				android:padding="3dp"
 				android:layout_alignParentRight="true"

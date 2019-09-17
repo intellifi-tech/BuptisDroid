@@ -32,6 +32,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         Android.Support.V7.Widget.LinearLayoutManager mLayoutManager;
         PrivateProfileGaleriVeResimRecyclerViewAdapter mViewAdapter;
         public List<PrivateProfileGaleriVeResim> GaleriDataModel1 = new List<PrivateProfileGaleriVeResim>();
+        public PrivateProfileBaseActivity PrivateProfileBaseActivity1;
         public static readonly int PickImageId = 1000;
         #endregion  
         public override void OnActivityCreated(Bundle savedInstanceState)
@@ -264,6 +265,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             if (Donus != "Hata")
             {
                 AlertHelper.AlertGoster("Fotoğraf yüklendi...", this.Activity);
+                PrivateProfileBaseActivity1.GetUserInfo();
                 ShowLoading.Hide();
             }
             else
@@ -295,6 +297,12 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         private void Kaydet_Click(object sender, EventArgs e)
         {
             
+        }
+
+        public override void OnDismiss(IDialogInterface dialog)
+        {
+            base.OnDismiss(dialog);
+            PrivateProfileBaseActivity1.GetUserInfo();
         }
 
         public class FotografEkleDataModel

@@ -14,6 +14,10 @@ using Buptis.GenericClass;
 using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PrivateProfile.GaleriResimEkle;
 using Buptis.WebServicee;
+using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Views;
+using FFImageLoading.Work;
 using Org.Json;
 using static Buptis.PrivateProfile.PrivateProfileViewPager;
 
@@ -26,6 +30,7 @@ namespace Buptis.PrivateProfile
         ImageButton imageayarlar,FilterButton,GeriButton,ProfileEdit,GaleriButton;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu;
+        ImageViewAsync UserProfilPhoto;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,6 +48,7 @@ namespace Buptis.PrivateProfile
             EnSonLokasyonu = FindViewById<TextView>(Resource.Id.textView7);
             GaleriButton = FindViewById<ImageButton>(Resource.Id.ımageButton4);
             GaleriButton.Click += GaleriButton_Click;
+            UserProfilPhoto = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
 
             ProfileEdit.Click += ProfileEdit_Click;
             imageayarlar.Click += İmageayarlar_Click;
@@ -53,6 +59,7 @@ namespace Buptis.PrivateProfile
         private void GaleriButton_Click(object sender, EventArgs e)
         {
             var PrivateProfileGaleriVeResimEkleDialogFragment1 = new PrivateProfileGaleriVeResimEkleDialogFragment();
+            PrivateProfileGaleriVeResimEkleDialogFragment1.PrivateProfileBaseActivity1 = this;
             PrivateProfileGaleriVeResimEkleDialogFragment1.Show(this.SupportFragmentManager, "PrivateProfileGaleriVeResimEkleDialogFragment1");
         }
 
@@ -69,7 +76,7 @@ namespace Buptis.PrivateProfile
             GetUserInfo();
         }
 
-        void GetUserInfo()
+        public void GetUserInfo()
         {
             var UserInfo = DataBase.MEMBER_DATA_GETIR();
             if (UserInfo.Count > 0)
@@ -88,9 +95,27 @@ namespace Buptis.PrivateProfile
                 //UserInfo[0].townId = "0";
                 //GetUserTown(UserInfo[0].townId.ToString(),Konumu);
                 GetLastCechin(UserInfo[0].id);
+                GetUserImage(UserInfo[0].id);
             }
         }
-
+        void GetUserImage(int USERID)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("images/user/" + USERID);
+                if (Donus != null)
+                {
+                    this.RunOnUiThread(delegate () {
+                        var Images = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UsaerImageDTO>>(Donus.ToString());
+                        if (Images.Count > 0)
+                        {
+                            ImageService.Instance.LoadUrl(CDN.CDN_Path + Images[Images.Count - 1].imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Transform(new CircleTransformation(15, "#FFFFFF")).Into(UserProfilPhoto);
+                        }
+                    });
+                }
+            })).Start();
+        }
         string GetUserAbout()
         {
             WebService webService = new WebService();
@@ -189,7 +214,14 @@ namespace Buptis.PrivateProfile
             StartActivity(typeof(PrivateProfileAyarlarActivity));
         }
 
-
+        public class UsaerImageDTO
+        {
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string imagePath { get; set; }
+            public string lastModifiedDate { get; set; }
+            public int userId { get; set; }
+        }
         public class LastLocationDTO
         {
             public int capacity { get; set; }

@@ -10,12 +10,18 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.Lokasyonlar.BanaYakin;
 using Buptis.Lokasyonlar.BirYerSec;
 using Buptis.Lokasyonlar.Populer;
 using Buptis.Mesajlar;
 using Buptis.PrivateProfile;
+using Buptis.WebServicee;
+using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Views;
+using FFImageLoading.Work;
 
 namespace Buptis.Lokasyonlar
 {
@@ -28,7 +34,7 @@ namespace Buptis.Lokasyonlar
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         Button BanaYakinButton, PopulerButton, BiryerSecButton;
         ImageButton MesajButton;
-        ImageButton ProfilButton;
+        ImageViewAsync ProfilButton;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -41,7 +47,7 @@ namespace Buptis.Lokasyonlar
             BanaYakinButton = FindViewById<Button>(Resource.Id.button1);
             PopulerButton = FindViewById<Button>(Resource.Id.button2);
             BiryerSecButton = FindViewById<Button>(Resource.Id.button3);
-            ProfilButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            ProfilButton = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
             ProfilButton.Click += ProfilButton_Click;
             BanaYakinButton.Click += BanaYakinButton_Click;
             PopulerButton.Click += PopulerButton_Click;
@@ -133,6 +139,39 @@ namespace Buptis.Lokasyonlar
         public override void OnBackPressed()
         {
 
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            GetUserImage();
+        }
+        void GetUserImage()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var USERID = DataBase.MEMBER_DATA_GETIR()[0].id;
+                var Donus = webService.OkuGetir("images/user/" + USERID);
+                if (Donus != null)
+                {
+                    this.RunOnUiThread(delegate () {
+                        var Images = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UsaerImageDTO>>(Donus.ToString());
+                        if (Images.Count > 0)
+                        {
+                            ImageService.Instance.LoadUrl(CDN.CDN_Path + Images[Images.Count - 1].imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Transform(new CircleTransformation(15, "#FFFFFF")).Into(ProfilButton);
+                        }
+                    });
+                }
+            })).Start();
+        }
+        public class UsaerImageDTO
+        {
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string imagePath { get; set; }
+            public string lastModifiedDate { get; set; }
+            public int userId { get; set; }
         }
     }
 

@@ -111,7 +111,7 @@ namespace Buptis.PublicProfile
             RunOnUiThread(delegate ()
             {
                 WebService webService = new WebService();
-                var Donus1 = webService.OkuGetir("images/user");
+                var Donus1 = webService.OkuGetir("images/user/" + SecilenKisi.SecilenKisiDTO.id);
                 Android.Support.V4.App.Fragment[] fragments;
                 if (Donus1 != null)
                 {
@@ -281,7 +281,7 @@ namespace Buptis.PublicProfile
                 View rootview = inflater.Inflate(Resource.Layout.FotografPage, container, false);
                 Fotograf = rootview.FindViewById<ImageViewAsync>(Resource.Id.ımageView1);
 
-                ImageService.Instance.LoadUrl(path).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url)
+                ImageService.Instance.LoadUrl(CDN.CDN_Path + path).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url)
                                    .Into(Fotograf);
 
                 return rootview;

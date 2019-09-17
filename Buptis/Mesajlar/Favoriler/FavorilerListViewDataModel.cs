@@ -14,6 +14,10 @@ namespace Buptis.Mesajlar.Favoriler
 {
     class SonFavorilerListViewDataModel
     {
-       public string ID { get; set; }   
+        public string firstName { get; set; }
+        public string lastChatText { get; set; }
+        public string lastName { get; set; }
+        public string unreadMessageCount { get; set; }
+        public int userId { get; set; }
     }
 }
