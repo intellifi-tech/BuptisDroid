@@ -98,9 +98,13 @@ namespace Buptis.PublicProfile
 
         private void Engelle_Click(object sender, EventArgs e)
         {
+            PublicProfileKopya.PublicProfileBaseActivity1 = this;
             this.StartActivity(typeof(PrivateProfileEngelleActivity));
         }
-
+        public void UzaktanKapat()
+        {
+            this.Finish();
+        }
         private void GeriButton_Click(object sender, EventArgs e)
         {
             this.Finish();

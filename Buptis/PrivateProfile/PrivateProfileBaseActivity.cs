@@ -83,7 +83,7 @@ namespace Buptis.PrivateProfile
             {
                 //TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu;
                 KullaniciAdiYasi.Text = UserInfo[0].firstName + " " + UserInfo[0].lastName.Substring(0, 1) + ". ";
-                if (!string.IsNullOrEmpty(UserInfo[0].birthDayDate))
+                if (!string.IsNullOrEmpty(UserInfo[0].birthDayDate.ToString()))
                 {
                     DateTime zeroTime = new DateTime(1, 1, 1);
                     var Fark = (DateTime.Now - Convert.ToDateTime(UserInfo[0].birthDayDate));
