@@ -13,6 +13,7 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.Mesajlar.Hediyeler;
 using Buptis.PublicProfile;
 using Buptis.WebServicee;
 using FFImageLoading;
@@ -80,8 +81,11 @@ namespace Buptis.Mesajlar.Chat
 
         private void Emoji_Click(object sender, EventArgs e)
         {
-            InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
-            imm.ToggleSoftInput(ShowFlags.Forced, 0);
+            //InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            //imm.ToggleSoftInput(ShowFlags.Forced, 0);
+            var HediyelerBaseFragment1 = new HediyelerBaseFragment();
+            HediyelerBaseFragment1.ChatBaseActivity1 = this;
+            HediyelerBaseFragment1.Show(this.SupportFragmentManager, "HediyelerBaseFragment1");
         }
 
         private void Geri_Click(object sender, EventArgs e)
@@ -93,21 +97,27 @@ namespace Buptis.Mesajlar.Chat
         {
             if (!string.IsNullOrEmpty(MesajEdittext.Text))
             {
-                ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
-                {
-                    userId = MeDTO.id,
-                    receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
-                    text = MesajEdittext.Text.Trim(),
-                    key = MesajlarIcinSecilenKullanici.key
-                };
-                WebService webService = new WebService();
-                string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
-                var Donus = webService.ServisIslem("chats", jsonString);
-                if (Donus != "Hata")
-                {
-                    MesajEdittext.Text = "";
-                    //MesajlariGetir();
-                }
+                MesajGonderGenericMetod(MesajEdittext.Text);
+            }
+        }
+
+        void MesajGonderGenericMetod(string Message)
+        {
+            ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
+            {
+                userId = MeDTO.id,
+                receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
+                text = Message,
+                key = MesajlarIcinSecilenKullanici.key
+            };
+            WebService webService = new WebService();
+            string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
+            var Donus = webService.ServisIslem("chats", jsonString);
+            if (Donus != "Hata")
+            {
+                var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
+                MesajEdittext.Text = "";
+                SaveKeys(Icerikk);
             }
         }
       
@@ -141,6 +151,7 @@ namespace Buptis.Mesajlar.Chat
             var Donus = webService.OkuGetir("chats/user/" + MesajlarIcinSecilenKullanici.Kullanici.id.ToString());
             if (Donus!= null)
             {
+                var AA = Donus.ToString(); ;
                 var NewChatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
                 if (NewChatList.Count > 0)//chatList
                 {
@@ -224,6 +235,54 @@ namespace Buptis.Mesajlar.Chat
             })).Start();
         }
 
+        #region KeySorgulaKaydet
+
+        void SaveKeys(KeyIslemleriIcinDTO GelenKeyIcerigi)
+        {
+            var LocalKeys = DataBase.CHAT_KEYS_GETIR();
+            if (LocalKeys.Count > 0)
+            {
+                var KeyVarmi = LocalKeys.FindAll(item => item.MessageKey == GelenKeyIcerigi.key & item.UserID == MesajlarIcinSecilenKullanici.Kullanici.id);
+                if (KeyVarmi.Count > 0)
+                {
+                    MesajlarIcinSecilenKullanici.key = GelenKeyIcerigi.key;
+                }
+                else
+                {
+                    var KullaniciyaAitHerhangiBirKey = LocalKeys.FindAll(item => item.UserID == MesajlarIcinSecilenKullanici.Kullanici.id);
+                    if (KullaniciyaAitHerhangiBirKey.Count > 0)
+                    {
+                        if (DataBase.CHAT_KEYS_Guncelle(new CHAT_KEYS() { MessageKey = GelenKeyIcerigi.key, UserID = MesajlarIcinSecilenKullanici.Kullanici.id }))
+                        {
+                            MesajlarIcinSecilenKullanici.key = GelenKeyIcerigi.key;
+                        }
+                    }
+                    else
+                    {
+                        if (DataBase.CHAT_KEYS_EKLE(new CHAT_KEYS() { MessageKey = GelenKeyIcerigi.key, UserID = MesajlarIcinSecilenKullanici.Kullanici.id }))
+                        {
+                            MesajlarIcinSecilenKullanici.key = GelenKeyIcerigi.key;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (DataBase.CHAT_KEYS_EKLE(new CHAT_KEYS() { MessageKey = GelenKeyIcerigi.key, UserID = MesajlarIcinSecilenKullanici.Kullanici.id }))
+                {
+                    MesajlarIcinSecilenKullanici.key = GelenKeyIcerigi.key;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Hediye
+        public void HediyeGonder(string Path)
+        {
+            MesajGonderGenericMetod("sendGift#" + CDN.CDN_Path + Path);
+        }
+        #endregion
 
         #region Hazir Mesajlar
         void KategoriyeGoreHazirMesajlariGetir()
@@ -253,7 +312,7 @@ namespace Buptis.Mesajlar.Chat
             }
             else
             {
-                HazirMesajScroll.Visibility = ViewStates.Visible;
+                HazirMesajScroll.Visibility = ViewStates.Gone;
             }
         }
 
@@ -268,6 +327,7 @@ namespace Buptis.Mesajlar.Chat
                 HazirMesaklarDTO1.AddRange(HazirMesajCopy);
             }
         }
+
 
         int IsimIcinTextId = 9001;
         void EtietleriYerlestir()
@@ -298,20 +358,7 @@ namespace Buptis.Mesajlar.Chat
             //HazirMesaklarDTO1
             if (!string.IsNullOrEmpty(HazirMesaklarDTO1[Indexx].name))
             {
-                ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
-                {
-                    userId = MeDTO.id,
-                    receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
-                    text = HazirMesaklarDTO1[Indexx].name,
-                    key = MesajlarIcinSecilenKullanici.key
-                };
-                WebService webService = new WebService();
-                string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
-                var Donus = webService.ServisIslem("chats", jsonString);
-                if (Donus != "Hata")
-                {
-                    //MesajlariGetir();
-                }
+                MesajGonderGenericMetod(HazirMesaklarDTO1[Indexx].name);
             }
         }
 
@@ -328,13 +375,24 @@ namespace Buptis.Mesajlar.Chat
         }
 
         #endregion
-
         public class UsaerImageDTO
         {
             public string createdDate { get; set; }
             public int id { get; set; }
             public string imagePath { get; set; }
             public string lastModifiedDate { get; set; }
+            public int userId { get; set; }
+        }
+
+        public class KeyIslemleriIcinDTO
+        {
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string key { get; set; }
+            public string lastModifiedDate { get; set; }
+            public bool read { get; set; }
+            public int receiverId { get; set; }
+            public string text { get; set; }
             public int userId { get; set; }
         }
     }

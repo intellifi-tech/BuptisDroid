@@ -84,7 +84,18 @@ namespace Buptis.Mesajlar.Mesajlarr
                 holder.OkunmamisBadge = row.FindViewById<TextView>(Resource.Id.textView5);
                 holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
                 holder.KisiAdi.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
-                holder.EnSonMesaj.Text = item.lastChatText;
+
+              
+                var Boll = item.lastChatText.Split('#');
+                if (Boll.Length <= 1)
+                {
+                    holder.EnSonMesaj.Text = item.lastChatText;
+                }
+                else
+                {
+                    holder.EnSonMesaj.Text = "Hediye";
+                }
+
                 if (Convert.ToInt32(item.unreadMessageCount) > 0)
                 {
                     holder.OkunmamisBadge.Text = item.unreadMessageCount.ToString();

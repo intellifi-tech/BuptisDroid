@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
@@ -13,6 +14,9 @@ using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.WebServicee;
+using FFImageLoading;
+using FFImageLoading.Views;
+using FFImageLoading.Work;
 using Org.Json;
 
 namespace Buptis.Mesajlar.Chat
@@ -20,9 +24,11 @@ namespace Buptis.Mesajlar.Chat
     class ChatRecyclerViewHolder : RecyclerView.ViewHolder
     {
         public TextView MesajText;
+        public ImageViewAsync StickerImage;
         public ChatRecyclerViewHolder(View itemView, Action<int> listener) : base(itemView)
         {
             MesajText = itemView.FindViewById<TextView>(Resource.Id.textView1);
+            StickerImage = itemView.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
             itemView.Click += (sender, e) => listener(base.Position);
         }
     }
@@ -56,7 +62,21 @@ namespace Buptis.Mesajlar.Chat
             ChatRecyclerViewHolder viewholder = holder as ChatRecyclerViewHolder;
             HolderForAnimation = holder as ChatRecyclerViewHolder;
             var item = mData[position];
-            viewholder.MesajText.Text = item.text;
+
+            var Boll = item.text.Split('#');
+            if (Boll.Length <= 1)
+            {
+                viewholder.MesajText.Text = item.text;
+                viewholder.StickerImage.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                viewholder.MesajText.Visibility = ViewStates.Gone;
+                viewholder.StickerImage.Visibility = ViewStates.Visible;
+                viewholder.StickerImage.SetScaleType(ImageView.ScaleType.CenterInside);
+                viewholder.StickerImage.SetBackgroundColor(Color.Transparent);
+                ImageService.Instance.LoadUrl(Boll[1]).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Into(viewholder.StickerImage);
+            }
 
         }
         void GetLocationOtherInfo(int catid,int townid,TextView LokasyonTuru,TextView UzaklikveSemt)

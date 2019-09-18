@@ -75,7 +75,6 @@ namespace Buptis.PublicProfile
             HakkindaYazisi.Text = "";
             EnSonLokasyonu.Text = "";
         }
-
         private void MesajAtButton_Click(object sender, EventArgs e)
         {
             MesajlarIcinSecilenKullanici.Kullanici = SecilenKisi.SecilenKisiDTO;

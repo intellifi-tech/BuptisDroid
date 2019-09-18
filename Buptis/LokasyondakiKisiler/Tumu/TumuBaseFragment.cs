@@ -144,9 +144,9 @@ namespace Buptis.LokasyondakiKisiler.Tumu
                 if (EngelliKullanicilarDTOs.Count > 0)
                 {
                     List<MEMBER_DATA> Ayiklanmis = (from list1 in UserGallery1
-                                               join list2 in EngelliKullanicilarDTOs
-                                               on list1.id equals list2.blockUserId
-                                               select list1).ToList();
+                                                   join list2 in EngelliKullanicilarDTOs
+                                                   on list1.id equals list2.blockUserId
+                                                   select list1).ToList();
 
                     List<MEMBER_DATA> Karsilastir = UserGallery1.Except(Ayiklanmis).ToList();
                     UserGallery1 = Karsilastir.ToList();

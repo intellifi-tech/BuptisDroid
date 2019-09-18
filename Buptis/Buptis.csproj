@@ -119,6 +119,9 @@
     <Compile Include="Mesajlar\Favoriler\FavorilerBaseFragment.cs" />
     <Compile Include="Mesajlar\Favoriler\FavorilerListViewAdapter.cs" />
     <Compile Include="Mesajlar\Favoriler\FavorilerListViewDataModel.cs" />
+    <Compile Include="Mesajlar\Hediyeler\HediyelerBaseFragment.cs" />
+    <Compile Include="Mesajlar\Hediyeler\HediyelerListAdapter.cs" />
+    <Compile Include="Mesajlar\Hediyeler\HediyelerDataModel.cs" />
     <Compile Include="Mesajlar\Istekler\IsteklerBaseFragment.cs" />
     <Compile Include="Mesajlar\Istekler\IsteklerListViewAdapter.cs" />
     <Compile Include="Mesajlar\Istekler\IsteklerListViewDataModel.cs" />
@@ -406,6 +409,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\stariconmavi.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\HediyelerBaseFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
