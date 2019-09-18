@@ -61,4 +61,12 @@ namespace Buptis.DataBasee
         public int minAge { get; set; }
         public int maxAge { get; set; }
     }
+
+    public class CHAT_KEYS
+    {
+        [PrimaryKey]
+        public int UserID { get; set; }
+        public string MessageKey { get; set; }
+        
+    }
 }

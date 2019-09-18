@@ -28,14 +28,12 @@ namespace Buptis.DataBasee
         }
         public static void CreateDataBase()
         {
-            if (!File.Exists(System.IO.Path.Combine(documentsFolder(), "Buptis.db")))
-            {
-                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
-                var a = conn.CreateTable<MEMBER_DATA>();
-                var b = conn.CreateTable<BILDIRIM>();
-                var c = conn.CreateTable<FILTRELER>();
-                conn.Close();
-            }
+            var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+            conn.CreateTable<MEMBER_DATA>();
+            conn.CreateTable<BILDIRIM>();
+            conn.CreateTable<FILTRELER>();
+            conn.CreateTable<CHAT_KEYS>();
+            conn.Close();
         }
 
         #region MEMBER_DATA
@@ -196,6 +194,60 @@ namespace Buptis.DataBasee
 
         #endregion
 
+        #region FILTRELER
+        public static bool CHAT_KEYS_EKLE(CHAT_KEYS GelenDoluTablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+                conn.Insert(GelenDoluTablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var exx = ex.Message;
+                return false;
+            }
+        }
+        public static List<CHAT_KEYS> CHAT_KEYS_GETIR()
+        {
+            var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+            var gelenler = conn.Query<CHAT_KEYS>("Select * From CHAT_KEYS");
+            conn.Close();
+            return gelenler;
+        }
+        public static bool CHAT_KEYS_TEMIZLE()
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+                conn.Query<CHAT_KEYS>("Delete From CHAT_KEYS");
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
+        }
+        public static bool CHAT_KEYS_Guncelle(CHAT_KEYS Tablo)
+        {
+            try
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+                conn.Update(Tablo);
+                conn.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string ee = e.ToString();
+                return false;
+            }
 
+        }
+        #endregion
     }
 }

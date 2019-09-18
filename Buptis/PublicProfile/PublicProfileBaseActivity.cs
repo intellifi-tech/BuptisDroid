@@ -74,16 +74,39 @@ namespace Buptis.PublicProfile
             KullaniciAdiYasi.Text = "";
             HakkindaYazisi.Text = "";
             EnSonLokasyonu.Text = "";
-
-           
-           
         }
 
         private void MesajAtButton_Click(object sender, EventArgs e)
         {
             MesajlarIcinSecilenKullanici.Kullanici = SecilenKisi.SecilenKisiDTO;
+            var mesKey = GetMessageKey(MesajlarIcinSecilenKullanici.Kullanici.id);
+            if (!string.IsNullOrEmpty(mesKey))
+            {
+                MesajlarIcinSecilenKullanici.key = mesKey;
+            }
             StartActivity(typeof(ChatBaseActivity));
             this.Finish();
+        }
+
+        string GetMessageKey(int UserId)
+        {
+            var MessageKey = DataBase.CHAT_KEYS_GETIR();
+            if (MessageKey.Count > 0)
+            {
+                MessageKey = MessageKey.FindAll(item => item.UserID == UserId);
+                if (MessageKey.Count > 0)
+                {
+                    return MessageKey[MessageKey.Count - 1].MessageKey;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                return "";
+            }
         }
 
         protected override void OnStart()

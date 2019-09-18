@@ -82,6 +82,7 @@ namespace Buptis.Mesajlar.Mesajlarr
                 mFriends = mFriends.Except(Ayristir).ToList();
                 if (mFriends.Count > 0)
                 {
+                    SaveKeys();
                     this.Activity.RunOnUiThread(() => {
                         mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends);
                         Liste.Adapter = mAdapter;
@@ -97,6 +98,44 @@ namespace Buptis.Mesajlar.Mesajlarr
             else
             {
                 ShowLoading.Hide();
+            }
+        }
+
+        void SaveKeys()
+        {
+            var LocalKeys = DataBase.CHAT_KEYS_GETIR();
+            if (LocalKeys.Count > 0)
+            {
+                for (int i = 0; i < mFriends.Count; i++)
+                {
+                    var KeyKarsilastirmaDurum = LocalKeys.FindAll(item => item.UserID == mFriends[i].receiverId);
+                    if (KeyKarsilastirmaDurum.Count > 0)
+                    {
+                        if (KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count -1].MessageKey != mFriends[i].key)
+                        {
+                            //Güncelle
+                            DataBase.CHAT_KEYS_Guncelle(new CHAT_KEYS() {
+                                UserID = KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count - 1].UserID,
+                                MessageKey = mFriends[i].key
+                            });
+                            
+                        }
+                        else
+                        {
+                            //Eşitse birşey yapma
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        DataBase.CHAT_KEYS_EKLE(new CHAT_KEYS()
+                        {
+                            UserID = KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count - 1].UserID,
+                            MessageKey = mFriends[i].key
+                        });
+                        //Hiç Yok Yeni Ekle
+                    }
+               }
             }
         }
     }

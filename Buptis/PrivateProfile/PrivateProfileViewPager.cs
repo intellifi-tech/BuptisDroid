@@ -12,6 +12,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
@@ -147,7 +148,8 @@ namespace Buptis.PrivateProfile
         void GetUserAnswers()
         {
             WebService webService = new WebService();
-            var Donus = webService.OkuGetir("answers/user/all");
+            var UserLogin = DataBase.MEMBER_DATA_GETIR()[0];
+            var Donus = webService.OkuGetir("answers/user/"+ UserLogin.login);
             if (Donus != null)
             {
                 KullanicininCevaplari = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserAnswersDTO>>(Donus.ToString());

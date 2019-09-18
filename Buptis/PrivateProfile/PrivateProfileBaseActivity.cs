@@ -92,6 +92,7 @@ namespace Buptis.PrivateProfile
 
                 Meslegi.Text = UserInfo[0].userJob;
                 HakkindaYazisi.Text = GetUserAbout();
+                Konumu.Text = "";
                 //UserInfo[0].townId = "0";
                 //GetUserTown(UserInfo[0].townId.ToString(),Konumu);
                 GetLastCechin(UserInfo[0].id);
@@ -119,7 +120,8 @@ namespace Buptis.PrivateProfile
         string GetUserAbout()
         {
             WebService webService = new WebService();
-            var Donus = webService.OkuGetir("answers/user/all");
+            var MeId = DataBase.MEMBER_DATA_GETIR()[0];
+            var Donus = webService.OkuGetir("answers/user/"+ MeId.login);
             if (Donus != null)
             {
                 string CevaplarBirlesmis = "";
