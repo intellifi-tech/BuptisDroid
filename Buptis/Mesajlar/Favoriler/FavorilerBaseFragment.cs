@@ -45,7 +45,7 @@ namespace Buptis.Mesajlar.Favoriler
         public override void OnStart()
         {
             base.OnStart();
-            SonMesajlariGetir();
+            //SonMesajlariGetir();
         }
        
         void SonMesajlariGetir()

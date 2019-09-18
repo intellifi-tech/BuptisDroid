@@ -80,9 +80,23 @@ namespace Buptis.Mesajlar.Istekler
                 holder.KisiAdi = row.FindViewById<TextView>(Resource.Id.textView1);
                 holder.EnSonMesaj = row.FindViewById<TextView>(Resource.Id.textView2);
                 holder.SonMesajSaati = row.FindViewById<TextView>(Resource.Id.textView3);
-                holder.OkunmamisBadge = row.FindViewById<TextView>(Resource.Id.textView4);
+                holder.OkunmamisBadge = row.FindViewById<TextView>(Resource.Id.textView5);
                 holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
-                GetUserImage(item.userId.ToString(), holder.ProfilFoto);
+                holder.KisiAdi.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
+                holder.EnSonMesaj.Text = item.lastChatText;
+                if (Convert.ToInt32(item.unreadMessageCount) > 0)
+                {
+                    holder.OkunmamisBadge.Text = item.unreadMessageCount.ToString();
+                    holder.OkunmamisBadge.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    holder.OkunmamisBadge.Visibility = ViewStates.Gone;
+                }
+
+                GetUserImage(item.receiverId.ToString(), holder.ProfilFoto);
+
+
                 row.Tag = holder;
             }
             return row;
@@ -95,7 +109,8 @@ namespace Buptis.Mesajlar.Istekler
                 var Donus = webService.OkuGetir("images/user/" + USERID);
                 if (Donus != null)
                 {
-                    ((Activity)mContext).RunOnUiThread(delegate () {
+                    ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
+
                         var Images = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UsaerImageDTO>>(Donus.ToString());
                         if (Images.Count > 0)
                         {

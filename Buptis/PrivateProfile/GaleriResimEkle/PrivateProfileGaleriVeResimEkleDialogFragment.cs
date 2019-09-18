@@ -296,7 +296,7 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         }
         private void Kaydet_Click(object sender, EventArgs e)
         {
-            
+            this.Dismiss();
         }
 
         public override void OnDismiss(IDialogInterface dialog)

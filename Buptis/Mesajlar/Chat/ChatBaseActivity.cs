@@ -13,12 +13,14 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.PublicProfile;
 using Buptis.WebServicee;
 using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using FFImageLoading.Work;
 using Newtonsoft.Json;
+using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
 
 namespace Buptis.Mesajlar.Chat
 {
@@ -49,6 +51,7 @@ namespace Buptis.Mesajlar.Chat
             HazirMesajScroll = FindViewById<HorizontalScrollView>(Resource.Id.horizontalScrollView1);
             UserName = FindViewById<TextView>(Resource.Id.textView1);
             UserPhoto = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
+            UserPhoto.Click += UserPhoto_Click;
             GonderButton = FindViewById<Button>(Resource.Id.button1);
             GonderButton.Click += GonderButton_Click;
             MesajEdittext = FindViewById<EditText>(Resource.Id.editText1);
@@ -57,6 +60,12 @@ namespace Buptis.Mesajlar.Chat
             Geri.Click += Geri_Click;
             Emoji.Click += Emoji_Click;
             MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+        }
+
+        private void UserPhoto_Click(object sender, EventArgs e)
+        {
+            SecilenKisi.SecilenKisiDTO = MesajlarIcinSecilenKullanici.Kullanici;
+            this.StartActivity(typeof(PublicProfileBaseActivity));
         }
 
         protected override void OnStart()
@@ -89,8 +98,7 @@ namespace Buptis.Mesajlar.Chat
                     userId = MeDTO.id,
                     receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
                     text = MesajEdittext.Text.Trim(),
-                    //createdDate = DateTime.Now.ToString(),
-                    //lastModifiedDate = DateTime.Now.ToString()
+                    key = MesajlarIcinSecilenKullanici.key
                 };
                 WebService webService = new WebService();
                 string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
@@ -295,8 +303,7 @@ namespace Buptis.Mesajlar.Chat
                     userId = MeDTO.id,
                     receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
                     text = HazirMesaklarDTO1[Indexx].name,
-                    //createdDate = DateTime.Now.ToString(),
-                    //lastModifiedDate = DateTime.Now.ToString()
+                    key = MesajlarIcinSecilenKullanici.key
                 };
                 WebService webService = new WebService();
                 string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
@@ -334,5 +341,6 @@ namespace Buptis.Mesajlar.Chat
     public static class MesajlarIcinSecilenKullanici
     {
         public static MEMBER_DATA Kullanici { get; set; }
+        public static string key { get; set; }
     }
 }

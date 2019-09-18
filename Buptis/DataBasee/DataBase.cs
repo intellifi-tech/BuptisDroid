@@ -28,11 +28,14 @@ namespace Buptis.DataBasee
         }
         public static void CreateDataBase()
         {
-            var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
-            conn.CreateTable<MEMBER_DATA>();
-            conn.CreateTable<BILDIRIM>();
-            conn.CreateTable<FILTRELER>();
-            conn.Close();
+            if (!File.Exists(System.IO.Path.Combine(documentsFolder(), "Buptis.db")))
+            {
+                var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
+                var a = conn.CreateTable<MEMBER_DATA>();
+                var b = conn.CreateTable<BILDIRIM>();
+                var c = conn.CreateTable<FILTRELER>();
+                conn.Close();
+            }
         }
 
         #region MEMBER_DATA
@@ -45,22 +48,26 @@ namespace Buptis.DataBasee
                 conn.Close();
                 return true;
             }
-            catch
+            catch(Exception Ex)
             {
+                var aa = Ex.Message;
                 return false;
             }
         }
         public static List<MEMBER_DATA> MEMBER_DATA_GETIR()
         {
+            Atla:
             try
             {
                 var conn = new SQLiteConnection(System.IO.Path.Combine(documentsFolder(), "Buptis.db"), false);
                 var gelenler = conn.Query<MEMBER_DATA>("Select * From MEMBER_DATA");
                 conn.Close();
-            return gelenler;
+                return gelenler;
             }
-            catch 
+            catch (Exception Ex)
             {
+                goto Atla;
+                var aa = Ex.Message;
                 return null;
             }
            

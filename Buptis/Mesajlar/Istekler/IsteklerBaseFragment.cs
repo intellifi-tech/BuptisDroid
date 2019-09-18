@@ -10,7 +10,10 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
+using Buptis.GenericUI;
 using Buptis.Mesajlar.Chat;
+using Buptis.WebServicee;
 
 namespace Buptis.Mesajlar.Istekler
 { 
@@ -39,23 +42,61 @@ namespace Buptis.Mesajlar.Istekler
 
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            this.Activity.StartActivity(typeof(ChatBaseActivity));
+            GetUserInfo(mFriends[e.Position].receiverId.ToString(), mFriends[e.Position].key);
+        }
+
+        void GetUserInfo(string UserID, string keyy)
+        {
+            //MesajlarIcinSecilenKullanici.Kullanici
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("users/" + UserID);
+            if (Donus != null)
+            {
+                var Userrr = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                MesajlarIcinSecilenKullanici.Kullanici = Userrr;
+                MesajlarIcinSecilenKullanici.key = keyy;
+                this.Activity.StartActivity(typeof(ChatBaseActivity));
+            }
         }
 
         public override void OnStart()
         {
             base.OnStart();
-            SonMesajlariGetir();
+            ShowLoading.Show(this.Activity, "Mesajlar Bekleniyor...");
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                SonMesajlariGetir();
+
+            })).Start();
         }
         void SonMesajlariGetir()
         {
-            for (int i = 0; i < 20; i++)
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("chats/user");
+            if (Donus != null)
             {
-                mFriends.Add(new IsteklerListViewDataModel());
+                var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+                var aa = Donus.ToString();
+                mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IsteklerListViewDataModel>>(Donus.ToString());
+                mFriends = mFriends.FindAll(item => item.request == true & item.receiverId == MeID); //Bana Gelen İstekler;
+                if (mFriends.Count > 0)
+                {
+                    this.Activity.RunOnUiThread(() => {
+                        mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends);
+                        Liste.Adapter = mAdapter;
+                        ShowLoading.Hide();
+                    });
+                }
+                else
+                {
+                    AlertHelper.AlertGoster("Hiç Mesaj Bulunamadı...", this.Activity);
+                    ShowLoading.Hide();
+                }
             }
-
-            mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends);
-            Liste.Adapter = mAdapter;
+            else
+            {
+                ShowLoading.Hide();
+            }
         }
     }
 }

@@ -52,10 +52,10 @@ namespace Buptis.Mesajlar.Mesajlarr
 
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            GetUserInfo(mFriends[e.Position].userId.ToString());
+            GetUserInfo(mFriends[e.Position].receiverId.ToString(), mFriends[e.Position].key);
         }
 
-        void GetUserInfo(string UserID)
+        void GetUserInfo(string UserID,string keyy)
         {
             //MesajlarIcinSecilenKullanici.Kullanici
             WebService webService = new WebService();
@@ -64,6 +64,7 @@ namespace Buptis.Mesajlar.Mesajlarr
             {
                 var Userrr = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
                 MesajlarIcinSecilenKullanici.Kullanici = Userrr;
+                MesajlarIcinSecilenKullanici.key = keyy;
                 this.Activity.StartActivity(typeof(ChatBaseActivity));
             }
         }
@@ -74,8 +75,11 @@ namespace Buptis.Mesajlar.Mesajlarr
             var Donus = webService.OkuGetir("chats/user");
             if (Donus != null)
             {
+                var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
                 var aa = Donus.ToString();
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
+                var Ayristir = mFriends.FindAll(item => item.request == true & item.receiverId == MeID); //Bana Gelen İstekler;
+                mFriends = mFriends.Except(Ayristir).ToList();
                 if (mFriends.Count > 0)
                 {
                     this.Activity.RunOnUiThread(() => {

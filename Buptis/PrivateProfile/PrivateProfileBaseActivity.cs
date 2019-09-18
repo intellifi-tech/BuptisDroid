@@ -123,13 +123,20 @@ namespace Buptis.PrivateProfile
             if (Donus != null)
             {
                 string CevaplarBirlesmis = "";
-                var Cevaplar= Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserAnswersDTO>>(Donus.ToString());
-                for (int i = 0; i < Cevaplar.Count; i++)
+                var Cevaplar = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserAnswersDTO>>(Donus.ToString());
+                if (Cevaplar.Count > 0)
                 {
-                    CevaplarBirlesmis += Cevaplar[i].option + ", ";
-                }
+                    for (int i = 0; i < Cevaplar.Count; i++)
+                    {
+                        CevaplarBirlesmis += Cevaplar[i].option + ", ";
+                    }
 
-                return CevaplarBirlesmis;
+                    return CevaplarBirlesmis;
+                }
+                else
+                {
+                    return "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
+                }
             }
             else
             {

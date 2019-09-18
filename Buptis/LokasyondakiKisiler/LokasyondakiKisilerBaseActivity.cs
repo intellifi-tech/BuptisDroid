@@ -16,6 +16,7 @@ using Buptis.LokasyondakiKisiler.Bekleyenler;
 using Buptis.LokasyondakiKisiler.CevrimIci;
 using Buptis.LokasyondakiKisiler.Tumu;
 using Buptis.Lokasyonlar;
+using Buptis.Mesajlar;
 
 namespace Buptis.LokasyondakiKisiler
 {
@@ -27,7 +28,7 @@ namespace Buptis.LokasyondakiKisiler
         FrameLayout IcerikHazesi;
         TextView LokasyonName;
         Button TumuButton, CevrimIciButton, BeklenenlerButton;
-        ImageButton GeriButton;
+        ImageButton GeriButton,MesajlarButton;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,11 +44,18 @@ namespace Buptis.LokasyondakiKisiler
             CevrimIciButton = FindViewById<Button>(Resource.Id.button2);
             BeklenenlerButton = FindViewById<Button>(Resource.Id.button3);
             GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            MesajlarButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            MesajlarButton.Click += MesajlarButton_Click;
             GeriButton.Click += GeriButton_Click;
             TumuButton.Click += TumuButton_Click;
             CevrimIciButton.Click += CevrimIciButton_Click;
             BeklenenlerButton.Click += BeklenenlerButton_Click;
             ParcaYerlestir(0);
+        }
+
+        private void MesajlarButton_Click(object sender, EventArgs e)
+        {
+            StartActivity(typeof(MesajlarBaseActivity));
         }
 
         private void GeriButton_Click(object sender, EventArgs e)

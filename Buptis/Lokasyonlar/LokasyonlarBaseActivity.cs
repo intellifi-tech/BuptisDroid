@@ -35,6 +35,7 @@ namespace Buptis.Lokasyonlar
         Button BanaYakinButton, PopulerButton, BiryerSecButton;
         ImageButton MesajButton;
         ImageViewAsync ProfilButton;
+        MEMBER_DATA UserInfoo;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -53,6 +54,7 @@ namespace Buptis.Lokasyonlar
             PopulerButton.Click += PopulerButton_Click;
             BiryerSecButton.Click += BiryerSecButton_Click;
             MesajButton.Click += MesajButton_Click;
+            UserInfoo = DataBase.MEMBER_DATA_GETIR()[0];
             ParcaYerlestir(0);
         }
 
@@ -151,8 +153,8 @@ namespace Buptis.Lokasyonlar
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
                 WebService webService = new WebService();
-                var USERID = DataBase.MEMBER_DATA_GETIR()[0].id;
-                var Donus = webService.OkuGetir("images/user/" + USERID);
+                
+                var Donus = webService.OkuGetir("images/user/" + UserInfoo.id.ToString());
                 if (Donus != null)
                 {
                     this.RunOnUiThread(delegate () {

@@ -24,6 +24,7 @@ using FFImageLoading.Views;
 using FFImageLoading.Work;
 using Org.Json;
 using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
+using static Buptis.PrivateProfile.PrivateProfileViewPager;
 
 namespace Buptis.PublicProfile
 {
@@ -51,7 +52,7 @@ namespace Buptis.PublicProfile
             FindViewById<LinearLayout>(Resource.Id.rootView).SetPadding(0, 0, 0, DinamikStatusBarColor1.getSoftButtonsBarSizePort(this));
             pagerhazne = FindViewById<RelativeLayout>(Resource.Id.pagerhazne);
             _viewpageer = FindViewById<ViewPager>(Resource.Id.viewPager1);
-            GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            GeriButton = FindViewById<ImageButton>(Resource.Id.geributton);
             KullaniciAdiYasi = FindViewById<TextView>(Resource.Id.textView);
             HakkindaYazisi = FindViewById<TextView>(Resource.Id.textView3);
             EnSonLokasyonu = FindViewById<TextView>(Resource.Id.textView5);
@@ -188,29 +189,20 @@ namespace Buptis.PublicProfile
                 if (Donus1 != null)
                 {
                     UserDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<PublicProfileDataModel>(Donus1.ToString());
-                    DateTime zeroTime = new DateTime(1, 1, 1);
-                    var Fark = (DateTime.Now - Convert.ToDateTime(UserDatas.birthDayDate));
-
+                    if (!string.IsNullOrEmpty(UserDatas.birthDayDate))
+                    {
+                        DateTime zeroTime = new DateTime(1, 1, 1);
+                        var Fark = (DateTime.Now - Convert.ToDateTime(UserDatas.birthDayDate));
+                        KullaniciAdiYasi.Text += ((zeroTime + Fark).Year - 1).ToString();
+                    }
                     KullaniciAdiYasi.Text = UserDatas.firstName + " " + UserDatas.lastName.Substring(0, 1) + ". ";
-                    KullaniciAdiYasi.Text += ((zeroTime + Fark).Year - 1).ToString();
 
                 }
             });
-
+            var abouttxt = GetUserAbout();
             RunOnUiThread(delegate ()
             {
-                var Donus2 = webService.OkuGetir("answers/user/all"+ SecilenKisi.SecilenKisiDTO.id);
-                if (Donus2 != null)
-                {
-                    for (int i = 0; i < UserAnswers.Count; i++)
-                    {
-                        HakkindaYazisi.Text += UserAnswers[i].option + " ";
-                    }
-                }
-                else
-                {
-                    HakkindaYazisi.Text = "Henüz " + SecilenKisi.SecilenKisiDTO.firstName + " hakkında bir bilgi bulamadık..";
-                }
+                HakkindaYazisi.Text = abouttxt;
             });
             
             RunOnUiThread(delegate ()
@@ -227,7 +219,35 @@ namespace Buptis.PublicProfile
                 }
             });
         }
+        string GetUserAbout()
+        {
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("answers/user/all");
+            if (Donus != null)
+            {
+                string CevaplarBirlesmis = "";
+                var Cevaplar = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserAnswersDTO>>(Donus.ToString());
+                if (Cevaplar.Count > 0)
+                {
+                    for (int i = 0; i < Cevaplar.Count; i++)
+                    {
+                        CevaplarBirlesmis += Cevaplar[i].option + ", ";
+                    }
 
+                    return CevaplarBirlesmis;
+                }
+                else
+                {
+                    return "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
+                }
+                
+            }
+            else
+            {
+                return "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
+            }
+
+        }
         void GetUserTown(string townid, TextView HangiText)
         {
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate

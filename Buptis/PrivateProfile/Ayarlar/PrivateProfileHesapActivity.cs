@@ -77,10 +77,18 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             WebService webService = new WebService();
             var Mee = DataBase.MEMBER_DATA_GETIR()[0];
-            string jsonString = JsonConvert.SerializeObject(Mee);
-            var Donus = webService.ServisIslem("update-user", jsonString);
+            UpdateUserDto UpdateUserDto1 = new UpdateUserDto()
+            {
+                activated = false,
+                birthDay = Convert.ToDateTime(Mee.birthDayDate).ToString("yyyy-MM-dd'T'HH:mm:ssZ"),
+                gender = Mee.gender,
+                userJob = Mee.userJob
+            };
+            string jsonString = JsonConvert.SerializeObject(UpdateUserDto1);
+            var Donus = webService.ServisIslem("users/update", jsonString);
             if (Donus != "Hata")
             {
+
                 return true;
             }
             else
@@ -156,6 +164,13 @@ namespace Buptis.PrivateProfile.Ayarlar
         private void Profileback_Click(object sender, EventArgs e)
         {
             Finish();
+        }
+        public class UpdateUserDto
+        {
+            public bool activated { get; set; }
+            public string birthDay { get; set; }
+            public string gender { get; set; }
+            public string userJob { get; set; }
         }
     }
 }

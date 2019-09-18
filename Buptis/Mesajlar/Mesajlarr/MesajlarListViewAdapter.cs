@@ -95,7 +95,7 @@ namespace Buptis.Mesajlar.Mesajlarr
                     holder.OkunmamisBadge.Visibility = ViewStates.Gone;
                 }
                 
-                GetUserImage(item.userId.ToString(), holder.ProfilFoto);
+                GetUserImage(item.receiverId.ToString(), holder.ProfilFoto);
 
 
                 row.Tag = holder;

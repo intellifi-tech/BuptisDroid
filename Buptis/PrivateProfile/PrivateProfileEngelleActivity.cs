@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericUI;
 using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PublicProfile;
 using Buptis.WebServicee;
@@ -78,8 +79,8 @@ namespace Buptis.PrivateProfile
                 {
                     WebService webService = new WebService();
                     BlockedUser blockedUser = null;
-                    RunOnUiThread(delegate ()
-                    {
+                    //RunOnUiThread(delegate ()
+                    //{
                         string reasonTypee = "OTHER";
                         if (SecilenIndex != -1)
                         {
@@ -93,7 +94,7 @@ namespace Buptis.PrivateProfile
                             userId = DataBase.MEMBER_DATA_GETIR()[0].id,
                             status = "BLOCKED"
                         };
-                    });
+                    //});
 
                     string jsonString = JsonConvert.SerializeObject(blockedUser);
                     var Responsee = webService.ServisIslem("blocked-users", jsonString);
@@ -101,6 +102,7 @@ namespace Buptis.PrivateProfile
                     {
                         RunOnUiThread(delegate ()
                         {
+                            AlertHelper.AlertGoster(SecilenKisi.SecilenKisiDTO.firstName + " engellendi.",this);
                             PublicProfileKopya.PublicProfileBaseActivity1.UzaktanKapat();
                             this.Finish();
                         });

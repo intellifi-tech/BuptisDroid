@@ -99,27 +99,33 @@ namespace Buptis.PrivateProfile.Ayarlar
 
         void UpdateUser()
         {
-            var Mee = DataBase.MEMBER_DATA_GETIR()[0];
-            if (!string.IsNullOrEmpty(Dogum.Text))
-            {
-                Mee.birthDayDate = Convert.ToDateTime(Convert.ToDateTime(Dogum.Text).ToString("yyyy-MM-dd'T'HH:mm:ssZ"));
-            }
+            string genderr = "Erkek";
             if (Erkek.Checked)
             {
-                Mee.gender = "Erkek";
+                genderr = "Erkek";
             }
             else if (Kadin.Checked)
             {
-                Mee.gender = "Kadın";
+                genderr = "Kadın";
             }
-            Mee.userJob = Meslek.Text;
+            UpdateUserDto UpdateUserDto1 = new UpdateUserDto()
+            {
+                activated = true,
+                birthDay = Convert.ToDateTime(Dogum.Text).ToString("yyyy-MM-dd'T'HH:mm:ssZ"),
+                gender = genderr,
+                userJob = Meslek.Text
+            };
 
             WebService webService = new WebService();
-            string jsonString = JsonConvert.SerializeObject(Mee);
-            var Donus = webService.ServisIslem("update-user", jsonString);
+            string jsonString = JsonConvert.SerializeObject(UpdateUserDto1);
+            var Donus = webService.ServisIslem("users/update", jsonString);
             if (Donus != "Hata")
             {
-                if (DataBase.MEMBER_DATA_Guncelle(Mee))
+                var Userrr = DataBase.MEMBER_DATA_GETIR()[0];
+                Userrr.userJob = Meslek.Text;
+                Userrr.birthDayDate = Convert.ToDateTime(Dogum.Text);
+                Userrr.gender = genderr;
+                if (DataBase.MEMBER_DATA_Guncelle(Userrr))
                 {
                     AlertHelper.AlertGoster("Bilgileriniz güncellendi.", this);
                     this.Finish();
@@ -129,6 +135,14 @@ namespace Buptis.PrivateProfile.Ayarlar
             {
                 AlertHelper.AlertGoster("Bir Sorun Oluştu.", this);
             }
+        }
+
+        public class UpdateUserDto
+        {
+            public bool activated { get; set; }
+            public string birthDay { get; set; }
+            public string gender { get; set; }
+            public string userJob { get; set; }
         }
     }
 }
