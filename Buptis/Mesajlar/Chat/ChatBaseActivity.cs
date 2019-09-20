@@ -309,6 +309,10 @@ namespace Buptis.Mesajlar.Chat
                         HazirMesajScroll.Visibility = ViewStates.Gone;
                     }
                 }
+                else
+                {
+                    HazirMesajScroll.Visibility = ViewStates.Gone;
+                }
             }
             else
             {

@@ -46,7 +46,6 @@ namespace Buptis.LokasyonDetay
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
             Dialog.Window.Attributes.WindowAnimations = Resource.Style.dialog_animation3;
             base.OnActivityCreated(savedInstanceState);
-           
         }
         
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
@@ -62,7 +61,7 @@ namespace Buptis.LokasyonDetay
             view.FindViewById<RelativeLayout>(Resource.Id.rootView).ClipToOutline = true;
             Kaydet = view.FindViewById<Button>(Resource.Id.button4);
             Geri = view.FindViewById<ImageButton>(Resource.Id.ımageButton1);
-           
+            SetFonts(view);
             for (int i = 0; i < Buttonss.Length; i++)
             {
                 Buttonss[i] = view.FindViewById<Button>(resourseids[i]);
@@ -71,7 +70,6 @@ namespace Buptis.LokasyonDetay
             }
 
             Kaydet.Click += Kaydet_Click;
-            
             Geri.Click += Geri_Click;
             return view;
         }
@@ -172,6 +170,26 @@ namespace Buptis.LokasyonDetay
             LokasyonRate(SonSecilenRate.ToString());
             Geri.PerformClick();
         }
-        
+        void SetFonts(View BaseVieww)
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.ımageButton2,
+                Resource.Id.ımageButton3,
+                Resource.Id.ımageButton4,
+                Resource.Id.ımageButton5,
+                Resource.Id.ımageButton6,
+                Resource.Id.ımageButton7,
+                Resource.Id.ımageButton8,
+                Resource.Id.ımageButton9,
+                Resource.Id.ımageButton10,
+                Resource.Id.ımageButton11,
+                
+            }, this.Activity,true, BaseVieww);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.button4,
+                  Resource.Id.textView1
+            }, this.Activity, true, BaseVieww);
+        }
     }
 }

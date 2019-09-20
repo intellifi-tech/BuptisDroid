@@ -78,10 +78,11 @@ namespace Buptis.Mesajlar.Mesajlarr
                 var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
                 var aa = Donus.ToString();
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
-                var Ayristir = mFriends.FindAll(item => item.request == true & item.receiverId == MeID); //Bana Gelen İstekler;
-                mFriends = mFriends.Except(Ayristir).ToList();
+                mFriends = mFriends.FindAll(item => item.request == false); 
                 if (mFriends.Count > 0)
                 {
+
+                    mFriends.Where(item => item.receiverId == MeID).ToList().ForEach(item2 => item2.unreadMessageCount = 0);
                     SaveKeys();
                     this.Activity.RunOnUiThread(() => {
                         mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends);

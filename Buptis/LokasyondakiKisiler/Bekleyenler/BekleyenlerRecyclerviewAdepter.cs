@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
@@ -40,11 +41,14 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
         AppCompatActivity BaseActivity;
         public event EventHandler<object[]> ItemClick;
         int Genislikk;
-        public BekleyenlerRecyclerViewAdapter(List<MEMBER_DATA> GelenData, AppCompatActivity GelenContex,int GelenGenislik)
+        Typeface normall, boldd;
+        public BekleyenlerRecyclerViewAdapter(List<MEMBER_DATA> GelenData, AppCompatActivity GelenContex,int GelenGenislik, Typeface normall, Typeface boldd)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
             Genislikk = GelenGenislik;
+            this.normall = normall;
+            this.boldd = boldd;
         }
 
         public override int GetItemViewType(int position)
@@ -93,10 +97,7 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
             View v = inflater.Inflate(Resource.Layout.LokasyondakiKisilerCustomCardView, parent, false);
-            //var paramss = v.LayoutParameters;
-            //paramss.Height = Genislikk;
-            //paramss.Width = Genislikk;
-            //v.LayoutParameters = paramss;
+            v.FindViewById<TextView>(Resource.Id.textView1).SetTypeface(boldd, TypefaceStyle.Normal);
             return new BekleyenlerRecyclerViewHolder(v, OnClick);
         }
 

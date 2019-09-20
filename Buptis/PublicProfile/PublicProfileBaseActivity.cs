@@ -79,10 +79,8 @@ namespace Buptis.PublicProfile
         {
             MesajlarIcinSecilenKullanici.Kullanici = SecilenKisi.SecilenKisiDTO;
             var mesKey = GetMessageKey(MesajlarIcinSecilenKullanici.Kullanici.id);
-            if (!string.IsNullOrEmpty(mesKey))
-            {
-                MesajlarIcinSecilenKullanici.key = mesKey;
-            }
+            MesajlarIcinSecilenKullanici.key = mesKey;
+           
             StartActivity(typeof(ChatBaseActivity));
             this.Finish();
         }
@@ -99,12 +97,12 @@ namespace Buptis.PublicProfile
                 }
                 else
                 {
-                    return "";
+                    return null;
                 }
             }
             else
             {
-                return "";
+                return null;
             }
         }
 

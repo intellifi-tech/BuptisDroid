@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
@@ -12,6 +13,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericClass;
 using Buptis.WebServicee;
 using Org.Json;
 
@@ -38,11 +40,13 @@ namespace Buptis.Lokasyonlar.BanaYakin
         private List<BanaYakinRecyclerViewDataModel> mData = new List<BanaYakinRecyclerViewDataModel>();
         AppCompatActivity BaseActivity;
         public event EventHandler<int> ItemClick;
-
-        public BanaYakinRecyclerViewAdapter(List<BanaYakinRecyclerViewDataModel> GelenData, AppCompatActivity GelenContex)
+        Typeface normall, boldd;
+        public BanaYakinRecyclerViewAdapter(List<BanaYakinRecyclerViewDataModel> GelenData, AppCompatActivity GelenContex, Typeface normall, Typeface boldd)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
+            this.normall = normall;
+            this.boldd = boldd;
         }
 
         public override int GetItemViewType(int position)
@@ -63,6 +67,7 @@ namespace Buptis.Lokasyonlar.BanaYakin
             HolderForAnimation = holder as BanaYakinRecyclerViewHolder;
             var item = mData[position];
             viewholder.ResimHaznesi.ClipToOutline = true;
+           
             viewholder.LokasyonAdi.Text = "";
             viewholder.LokasyonTuru.Text = "";
             viewholder.UzaklikveSemt.Text = " / " + item.environment + " km";
@@ -71,7 +76,7 @@ namespace Buptis.Lokasyonlar.BanaYakin
             viewholder.DolulukOrani.Max = (item.capacity);
             viewholder.DolulukOrani.Progress = item.allUserCheckIn;
             GetLocationOtherInfo(item.id, item.catIds, item.townId, viewholder.LokasyonTuru, viewholder.UzaklikveSemt);
-
+            
         }
         void GetLocationOtherInfo(int locid, List<string> catid,string townid,TextView LokasyonTuru,TextView UzaklikveSemt)
         {
@@ -129,14 +134,17 @@ namespace Buptis.Lokasyonlar.BanaYakin
 
             })).Start();
         }
+      
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
             View v = inflater.Inflate(Resource.Layout.LokasyonCustomCardView, parent, false);
-
+            v.FindViewById<TextView>(Resource.Id.textView1).SetTypeface(boldd, TypefaceStyle.Normal);
+            v.FindViewById<TextView>(Resource.Id.textView3).SetTypeface(normall, TypefaceStyle.Normal); 
+            v.FindViewById<TextView>(Resource.Id.textView4).SetTypeface(normall, TypefaceStyle.Normal); 
+            v.FindViewById<TextView>(Resource.Id.textView2).SetTypeface(normall, TypefaceStyle.Normal);
             return new BanaYakinRecyclerViewHolder(v, OnClick);
         }
-
         void OnClick(int position)
         {
             if (ItemClick != null)

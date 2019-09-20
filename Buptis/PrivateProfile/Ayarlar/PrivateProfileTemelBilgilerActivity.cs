@@ -32,6 +32,7 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileTemelBilgiler);
+            SetFonts();
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
             profileback = FindViewById<ImageButton>(Resource.Id.ımageButton1);
@@ -136,6 +137,27 @@ namespace Buptis.PrivateProfile.Ayarlar
                 AlertHelper.AlertGoster("Bir Sorun Oluştu.", this);
             }
         }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                 Resource.Id.textView3,
+                 Resource.Id.dogumtxt,
+                 Resource.Id.editText1,
+                 Resource.Id.radioButton2,
+                 Resource.Id.radioButton3,
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.textView4,
+                Resource.Id.textView5,
+                Resource.Id.textView6,
+                Resource.Id.button1,
+            }, this);
+        }
+
 
         public class UpdateUserDto
         {

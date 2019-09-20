@@ -6,6 +6,7 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
@@ -24,6 +25,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
         Android.Support.V7.Widget.LinearLayoutManager mLayoutManager;
         AnaMainRecyclerViewAdapter mViewAdapter;
         public List<HaritaListeDataModel> MapDataModel1;
+        Typeface normall, boldd;
         #endregion
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -45,16 +47,13 @@ namespace Buptis.Lokasyonlar.BirYerSec
             mRecyclerView.HasFixedSize = true;
             mLayoutManager = new LinearLayoutManager(this.Activity);
             mRecyclerView.SetLayoutManager(mLayoutManager);
-            mViewAdapter = new AnaMainRecyclerViewAdapter(this, (Android.Support.V7.App.AppCompatActivity)this.Activity);
+            boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
+            normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
+            mViewAdapter = new AnaMainRecyclerViewAdapter(this, (Android.Support.V7.App.AppCompatActivity)this.Activity, this.normall, this.boldd);
             mRecyclerView.SetAdapter(mViewAdapter);
             mViewAdapter.ItemClick += MViewAdapter_ItemClick;
             mLayoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Horizontal, false);
-
-            // mLayoutManager = new CenterZoomLayoutManager(this.Activity, LinearLayoutManager.Horizontal, false);
             mRecyclerView.SetLayoutManager(mLayoutManager);
-            //ScrollDinleyici = new HaritaListeRecyclerViewOnScrollListener(mLayoutManager, this);
-            //mRecyclerView.AddOnScrollListener(ScrollDinleyici);
-            // mRecyclerView.AddOnScrollListener(new HaritaListeRecyclerViewOnScrollListener(mLayoutManager, this));
             mRecyclerView.AddOnScrollListener(new HaritaListeRecyclerViewOnScrollListener(mLayoutManager, this));
             try
             {

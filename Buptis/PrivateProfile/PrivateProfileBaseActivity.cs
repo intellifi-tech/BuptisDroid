@@ -36,6 +36,7 @@ namespace Buptis.PrivateProfile
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileBaseActivity);
+            SetFonts();
             imageayarlar = FindViewById<ImageButton>(Resource.Id.ımageButton3);
             FilterButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
             FilterButton.Click += FilterButton_Click;
@@ -54,6 +55,7 @@ namespace Buptis.PrivateProfile
             imageayarlar.Click += İmageayarlar_Click;
             GeriButton.Click += GeriButton_Click;
             DinamikStatusBarColor1.SetFullScreen(this);
+
         }
 
         private void GaleriButton_Click(object sender, EventArgs e)
@@ -222,6 +224,24 @@ namespace Buptis.PrivateProfile
         {
             StartActivity(typeof(PrivateProfileAyarlarActivity));
         }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.textView2,
+                Resource.Id.textView3,
+                Resource.Id.textView5,
+                Resource.Id.textView7,
+
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView4,
+                Resource.Id.textView6,
+            }, this);
+        }
+
 
         public class UsaerImageDTO
         {

@@ -36,6 +36,7 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileEngelliListesi);
+            SetFonts();
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
             Listvieww = FindViewById<ListView>(Resource.Id.listView1);
@@ -64,7 +65,8 @@ namespace Buptis.PrivateProfile.Ayarlar
                 if (EngelliKullanicilarDTOs.Count > 0)
                 {
                     this.RunOnUiThread(() => {
-                        mAdapter = new EngelliUserListViewAdapter(this, Resource.Layout.EngellilerListCustomView, EngelliKullanicilarDTOs);
+                        var boldd = Typeface.CreateFromAsset(this.Assets, "Fonts/muliBold.ttf");
+                        mAdapter = new EngelliUserListViewAdapter(this, Resource.Layout.EngellilerListCustomView, EngelliKullanicilarDTOs, boldd);
                         Listvieww.Adapter = null;
                         Listvieww.Adapter = mAdapter;
                         Listvieww.ItemClick += Listvieww_ItemClick;
@@ -133,7 +135,12 @@ namespace Buptis.PrivateProfile.Ayarlar
                 GetBockedUserList();
             }
         }
-
+        void SetFonts()
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+            }, this);
+        }
         public class EngelliKullanicilarDTO
         {
             public int blockUserId { get; set; }
@@ -150,12 +157,13 @@ namespace Buptis.PrivateProfile.Ayarlar
             private Context mContext;
             private int mRowLayout;
             private List<EngelliKullanicilarDTO> mDepartmanlar;
-
-            public EngelliUserListViewAdapter(Context context, int rowLayout, List<EngelliKullanicilarDTO> friends)
+            Typeface boldd;
+            public EngelliUserListViewAdapter(Context context, int rowLayout, List<EngelliKullanicilarDTO> friends, Typeface boldd)
             {
                 mContext = context;
                 mRowLayout = rowLayout;
                 mDepartmanlar = friends;
+                this.boldd = boldd;
             }
 
             public override int ViewTypeCount
@@ -206,6 +214,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                     var item = mDepartmanlar[position];
                     holder.KisiAdi = row.FindViewById<TextView>(Resource.Id.textView1);
                     holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
+                    holder.KisiAdi.SetTypeface(boldd, TypefaceStyle.Normal);
                     GetUserDTO(item.blockUserId.ToString(),holder.ProfilFoto,holder.KisiAdi);
 
                     row.Tag = holder;

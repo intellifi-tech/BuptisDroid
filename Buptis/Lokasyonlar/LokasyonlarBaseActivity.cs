@@ -42,6 +42,7 @@ namespace Buptis.Lokasyonlar
             base.OnCreate(savedInstanceState);
             DinamikStatusBarColor1.SetFullScreen(this);
             SetContentView(Resource.Layout.LokasyonlarBaseActivity);
+            SetFonts();
             FindViewById<LinearLayout>(Resource.Id.rootView).SetPadding(0, 0, 0, DinamikStatusBarColor1.getSoftButtonsBarSizePort(this));
             MesajButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
             IcerikHazesi = FindViewById<FrameLayout>(Resource.Id.contentframe);
@@ -49,6 +50,7 @@ namespace Buptis.Lokasyonlar
             PopulerButton = FindViewById<Button>(Resource.Id.button2);
             BiryerSecButton = FindViewById<Button>(Resource.Id.button3);
             ProfilButton = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
+            FindViewById<TextView>(Resource.Id.textView2).Selected=true;
             ProfilButton.Click += ProfilButton_Click;
             BanaYakinButton.Click += BanaYakinButton_Click;
             PopulerButton.Click += PopulerButton_Click;
@@ -167,6 +169,18 @@ namespace Buptis.Lokasyonlar
                 }
             })).Start();
         }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.button1,
+                Resource.Id.button2,
+                Resource.Id.button3,
+            }, this);
+        }
+
         public class UsaerImageDTO
         {
             public string createdDate { get; set; }

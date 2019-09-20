@@ -37,6 +37,7 @@ namespace Buptis.PrivateProfile
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileViewPager);
+            SetFonts();
             profileViewPager = FindViewById<ViewPager>(Resource.Id.viewPager1);
             SoruCounterText = FindViewById<TextView>(Resource.Id.textView2);
             KapatButton = FindViewById<ImageButton>(Resource.Id.ımageButton3);
@@ -171,6 +172,15 @@ namespace Buptis.PrivateProfile
 
         }
 
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView2,
+                Resource.Id.textView2
+            }, this);
+        }
+
         public class QuestionDTO
         {
             public int categoryId { get; set; }
@@ -208,6 +218,7 @@ namespace Buptis.PrivateProfile
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View RootView = inflater.Inflate(Resource.Layout.PrivateProfileCoktanSecmeli, container, false);
+            SetFonts1(RootView);
             radioGroup = RootView.FindViewById<LinearLayout>(Resource.Id.linearLayout1);
             SoruTextt = RootView.FindViewById<TextView>(Resource.Id.textView1);
             SoruTextt.Text = GelenSoru.name;
@@ -230,6 +241,7 @@ namespace Buptis.PrivateProfile
                         LayoutInflater inflater = LayoutInflater.From(this.Activity);
                         View ButtonLayout = inflater.Inflate(Resource.Layout.Rustomradiobutton, null);
                         var Radioo = ButtonLayout.FindViewById<RadioButton>(Resource.Id.radioButton2);
+                        SetFontsRadioButtons(ButtonLayout);
                         Radioo.Text = Secenekler[i].option;
                         radioGroup.AddView(ButtonLayout);
                         var Durum = GelenAnswer.FindAll(item => item.id.ToString() == Secenekler[i].id);
@@ -284,6 +296,21 @@ namespace Buptis.PrivateProfile
                 OlusanButtonlar[i].Checked = false;
             }
         }
+
+        void SetFonts1(View BaseVieww)
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+            }, this.Activity, true, BaseVieww);
+        }
+
+        void SetFontsRadioButtons(View BaseVieww)
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.radioButton2,
+            }, this.Activity, true, BaseVieww);
+        }
+
         public class OptionsDTO
         {
             public string id { get; set; }
@@ -316,6 +343,7 @@ namespace Buptis.PrivateProfile
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View RootView = inflater.Inflate(Resource.Layout.PrivateProfileRatingFragment, container, false);
+            SetFonts(RootView);
             BoyText = RootView.FindViewById<TextView>(Resource.Id.textView2);
             SoruTextt = RootView.FindViewById<TextView>(Resource.Id.textView1);
             Sifirla = RootView.FindViewById<TextView>(Resource.Id.textView4);
@@ -414,6 +442,15 @@ namespace Buptis.PrivateProfile
             Canvas canvas = new Canvas(bitmap);
             markerLayout.Draw(canvas);
             return bitmap;
+        }
+
+        void SetFonts(View BaseView)
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.textView4
+            }, this.Activity, true, BaseView);
         }
     }
 

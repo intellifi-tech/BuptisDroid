@@ -21,6 +21,7 @@ namespace Buptis.GenericUI
         string Des1;
         TextView DesText;
         ProgressBar progresss;
+        Typeface normall, boldd;
         #endregion
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
@@ -44,6 +45,9 @@ namespace Buptis.GenericUI
             DesText.Text = Des1;
             progresss = rootView.FindViewById<ProgressBar>(Resource.Id.progressBar1);
             progresss.ProgressBackgroundTintList = ColorStateList.ValueOf(Color.Black);
+            boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
+            normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
+            DesText.SetTypeface(normall, TypefaceStyle.Normal);
             return rootView;
         }
     }

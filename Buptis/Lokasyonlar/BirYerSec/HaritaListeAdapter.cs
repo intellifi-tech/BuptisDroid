@@ -24,7 +24,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
     {
         public TextView LokasyonAdi, LokasyonTuru, UzaklikveSemt, Puan;
         public ProgressBar DolulukOrani;
-        
+        Typeface normall, boldd;
         public HaritaListeAdapterHolder(View itemView, Action<int> listener) : base(itemView)
         {
             LokasyonAdi = itemView.FindViewById<TextView>(Resource.Id.textView1);
@@ -37,14 +37,16 @@ namespace Buptis.Lokasyonlar.BirYerSec
     }
     class AnaMainRecyclerViewAdapter : RecyclerView.Adapter
     {
-      
         AppCompatActivity BaseActivity;
         public event EventHandler<int> ItemClick;
         HaritaListeBaseFragment GelenBase;
-        public AnaMainRecyclerViewAdapter(HaritaListeBaseFragment Base, AppCompatActivity GelenContex)
+        Typeface normall, boldd;
+        public AnaMainRecyclerViewAdapter(HaritaListeBaseFragment Base, AppCompatActivity GelenContex, Typeface normall, Typeface boldd)
         {
             GelenBase = Base;
             BaseActivity = GelenContex;
+            this.normall = normall;
+            this.boldd = boldd;
         }
 
         public override int GetItemViewType(int position)
@@ -136,6 +138,10 @@ namespace Buptis.Lokasyonlar.BirYerSec
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
             View v = inflater.Inflate(Resource.Layout.HorizontalMapCardView, parent, false);
+            v.FindViewById<TextView>(Resource.Id.textView1).SetTypeface(boldd, TypefaceStyle.Normal);
+            v.FindViewById<TextView>(Resource.Id.textView3).SetTypeface(normall, TypefaceStyle.Normal);
+            v.FindViewById<TextView>(Resource.Id.textView4).SetTypeface(normall, TypefaceStyle.Normal);
+            v.FindViewById<TextView>(Resource.Id.textView2).SetTypeface(normall, TypefaceStyle.Normal);
             return new HaritaListeAdapterHolder(v, OnClickk);
         }
 

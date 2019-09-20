@@ -79,7 +79,9 @@ namespace Buptis.LokasyondakiKisiler.Bekleyenler
                         var MeId = DataBase.MEMBER_DATA_GETIR()[0].id;
                         UserGallery1 = UserGallery1.FindAll(item => item.id != MeId);
                         FilterUsers();
-                        mViewAdapter = new BekleyenlerRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik);
+                        var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
+                        var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
+                        mViewAdapter = new BekleyenlerRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik, normall, boldd);
                         mRecyclerView.SetAdapter(mViewAdapter);
                         mViewAdapter.ItemClick += MViewAdapter_ItemClick;
                         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.Vertical);

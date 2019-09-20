@@ -30,6 +30,7 @@ namespace Buptis.PrivateProfile
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileViewPagerSonuc);
+            SetFonts();
             DinamikStatusBarColor1.SetFullScreen(this);
             AciklamaText = FindViewById<TextView>(Resource.Id.textView1);
             DahaSonraText = FindViewById<TextView>(Resource.Id.textView4);
@@ -147,6 +148,14 @@ namespace Buptis.PrivateProfile
                 return;
             }
         }
-            
+        void SetFonts()
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.textView4,
+                Resource.Id.button1,
+            }, this);
+        }
     }
 }

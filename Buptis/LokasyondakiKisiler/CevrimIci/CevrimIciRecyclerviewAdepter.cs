@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
@@ -40,11 +41,14 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
         AppCompatActivity BaseActivity;
         public event EventHandler<object[]> ItemClick;
         int Genislikk;
-        public CevrimIciRecyclerViewAdapter(List<MEMBER_DATA> GelenData, AppCompatActivity GelenContex,int GelenGenislik)
+        Typeface normall, boldd;
+        public CevrimIciRecyclerViewAdapter(List<MEMBER_DATA> GelenData, AppCompatActivity GelenContex,int GelenGenislik, Typeface normall, Typeface boldd)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
             Genislikk = GelenGenislik;
+            this.normall = normall;
+            this.boldd = boldd;
         }
 
         public override int GetItemViewType(int position)
@@ -91,10 +95,7 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
             View v = inflater.Inflate(Resource.Layout.LokasyondakiKisilerCustomCardView, parent, false);
-            //var paramss = v.LayoutParameters;
-            //paramss.Height = Genislikk;
-            //paramss.Width = Genislikk;
-            //v.LayoutParameters = paramss;
+            v.FindViewById<TextView>(Resource.Id.textView1).SetTypeface(boldd, TypefaceStyle.Normal);
             return new CevrimIciRecyclerViewHolder(v, OnClick);
         }
 

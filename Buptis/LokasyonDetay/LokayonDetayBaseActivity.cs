@@ -32,10 +32,12 @@ namespace Buptis.LokasyonDetay
         private MapFragment _mapFragment;
         TextView LokasyonNamee;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.LokayonDetayBaseActivity);
+            SetFonts();
             DinamikStatusBarColor1.SetFullScreen(this);
             navigationmap = FindViewById<ImageButton>(Resource.Id.ımageButton4);
             ratingButton = FindViewById<Button>(Resource.Id.ımageButton5);
@@ -215,6 +217,19 @@ namespace Buptis.LokasyonDetay
             }
         }
         #endregion
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.ımageButton5
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                  Resource.Id.textView1,
+                  Resource.Id.button1,
+            }, this);
+        }
+
 
         public class CheckInIslemiIcinDataModel
         {

@@ -78,7 +78,7 @@ namespace Buptis.Mesajlar.Istekler
                 var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
                 var aa = Donus.ToString();
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IsteklerListViewDataModel>>(Donus.ToString());
-                mFriends = mFriends.FindAll(item => item.request == true & item.receiverId == MeID); //Bana Gelen İstekler;
+                mFriends = mFriends.FindAll(item => item.request == true); //Bana Gelen İstekler;
                 if (mFriends.Count > 0)
                 {
                     this.Activity.RunOnUiThread(() => {

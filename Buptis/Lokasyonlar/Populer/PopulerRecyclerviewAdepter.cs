@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
@@ -39,11 +40,13 @@ namespace Buptis.Lokasyonlar.Populer
         private List<PopulerRecyclerViewDataModel> mData = new List<PopulerRecyclerViewDataModel>();
         AppCompatActivity BaseActivity;
         public event EventHandler<int> ItemClick;
-
-        public PopulerRecyclerViewAdapter(List<PopulerRecyclerViewDataModel> GelenData, AppCompatActivity GelenContex)
+        Typeface normall, boldd;
+        public PopulerRecyclerViewAdapter(List<PopulerRecyclerViewDataModel> GelenData, AppCompatActivity GelenContex, Typeface normall, Typeface boldd)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
+            this.normall = normall;
+            this.boldd = boldd;
         }
 
         public override int GetItemViewType(int position)
@@ -134,7 +137,10 @@ namespace Buptis.Lokasyonlar.Populer
         {
             LayoutInflater inflater = LayoutInflater.From(parent.Context);
             View v = inflater.Inflate(Resource.Layout.LokasyonCustomCardView, parent, false);
-
+            v.FindViewById<TextView>(Resource.Id.textView1).SetTypeface(boldd, TypefaceStyle.Normal);
+            v.FindViewById<TextView>(Resource.Id.textView3).SetTypeface(normall, TypefaceStyle.Normal);
+            v.FindViewById<TextView>(Resource.Id.textView4).SetTypeface(normall, TypefaceStyle.Normal);
+            v.FindViewById<TextView>(Resource.Id.textView2).SetTypeface(normall, TypefaceStyle.Normal);
             return new PopulerRecyclerViewHolder(v, OnClick);
         }
 

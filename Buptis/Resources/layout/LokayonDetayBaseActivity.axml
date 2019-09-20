@@ -171,7 +171,7 @@
 				android:layout_toLeftOf="@+id/ımageButton2"
 				android:layout_marginLeft="20dp"
 				android:layout_marginRight="20dp"
-				android:textSize="30dp"
+				android:textSize="25dp"
 				android:textStyle="bold"
 				android:textColor="#fff"
 				android:text="Zorlu Center"

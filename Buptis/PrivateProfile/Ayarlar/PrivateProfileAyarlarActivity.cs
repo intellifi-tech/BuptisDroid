@@ -25,6 +25,7 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileAyarlar);
+            SetFonts();
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
             tViewTemelBilgi = FindViewById<TextView>(Resource.Id.textView2);
@@ -84,6 +85,22 @@ namespace Buptis.PrivateProfile.Ayarlar
                 yildizlar += "*";
             }
             UserEmaill.Text = IlkHarf + yildizlar + "@" + Bol[1];
+        }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.textView4,
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.textView3,
+                Resource.Id.textView5,
+                Resource.Id.textView6,
+                Resource.Id.textView7,
+            }, this);
         }
     }
 }

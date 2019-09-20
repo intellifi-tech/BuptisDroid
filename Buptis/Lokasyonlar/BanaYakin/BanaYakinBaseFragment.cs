@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
@@ -26,6 +27,7 @@ namespace Buptis.Lokasyonlar.BanaYakin
         RecyclerView.LayoutManager mLayoutManager;
         BanaYakinRecyclerViewAdapter mViewAdapter;
         List<BanaYakinRecyclerViewDataModel> favorilerRecyclerViewDataModels = new List<BanaYakinRecyclerViewDataModel>();
+         Typeface normall, boldd;
         #endregion
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -72,7 +74,9 @@ namespace Buptis.Lokasyonlar.BanaYakin
                 {
                     favorilerRecyclerViewDataModels = favorilerRecyclerViewDataModels.OrderBy(o => o.environment).ToList();
                     this.Activity.RunOnUiThread(() => {
-                        mViewAdapter = new BanaYakinRecyclerViewAdapter(favorilerRecyclerViewDataModels, (Android.Support.V7.App.AppCompatActivity)this.Activity);
+                        boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
+                        normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
+                        mViewAdapter = new BanaYakinRecyclerViewAdapter(favorilerRecyclerViewDataModels, (Android.Support.V7.App.AppCompatActivity)this.Activity,this.normall,this.boldd);
                         mRecyclerView.HasFixedSize = true;
                         mLayoutManager = new LinearLayoutManager(this.Activity);
                         mRecyclerView.SetLayoutManager(mLayoutManager);

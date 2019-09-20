@@ -36,6 +36,7 @@ namespace Buptis.LokasyondakiKisiler
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
             SetContentView(Resource.Layout.LokasyondakiKisilerBaseActivity);
+            SetFonts();
             LokasyonName = FindViewById<TextView>(Resource.Id.textView1);
             LokasyonName.Text = SecilenLokasyonn.LokName;
             FindViewById<LinearLayout>(Resource.Id.rootView).SetPadding(0, 0, 0, DinamikStatusBarColor1.getSoftButtonsBarSizePort(this));
@@ -137,6 +138,18 @@ namespace Buptis.LokasyondakiKisiler
         public override void OnBackPressed()
         {
             this.Finish();
+        }
+
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.button1,
+                Resource.Id.button2,
+                Resource.Id.button3,
+            }, this);
         }
 
         public static class SecilenKisi

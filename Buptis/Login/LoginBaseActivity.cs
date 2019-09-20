@@ -37,6 +37,7 @@ namespace Buptis.Login
             base.OnCreate(savedInstanceState);
             DinamikStatusBarColor1.SetFullScreen(this);
             SetContentView(Resource.Layout.LoginBaseLayout);
+            SetFonts();
             FindViewById<RelativeLayout>(Resource.Id.rootView).SetPadding(0, 0, 0, DinamikStatusBarColor1.getSoftButtonsBarSizePort(this));
             kayitol = FindViewById<TextView>(Resource.Id.textView3);
             inputmail = FindViewById<EditText>(Resource.Id.textInputEditText1);
@@ -49,6 +50,9 @@ namespace Buptis.Login
             this.Window.SetSoftInputMode(SoftInput.StateHidden);
             inputmail.Text = "mesut@intellifi.tech";
             Sifreinput.Text = "qwer1234";
+
+
+
         }
         private void GirisYap_Click(object sender, EventArgs e)
         {
@@ -139,6 +143,24 @@ namespace Buptis.Login
         {
             StartActivity(typeof(KayitOlBaseActivity));
             Finish();
+        }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.textInputEditText1,
+                Resource.Id.textInputEditText2,
+                Resource.Id.button1,
+                Resource.Id.textView2,
+                Resource.Id.button2,
+                Resource.Id.button3,
+
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView3
+            }, this);
         }
 
         public class LoginRoot

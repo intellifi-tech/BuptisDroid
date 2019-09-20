@@ -13,6 +13,7 @@ using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Xamarin.RangeSlider;
 
@@ -45,8 +46,7 @@ namespace Buptis.PrivateProfile
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View view = inflater.Inflate(Resource.Layout.PrivateProfileFiltreleActivity, container, false);
-            //Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
-            //Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Top);
+            SetFonts(view);
             view.FindViewById<LinearLayout>(Resource.Id.rootView).ClipToOutline = true;
             Kaydet = view.FindViewById<Button>(Resource.Id.button1);
             Geri = view.FindViewById<ImageButton>(Resource.Id.ımageButton1);
@@ -211,6 +211,27 @@ namespace Buptis.PrivateProfile
         {
             
         }
+
+        void SetFonts(View BaseView)
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.textView2,
+                Resource.Id.button1,
+                Resource.Id.button2,
+                Resource.Id.button3,
+                Resource.Id.textView3,
+                Resource.Id.textView4,
+                Resource.Id.textView5,
+                Resource.Id.textView6
+
+            }, this.Activity,true, BaseView);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.button4
+            }, this.Activity, true, BaseView);
+        }
+
 
         /*System.InvalidCastException: Unable to convert instance of type 'Android.Support.V7.Widget.AppCompatEditText' to type 'Android.Support.Design.Widget.TextInputEditText'.
 */

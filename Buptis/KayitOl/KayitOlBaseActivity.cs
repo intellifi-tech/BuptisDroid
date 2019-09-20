@@ -37,7 +37,7 @@ namespace Buptis.KayitOl
             base.OnCreate(savedInstanceState);
             DinamikStatusBarColor1.SetFullScreen(this);
             SetContentView(Resource.Layout.KayitOl);
-           // FindViewById<RelativeLayout>(Resource.Id.rootView).SetPadding(0, 0, 0, DinamikStatusBarColor1.getSoftButtonsBarSizePort(this));
+            SetFonts();
             girisyap = FindViewById<TextView>(Resource.Id.textView2);
             inputmail = FindViewById<EditText>(Resource.Id.textInputEditText1);
             girisyap.Click += Girisyap_Click;
@@ -198,6 +198,24 @@ namespace Buptis.KayitOl
             StartActivity(typeof(LoginBaseActivity));
             Finish();
         }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.editad,
+                Resource.Id.editsoyad,
+                Resource.Id.textInputEditText1,
+                Resource.Id.textInputEditText2,
+                Resource.Id.textInputEditText3,
+                Resource.Id.button1,
+
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView2,
+            }, this);
+        }
+
 
         public class KayitIcinRoot
         {

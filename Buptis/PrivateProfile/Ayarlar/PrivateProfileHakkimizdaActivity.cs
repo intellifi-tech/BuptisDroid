@@ -25,6 +25,7 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileHakkimizda);
+            SetFonts();
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
             profileback = FindViewById<ImageButton>(Resource.Id.ımageButton1);
@@ -63,5 +64,20 @@ namespace Buptis.PrivateProfile.Ayarlar
         {
             Finish();
         }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.veriyontxt,
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.textView3,
+                Resource.Id.textView5,
+            }, this);
+        }
+
     }
 }

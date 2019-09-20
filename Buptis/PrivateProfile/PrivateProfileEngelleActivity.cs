@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PublicProfile;
@@ -41,6 +42,7 @@ namespace Buptis.PrivateProfile
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileEngelle);
+            SetFonts();
             profileback = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             profileback.Click += Profileback_Click;
             RadioButtons[0] = FindViewById<RadioButton>(Resource.Id.radioButton1);
@@ -116,6 +118,20 @@ namespace Buptis.PrivateProfile
         private void Profileback_Click(object sender, EventArgs e)
         {
             this.Finish();
+        }
+
+        void SetFonts()
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.radioButton1,
+                Resource.Id.radioButton2,
+                Resource.Id.radioButton3,
+                Resource.Id.radioButton4,
+                Resource.Id.radioButton5,
+                Resource.Id.radioButton6,
+                Resource.Id.button1,
+                Resource.Id.textView1
+            }, this);
         }
 
         public class BlockedUser

@@ -40,6 +40,7 @@
 				android:id="@+id/ımageButton2" />
 		</RelativeLayout>
 		<TextView
+			android:maxLines="1"
 			android:layout_marginLeft="20dp"
 			android:layout_marginRight="20dp"
 			android:textSize="45dp"
@@ -51,6 +52,8 @@
 			android:layout_height="wrap_content"
 			android:id="@+id/textView1" />
 		<TextView
+			android:autoSizeTextType="uniform"
+			android:maxLines="1"
 			android:layout_marginLeft="20dp"
 			android:layout_marginRight="20dp"
 			android:textSize="45dp"
@@ -60,7 +63,7 @@
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:id="@+id/textView1" />
+			android:id="@+id/textView2" />
 		<LinearLayout
 			android:layout_marginTop="10dp"
 			android:layout_marginLeft="20dp"
