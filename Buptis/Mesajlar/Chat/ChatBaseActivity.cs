@@ -59,13 +59,19 @@ namespace Buptis.Mesajlar.Chat
             GonderButton = FindViewById<ImageButton>(Resource.Id.button1);
             GonderButton.Click += GonderButton_Click;
             MesajEdittext = FindViewById<EditText>(Resource.Id.editText1);
-            MesajEdittext.OnFocusChangeListener=this;
+            MesajEdittext.Click += MesajEdittext_Click;
+            MesajEdittext.OnFocusChangeListener = this;
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             Emoji = FindViewById<ImageButton>(Resource.Id.ımageButton3);
             
             Geri.Click += Geri_Click;
             Emoji.Click += Emoji_Click;
             MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+        }
+
+        private void MesajEdittext_Click(object sender, EventArgs e)
+        {
+            BekletVeSonaGetir();
         }
 
         private void UserPhoto_Click(object sender, EventArgs e)
@@ -348,6 +354,9 @@ namespace Buptis.Mesajlar.Chat
         int IsimIcinTextId = 9001;
         void EtietleriYerlestir()
         {
+            var normaltypeface = Typeface.CreateFromAsset(this.Assets, "Fonts/muliRegular.ttf");
+            TextHazneLinear.RemoveAllViews();
+            var ElliDP = DPX.dpToPx(this, 50);
             var PaddingSize = DPX.dpToPx(this, 8);
             for (int i = 0; i < HazirMesaklarDTO1.Count; i++)
             {
@@ -356,14 +365,14 @@ namespace Buptis.Mesajlar.Chat
                 EtiketLabel.SetTextColor(Color.White);
                 EtiketLabel.TextAlignment = TextAlignment.Center;
                 EtiketLabel.Gravity = GravityFlags.Center | GravityFlags.CenterHorizontal | GravityFlags.CenterVertical;
-                EtiketLabel.TextSize = 10f;
-                var param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
-                    ViewGroup.LayoutParams.WrapContent);
+                EtiketLabel.TextSize = 14f;
+                var param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,ViewGroup.LayoutParams.WrapContent);
                 param.RightMargin = 10;
                 EtiketLabel.SetPadding(PaddingSize, PaddingSize, PaddingSize, PaddingSize);
                 EtiketLabel.SetBackgroundResource(Resource.Drawable.custombuton);
                 EtiketLabel.Tag = i;
                 EtiketLabel.Click += EtiketLabel_Click;
+                EtiketLabel.SetTypeface(normaltypeface, TypefaceStyle.Normal);
                 TextHazneLinear.AddView(EtiketLabel, param);
             }
         }
@@ -382,7 +391,7 @@ namespace Buptis.Mesajlar.Chat
         {
             BekletVeSonaGetir();
         }
-       void BekletVeSonaGetir()
+        void BekletVeSonaGetir()
         {
             Task.Run(async delegate () {
                await Task.Delay(700);

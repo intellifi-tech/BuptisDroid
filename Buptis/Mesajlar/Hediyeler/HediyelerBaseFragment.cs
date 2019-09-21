@@ -15,6 +15,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.Mesajlar.Chat;
 using Buptis.WebServicee;
@@ -52,14 +53,14 @@ namespace Buptis.Mesajlar.Hediyeler
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View view = inflater.Inflate(Resource.Layout.PrivateProfileGaleriVeFotografEkle, container, false);
+            SetFonts(view);
             view.FindViewById<RelativeLayout>(Resource.Id.rootView).ClipToOutline = true;
             Kaydet = view.FindViewById<Button>(Resource.Id.button4);
             Geri = view.FindViewById<ImageButton>(Resource.Id.ımageButton1);
             mRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView1);
             view.FindViewById<TextView>(Resource.Id.textView1).Text = "Hediye Gönder";
             Geri.Click += Geri_Click;
-            Kaydet.SetBackgroundColor(Color.Transparent);
-            Kaydet.Text = "";
+            Kaydet.Visibility = ViewStates.Gone;
             FillDataModel();
             return view;
         }
@@ -174,6 +175,12 @@ namespace Buptis.Mesajlar.Hediyeler
             });
         }
 
+        void SetFonts(View BaseView)
+        {
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+            }, this.Activity,true, BaseView);
+        }
         public class EnSonLokasyonCategoriler
         {
             public List<int> catIds { get; set; }

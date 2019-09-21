@@ -79,7 +79,7 @@
 		android:minWidth="25px"
 		android:minHeight="25px"
 		android:layout_width="match_parent"
-		android:layout_height="49.0dp"
+		android:layout_height="50dp"
 		android:layout_above="@+id/relativeLayout1"
 		android:id="@+id/linearLayout3" >
 		<HorizontalScrollView
