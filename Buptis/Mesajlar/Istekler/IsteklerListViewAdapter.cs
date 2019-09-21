@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -22,12 +23,14 @@ namespace Buptis.Mesajlar.Istekler
         private Context mContext;
         private int mRowLayout;
         private List<IsteklerListViewDataModel> mDepartmanlar;
-
+        Typeface normall, boldd;
         public IsteklerListViewAdapter(Context context, int rowLayout, List<IsteklerListViewDataModel> friends)
         {
             mContext = context;
             mRowLayout = rowLayout;
             mDepartmanlar = friends;
+            boldd = Typeface.CreateFromAsset(context.Assets, "Fonts/muliBold.ttf");
+            normall = Typeface.CreateFromAsset(context.Assets, "Fonts/muliRegular.ttf");
         }
 
         public override int ViewTypeCount
@@ -103,6 +106,11 @@ namespace Buptis.Mesajlar.Istekler
                 {
                     holder.OkunmamisBadge.Visibility = ViewStates.Gone;
                 }
+
+
+                holder.KisiAdi.SetTypeface(boldd, TypefaceStyle.Normal);
+                holder.EnSonMesaj.SetTypeface(normall, TypefaceStyle.Normal);
+                holder.OkunmamisBadge.SetTypeface(normall, TypefaceStyle.Normal);
 
                 GetUserImage(item.receiverId.ToString(), holder.ProfilFoto);
 

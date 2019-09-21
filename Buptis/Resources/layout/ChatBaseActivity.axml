@@ -80,7 +80,7 @@
 		android:minHeight="25px"
 		android:layout_width="match_parent"
 		android:layout_height="49.0dp"
-		android:layout_above="@+id/linearLayout4"
+		android:layout_above="@+id/relativeLayout1"
 		android:id="@+id/linearLayout3" >
 		<HorizontalScrollView
 			android:minWidth="25px"
@@ -97,53 +97,60 @@
 				android:id="@+id/linearLayout5" />
 		</HorizontalScrollView>
 	</LinearLayout>
-	<LinearLayout
-		android:layout_alignParentBottom="true"
-		android:background="@drawable/customwhitebackground2"
-		android:orientation="vertical"
-		android:minWidth="25px"
-		android:minHeight="100dp"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:id="@+id/linearLayout4" >
-		<EditText
-			android:textColor="#000"
-			android:layout_marginTop="10dp"
-			android:textColorHint="#000"
-			android:hint="Bir mesaj yazın..."
-			android:paddingLeft="15dp"
-			android:paddingRight="15dp"
-			android:background="@null"
-			android:inputType="textMultiLine"
-			android:layout_width="match_parent"
-			android:minHeight="50dp"
-			android:maxHeight="200dp"
-			android:layout_height="wrap_content"
-			android:id="@+id/editText1" />
-		<RelativeLayout
+	<RelativeLayout
+			android:layout_alignParentBottom="true"
+			android:background="@drawable/customwhitebackground2"
 			android:minWidth="25px"
 			android:minHeight="25px"
 			android:layout_width="match_parent"
-			android:layout_height="49.0dp"
-			android:id="@+id/relativeLayout1">
-			<Button
-				android:textSize="17sp"
+			android:layout_height="wrap_content"
+			android:id="@+id/relativeLayout1"
+			android:layout_marginTop="4.5dp">
+		<ImageButton
+			android:paddingRight="20dp"
+			android:tint="#ED0041"
+			android:layout_marginRight="0.0dp"
+			android:scaleType="centerInside"
+			android:src="@mipmap/send_icon2"
+			android:textSize="17sp"
+			android:background="@null"
+			android:layout_alignParentRight="true"
+			android:layout_width="50dp"
+			android:layout_height="55.0dp"
+			android:id="@+id/button1" />
+		<ImageButton
+			android:tint="#ED0041"
+			android:paddingLeft="20dp"
+			android:background="@null"
+			android:scaleType="centerInside"
+			android:src="@mipmap/gift"
+			android:layout_width="50dp"
+			android:layout_height="55.0dp"
+			android:layout_alignParentLeft="true"
+			android:id="@+id/ımageButton3" />
+			<View
+				android:layout_marginLeft="10dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginBottom="8dp"
+				android:background="#aaa"
+				android:layout_width="0.5dp"
+				android:layout_height="40dp"
+				android:layout_toRightOf="@id/ımageButton3"
+				android:id="@+id/view1" />
+			<EditText
+				android:textColor="#000"
+				android:textColorHint="#000"
+				android:hint="Bir mesaj yazın..."
+				android:paddingLeft="15dp"
+				android:paddingRight="15dp"
 				android:background="@null"
-				android:layout_alignParentRight="true"
-				android:text="Gönder"
+				android:inputType="textMultiLine"
 				android:layout_width="wrap_content"
+				android:minHeight="50dp"
+				android:maxHeight="200dp"
 				android:layout_height="wrap_content"
-				android:id="@+id/button1" />
-			<ImageButton
-				android:tint="#ED0041"
-				android:layout_marginLeft="15dp"
-				android:background="@null"
-				android:scaleType="centerInside"
-				android:src="@mipmap/gift"
-				android:layout_width="25dp"
-				android:layout_height="wrap_content"
-				android:layout_alignParentLeft="true"
-				android:id="@+id/ımageButton3" />
+				android:id="@+id/editText1"
+				android:layout_toRightOf="@id/view1"
+				android:layout_toLeftOf="@id/button1"/>
 		</RelativeLayout>
-	</LinearLayout>
 </RelativeLayout>

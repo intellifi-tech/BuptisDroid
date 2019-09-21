@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -13,6 +14,7 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.GenericUI;
 using Buptis.Mesajlar.Hediyeler;
 using Buptis.PublicProfile;
 using Buptis.WebServicee;
@@ -28,9 +30,9 @@ namespace Buptis.Mesajlar.Chat
 
     [Activity(Label = "Buptis"/*, MainLauncher = true*/)]
 
-    public class ChatBaseActivity : Android.Support.V7.App.AppCompatActivity
+    public class ChatBaseActivity : Android.Support.V7.App.AppCompatActivity, View.IOnFocusChangeListener
     {
-        LinearLayout TextHazneLinear;
+        LinearLayout TextHazneLinear,HazirMesalScrollBaseHazne;
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         ChatRecyclerViewAdapter mViewAdapter;
@@ -39,7 +41,7 @@ namespace Buptis.Mesajlar.Chat
         HorizontalScrollView HazirMesajScroll;
         TextView UserName;
         ImageViewAsync UserPhoto;
-        Button GonderButton;
+        ImageButton GonderButton;
         EditText MesajEdittext;
         MEMBER_DATA MeDTO;
         ImageButton Geri,Emoji;
@@ -50,14 +52,17 @@ namespace Buptis.Mesajlar.Chat
             TextHazneLinear = FindViewById<LinearLayout>(Resource.Id.linearLayout5);
             mRecyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView1);
             HazirMesajScroll = FindViewById<HorizontalScrollView>(Resource.Id.horizontalScrollView1);
+            HazirMesalScrollBaseHazne = FindViewById<LinearLayout>(Resource.Id.linearLayout3);
             UserName = FindViewById<TextView>(Resource.Id.textView1);
             UserPhoto = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
             UserPhoto.Click += UserPhoto_Click;
-            GonderButton = FindViewById<Button>(Resource.Id.button1);
+            GonderButton = FindViewById<ImageButton>(Resource.Id.button1);
             GonderButton.Click += GonderButton_Click;
             MesajEdittext = FindViewById<EditText>(Resource.Id.editText1);
+            MesajEdittext.OnFocusChangeListener=this;
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             Emoji = FindViewById<ImageButton>(Resource.Id.ımageButton3);
+            
             Geri.Click += Geri_Click;
             Emoji.Click += Emoji_Click;
             MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
@@ -118,6 +123,11 @@ namespace Buptis.Mesajlar.Chat
                 var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
                 MesajEdittext.Text = "";
                 SaveKeys(Icerikk);
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
+                return;
             }
         }
       
@@ -198,7 +208,9 @@ namespace Buptis.Mesajlar.Chat
                         {
                             if (Durum) //İçerik  Değişmişse Uygula
                             {
-                                mViewAdapter = new ChatRecyclerViewAdapter(chatList, this);
+                                var boldd = Typeface.CreateFromAsset(this.Assets, "Fonts/muliBold.ttf");
+                                var normall = Typeface.CreateFromAsset(this.Assets, "Fonts/muliRegular.ttf");
+                                mViewAdapter = new ChatRecyclerViewAdapter(chatList, this, normall,boldd);
                                 mRecyclerView.HasFixedSize = true;
                                 mLayoutManager = new LinearLayoutManager(this);
                                 mRecyclerView.SetLayoutManager(mLayoutManager);
@@ -302,21 +314,21 @@ namespace Buptis.Mesajlar.Chat
                     if (HazirMesaklarDTO1.Count > 0)
                     {
                         EtietleriYerlestir();
-                        HazirMesajScroll.Visibility = ViewStates.Visible;
+                        HazirMesalScrollBaseHazne.Visibility = ViewStates.Visible;
                     }
                     else
                     {
-                        HazirMesajScroll.Visibility = ViewStates.Gone;
+                        HazirMesalScrollBaseHazne.Visibility = ViewStates.Gone;
                     }
                 }
                 else
                 {
-                    HazirMesajScroll.Visibility = ViewStates.Gone;
+                    HazirMesalScrollBaseHazne.Visibility = ViewStates.Gone;
                 }
             }
             else
             {
-                HazirMesajScroll.Visibility = ViewStates.Gone;
+                HazirMesalScrollBaseHazne.Visibility = ViewStates.Gone;
             }
         }
 
@@ -364,6 +376,20 @@ namespace Buptis.Mesajlar.Chat
             {
                 MesajGonderGenericMetod(HazirMesaklarDTO1[Indexx].name);
             }
+        }
+
+        public void OnFocusChange(View v, bool hasFocus)
+        {
+            BekletVeSonaGetir();
+        }
+       void BekletVeSonaGetir()
+        {
+            Task.Run(async delegate () {
+               await Task.Delay(700);
+                RunOnUiThread(delegate () {
+                    mRecyclerView.ScrollToPosition(chatList.Count - 1);
+                });
+            });
         }
 
         public class EnSonLokasyonCategoriler

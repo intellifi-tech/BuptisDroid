@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -22,12 +23,14 @@ namespace Buptis.Mesajlar.Favoriler
         private Context mContext;
         private int mRowLayout;
         private List<SonFavorilerListViewDataModel> mDepartmanlar;
-
+        Typeface normall, boldd;
         public FavorilerListViewAdapter(Context context, int rowLayout, List<SonFavorilerListViewDataModel> friends)
         {
             mContext = context;
             mRowLayout = rowLayout;
             mDepartmanlar = friends;
+            boldd = Typeface.CreateFromAsset(context.Assets, "Fonts/muliBold.ttf");
+            normall = Typeface.CreateFromAsset(context.Assets, "Fonts/muliRegular.ttf");
         }
 
         public override int ViewTypeCount
@@ -72,7 +75,7 @@ namespace Buptis.Mesajlar.Favoriler
             {
                 holder = row.Tag as ListeHolder;
             }
-            else 
+            else //(row2 == null) **
             {
                 holder = new ListeHolder();
                 row = LayoutInflater.From(mContext).Inflate(mRowLayout, parent, false);
@@ -80,13 +83,43 @@ namespace Buptis.Mesajlar.Favoriler
                 holder.KisiAdi = row.FindViewById<TextView>(Resource.Id.textView1);
                 holder.EnSonMesaj = row.FindViewById<TextView>(Resource.Id.textView2);
                 holder.SonMesajSaati = row.FindViewById<TextView>(Resource.Id.textView3);
-                holder.OkunmamisBadge = row.FindViewById<TextView>(Resource.Id.textView4);
+                holder.OkunmamisBadge = row.FindViewById<TextView>(Resource.Id.textView5);
                 holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
-                GetUserImage(item.userId.ToString(), holder.ProfilFoto);
+                holder.KisiAdi.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
+
+                var Boll = item.lastChatText.Split('#');
+                if (Boll.Length <= 1)
+                {
+                    holder.EnSonMesaj.Text = item.lastChatText;
+                }
+                else
+                {
+                    holder.EnSonMesaj.Text = "Hediye";
+                }
+
+                if (Convert.ToInt32(item.unreadMessageCount) > 0)
+                {
+                    holder.OkunmamisBadge.Text = item.unreadMessageCount.ToString();
+                    holder.OkunmamisBadge.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    holder.OkunmamisBadge.Visibility = ViewStates.Gone;
+                }
+
+
+                holder.KisiAdi.SetTypeface(boldd, TypefaceStyle.Normal);
+                holder.EnSonMesaj.SetTypeface(normall, TypefaceStyle.Normal);
+                holder.OkunmamisBadge.SetTypeface(normall, TypefaceStyle.Normal);
+
+                GetUserImage(item.receiverId.ToString(), holder.ProfilFoto);
+
+
                 row.Tag = holder;
             }
             return row;
         }
+
         void GetUserImage(string USERID, ImageViewAsync UserImage)
         {
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
@@ -95,7 +128,8 @@ namespace Buptis.Mesajlar.Favoriler
                 var Donus = webService.OkuGetir("images/user/" + USERID);
                 if (Donus != null)
                 {
-                    ((Activity)mContext).RunOnUiThread(delegate () {
+                    ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
+
                         var Images = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UsaerImageDTO>>(Donus.ToString());
                         if (Images.Count > 0)
                         {

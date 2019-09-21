@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -23,12 +24,14 @@ namespace Buptis.Mesajlar.Mesajlarr
         private Context mContext;
         private int mRowLayout;
         private List<SonMesajlarListViewDataModel> mDepartmanlar;
-        
+        Typeface normall, boldd;
         public MesajlarListViewAdapter(Context context, int rowLayout, List<SonMesajlarListViewDataModel> friends)
         {
             mContext = context;
             mRowLayout = rowLayout;
             mDepartmanlar = friends;
+            boldd = Typeface.CreateFromAsset(context.Assets, "Fonts/muliBold.ttf");
+            normall = Typeface.CreateFromAsset(context.Assets, "Fonts/muliRegular.ttf");
         }
 
         public override int ViewTypeCount
@@ -108,6 +111,10 @@ namespace Buptis.Mesajlar.Mesajlarr
                 
                 GetUserImage(item.receiverId.ToString(), holder.ProfilFoto);
 
+
+                holder.KisiAdi.SetTypeface(boldd, TypefaceStyle.Normal);
+                holder.EnSonMesaj.SetTypeface(normall, TypefaceStyle.Normal);
+                holder.OkunmamisBadge.SetTypeface(normall, TypefaceStyle.Normal);
 
                 row.Tag = holder;
             }

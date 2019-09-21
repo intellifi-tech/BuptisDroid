@@ -38,10 +38,13 @@ namespace Buptis.Mesajlar.Chat
         AppCompatActivity BaseActivity;
         public event EventHandler<int> ItemClick;
         MEMBER_DATA ME;
-        public ChatRecyclerViewAdapter(List<ChatRecyclerViewDataModel> GelenData, AppCompatActivity GelenContex)
+        Typeface normall, boldd;
+        public ChatRecyclerViewAdapter(List<ChatRecyclerViewDataModel> GelenData, AppCompatActivity GelenContex, Typeface normall, Typeface boldd)
         {
             mData = GelenData;
             BaseActivity = GelenContex;
+            this.normall = normall;
+            this.boldd = boldd;
             ME = DataBase.MEMBER_DATA_GETIR()[0];
         }
 
@@ -136,8 +139,8 @@ namespace Buptis.Mesajlar.Chat
             {
                 v = inflater.Inflate(Resource.Layout.GidenMesajBalon, parent, false);
             }
-          
 
+            v.FindViewById<TextView>(Resource.Id.textView1).SetTypeface(normall, TypefaceStyle.Normal);
             return new ChatRecyclerViewHolder(v, OnClick);
         }
 
