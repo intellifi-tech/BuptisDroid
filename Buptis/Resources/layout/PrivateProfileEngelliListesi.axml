@@ -33,7 +33,6 @@
 				android:id="@+id/ımageButton1" />
 			<TextView
 				android:textSize="23dp"
-				android:gravity="center"
 				android:textStyle="bold"
 				android:textColor="#fff"
 				android:text="Engelliler"

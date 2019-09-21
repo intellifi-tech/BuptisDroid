@@ -258,13 +258,13 @@ namespace Buptis.PublicProfile
                 }
                 else
                 {
-                    return "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
+                    return "Henüz bilgi yok.";
                 }
                 
             }
             else
             {
-                return "Diğer kullanıcıların sizi tanıyabilmesi için lütfen profil sorularını yanıtlayın.";
+                return "Henüz bilgi yok.";
             }
 
         }
@@ -304,7 +304,20 @@ namespace Buptis.PublicProfile
 
             })).Start();
         }
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.textView3,
+               Resource.Id.textView5,
+               Resource.Id.engelle,
+            }, this);
 
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView,
+                Resource.Id.textView2,
+                Resource.Id.textView4,
+            }, this);
+        }
         public class FotografPage : Android.Support.V4.App.Fragment
         {
             ImageViewAsync Fotograf;

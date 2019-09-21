@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -23,10 +24,10 @@ namespace Buptis.GenericUI
                     var view = ((Activity)context).LayoutInflater.Inflate(Resource.Layout.CustommAlert, null);
                     var txt = view.FindViewById<TextView>(Resource.Id.textView2);
                     txt.Text = mesaj;
-
+                    txt.SetTypeface(Typeface.CreateFromAsset(context.Assets, "Fonts/muliRegular.ttf"), TypefaceStyle.Normal);
                     var toast = new Toast(context)
                     {
-                        Duration = ToastLength.Long,
+                        Duration = ToastLength.Short,
                         View = view
                     };
                     toast.SetGravity(GravityFlags.Top | GravityFlags.Top, 0, 0);

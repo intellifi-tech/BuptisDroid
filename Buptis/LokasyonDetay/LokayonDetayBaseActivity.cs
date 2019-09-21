@@ -17,6 +17,7 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.LokasyondakiKisiler;
 using Buptis.Lokasyonlar;
+using Buptis.Mesajlar;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
 using Org.Json;
@@ -26,7 +27,7 @@ namespace Buptis.LokasyonDetay
     [Activity(Label = "Buptis")]
     public class LokayonDetayBaseActivity : Android.Support.V7.App.AppCompatActivity, IOnMapReadyCallback
     {
-        ImageButton navigationmap, locationPhone,CheckInButton,WaitingButton;
+        ImageButton navigationmap, locationPhone,CheckInButton,WaitingButton,MesajlarButton, GeriButton;
         Button ratingButton,MekandakiKisiler;
         private GoogleMap _map;
         private MapFragment _mapFragment;
@@ -46,6 +47,10 @@ namespace Buptis.LokasyonDetay
             CheckInButton = FindViewById<ImageButton>(Resource.Id.checkin);
             WaitingButton = FindViewById<ImageButton>(Resource.Id.checkinwait);
             LokasyonNamee = FindViewById<TextView>(Resource.Id.textView1);
+            MesajlarButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            GeriButton.Click += GeriButton_Click;
+            MesajlarButton.Click += MesajlarButton_Click;
             MekandakiKisiler.Click += MekandakiKisiler_Click;
             navigationmap.Click += Navigationmap_Click;
             locationPhone.Click += LocationPhone_Click;
@@ -54,6 +59,16 @@ namespace Buptis.LokasyonDetay
             LokasyonNamee.Text = SecilenLokasyonn.LokName;
             CheckInButton.Click += CheckInButton_Click;
             WaitingButton.Click += WaitingButton_Click;
+        }
+
+        private void GeriButton_Click(object sender, EventArgs e)
+        {
+            this.Finish();
+        }
+
+        private void MesajlarButton_Click(object sender, EventArgs e)
+        {
+            this.StartActivity(typeof(MesajlarBaseActivity));
         }
 
         private void WaitingButton_Click(object sender, EventArgs e)
@@ -100,7 +115,7 @@ namespace Buptis.LokasyonDetay
         private void MekandakiKisiler_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(LokasyondakiKisilerBaseActivity));
-            Finish();
+            
         }
 
         private void RatingButton_Click(object sender, EventArgs e)

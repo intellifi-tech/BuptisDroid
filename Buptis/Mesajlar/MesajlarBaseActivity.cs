@@ -17,7 +17,7 @@ using Buptis.Mesajlar.Mesajlarr;
 
 namespace Buptis.Mesajlar
 {
-    [Activity(Label = "MesajlarBaseActivity")]
+    [Activity(Label = "Buptis")]
     public class MesajlarBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalr
@@ -25,7 +25,7 @@ namespace Buptis.Mesajlar
         FrameLayout IcerikHazesi;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         Button MesajlarButton, IsteklerButton, FavorilerButton;
-        ImageButton MesajButton;
+        ImageButton Geri;
         ImageButton ProfilButton;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
@@ -37,10 +37,17 @@ namespace Buptis.Mesajlar
             MesajlarButton = FindViewById<Button>(Resource.Id.button1);
             IsteklerButton = FindViewById<Button>(Resource.Id.button2);
             FavorilerButton = FindViewById<Button>(Resource.Id.button3);
+            Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            Geri.Click += Geri_Click;
             MesajlarButton.Click += MesajlarButton_Click;
             IsteklerButton.Click += IsteklerButton_Click;
             FavorilerButton.Click += FavorilerButton_Click;
             ParcaYerlestir(0);
+        }
+
+        private void Geri_Click(object sender, EventArgs e)
+        {
+            this.Finish();
         }
 
         private void FavorilerButton_Click(object sender, EventArgs e)

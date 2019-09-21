@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -22,19 +23,28 @@ namespace Buptis.PrivateProfile.Ayarlar
     {
         #region Tanımlamalar
         ImageButton profileback;
-        EditText Konu, Icerik;
+        EditText  Icerik;
         Button Gonder;
+        Spinner KonuSpinner;
+        string[] KonularDizi = new string[] { "Bir Konu Belirtin", "Şikayet", "Öneri", "Teknik Sorun", "Diğer" };
+        Typeface normall, boldd;
+        KonuSpinnerAdapter mAdapter;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.PrivateProfileBizeYazin);
+            SetFonts();
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
             profileback = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             Gonder = FindViewById<Button>(Resource.Id.button1);
-            Konu = FindViewById<EditText>(Resource.Id.editText1);
             Icerik = FindViewById<EditText>(Resource.Id.editText2);
+            KonuSpinner = FindViewById<Spinner>(Resource.Id.spinner1);
+            boldd = Typeface.CreateFromAsset(this.Assets, "Fonts/muliBold.ttf");
+            normall = Typeface.CreateFromAsset(this.Assets, "Fonts/muliRegular.ttf");
+            mAdapter = new KonuSpinnerAdapter(this, KonularDizi.ToList(), normall, boldd);
+            KonuSpinner.Adapter = mAdapter;
             Gonder.Click += Gonder_Click;
             profileback.Click += Profileback_Click;
         }
@@ -47,7 +57,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                 WebService webService = new WebService();
                 ContactDTO contactDTO = new ContactDTO() {
                     text = Icerik.Text,
-                    topic = Konu.Text,
+                    topic = KonularDizi[KonuSpinner.SelectedItemPosition],
                     userId = Me.id
                 };
                 string jsonString = JsonConvert.SerializeObject(contactDTO);
@@ -55,7 +65,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                 if (Donus != "Hata")
                 {
                     AlertHelper.AlertGoster("Destek talebiniz iletildi. Teşekkürler...", this);
-                    Konu.Text = "";
+                    KonuSpinner.SetSelection(0);
                     Icerik.Text = "";
                     return;
                 }
@@ -73,7 +83,7 @@ namespace Buptis.PrivateProfile.Ayarlar
         }
         bool BosVarmi()
         {
-            if (string.IsNullOrEmpty(Konu.Text.Trim()))
+            if (KonuSpinner.SelectedItemPosition == 0)
             {
                 AlertHelper.AlertGoster("Lütfen konuyu belirtin..", this);
                 return false;
@@ -89,6 +99,20 @@ namespace Buptis.PrivateProfile.Ayarlar
             }
         }
 
+        void SetFonts()
+        {
+            FontHelper.SetFont_Regular(new int[] {
+                Resource.Id.editText2
+            }, this);
+
+            FontHelper.SetFont_Bold(new int[] {
+                Resource.Id.textView1,
+                Resource.Id.textView2,
+                Resource.Id.textView4,
+                Resource.Id.button1,
+            }, this);
+        }
+
         public class ContactDTO
         {
             public string createdDate { get; set; }
@@ -98,5 +122,48 @@ namespace Buptis.PrivateProfile.Ayarlar
             public string topic { get; set; }
             public int userId { get; set; }
         }
+
+        public class KonuSpinnerAdapter : BaseAdapter<string>
+        {
+            readonly LayoutInflater inflater;
+            List<string> itemList;
+            Typeface normall, boldd;
+            public KonuSpinnerAdapter(Context context, List<string> items, Typeface normall, Typeface boldd)
+            {
+                inflater = LayoutInflater.FromContext(context);
+                itemList = items;
+                this.boldd = boldd;
+                this.normall = normall;
+            }
+
+            public override string this[int index]
+            {
+                get { return itemList[index]; }
+            }
+
+            public override int Count
+            {
+                get { return itemList.Count; }
+            }
+
+            public override long GetItemId(int position)
+            {
+                return position;
+            }
+
+            public override View GetView(int position, View convertView, ViewGroup parent)
+            {
+                //Switch your layout as you like it
+                View view = convertView ?? inflater.Inflate(Resource.Layout.SpinnerCustomItem, parent, false);
+
+                var item = itemList[position];
+
+                var Textvieww = view.FindViewById<TextView>(Resource.Id.textvieww);
+                Textvieww.Text = item;
+                Textvieww.SetTypeface(normall, TypefaceStyle.Normal);
+                return view;
+            }
+        }
+
     }
 }
