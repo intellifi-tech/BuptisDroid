@@ -39,12 +39,13 @@ namespace Buptis.Mesajlar.Chat
         List<ChatRecyclerViewDataModel> chatList = new List<ChatRecyclerViewDataModel>();
         List<HazirMesaklarDTO> HazirMesaklarDTO1 = new List<HazirMesaklarDTO>();
         HorizontalScrollView HazirMesajScroll;
+        List<string> FollowListID = new List<string>();
         TextView UserName;
         ImageViewAsync UserPhoto;
         ImageButton GonderButton;
         EditText MesajEdittext;
         MEMBER_DATA MeDTO;
-        ImageButton Geri,Emoji;
+        ImageButton Geri,Emoji,Favori;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -63,10 +64,17 @@ namespace Buptis.Mesajlar.Chat
             MesajEdittext.OnFocusChangeListener = this;
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             Emoji = FindViewById<ImageButton>(Resource.Id.ımageButton3);
-            
+            Favori = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            Favori.Click += Favori_Click;
             Geri.Click += Geri_Click;
             Emoji.Click += Emoji_Click;
             MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+            Favori.Visibility = ViewStates.Invisible;
+        }
+
+        private void Favori_Click(object sender, EventArgs e)
+        {
+            FavoriIslemleri();
         }
 
         private void MesajEdittext_Click(object sender, EventArgs e)
@@ -86,6 +94,7 @@ namespace Buptis.Mesajlar.Chat
             GetUserInfo();
             KategoriyeGoreHazirMesajlariGetir();
             MessageListenerr();
+            FavorileriCagir();
         }
 
         #region Mesaj Gönder Dinle
@@ -414,6 +423,76 @@ namespace Buptis.Mesajlar.Chat
         }
 
         #endregion
+
+        #region Favori Islemleri
+        void FavorileriCagir()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
+                if (Donus4 != null)
+                {
+                    var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                    if (!string.IsNullOrEmpty(JSONStringg))
+                    {
+                        FollowListID = JSONStringg.Split(',').ToList();
+                    }
+                    var IsFollow = FollowListID.FindAll(item => item == MesajlarIcinSecilenKullanici.Kullanici.id.ToString());
+                    if (IsFollow.Count > 0)
+                    {
+                        RunOnUiThread(delegate ()
+                        {
+                            Favori.Visibility = ViewStates.Invisible;
+                        });
+                        
+                    }
+                    else
+                    {
+                        RunOnUiThread(delegate ()
+                        {
+                            Favori.Visibility = ViewStates.Visible;
+                        });
+                        
+                    }
+                }
+                else
+                {
+                    RunOnUiThread(delegate ()
+                    {
+                        Favori.Visibility = ViewStates.Invisible;
+                    });
+                    
+                }
+            })).Start();
+
+        }
+
+        void FavoriIslemleri()
+        {
+            
+            WebService webService = new WebService();
+            FavoriDTO favoriDTO = new FavoriDTO()
+            {
+                userId = MeDTO.id,
+                favUserId = SecilenKisi.SecilenKisiDTO.id
+            };
+            string jsonString = JsonConvert.SerializeObject(favoriDTO);
+            var Donus = webService.ServisIslem("users/fav", jsonString);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster("Favorilere Ekledi.", this);
+                FavorileriCagir();
+                return;
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir Sorun Oluştu.", this);
+                return;
+            }
+        }
+
+        #endregion
         public class UsaerImageDTO
         {
             public string createdDate { get; set; }
@@ -432,6 +511,12 @@ namespace Buptis.Mesajlar.Chat
             public bool read { get; set; }
             public int receiverId { get; set; }
             public string text { get; set; }
+            public int userId { get; set; }
+        }
+
+        public class FavoriDTO
+        {
+            public int favUserId { get; set; }
             public int userId { get; set; }
         }
     }

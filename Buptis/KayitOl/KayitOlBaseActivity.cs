@@ -52,11 +52,11 @@ namespace Buptis.KayitOl
             imm.HideSoftInputFromInputMethod(inputmail.WindowToken, 0);
             this.Window.SetSoftInputMode(SoftInput.StateHidden);
 
-            AdText.Text = "Mesut";
-            SoyadText.Text = "Polat";
-            inputmail.Text = "mesut@intellifi.tech";
-            SifreText.Text = "qwer1234";
-            SifreTekrarText.Text = "qwer1234";
+            //AdText.Text = "Mesut";
+            //SoyadText.Text = "Polat";
+            //inputmail.Text = "mesut@intellifi.tech";
+            //SifreText.Text = "qwer1234";
+            //SifreTekrarText.Text = "qwer1234";
             
         }
 

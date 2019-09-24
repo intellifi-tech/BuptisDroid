@@ -11,27 +11,31 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericUI;
 using Buptis.WebServicee;
 using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using FFImageLoading.Work;
+using Newtonsoft.Json;
 
 namespace Buptis.Mesajlar.Mesajlarr
 {
-    class MesajlarListViewAdapter : BaseAdapter<SonMesajlarListViewDataModel>
+    class MesajlarListViewAdapter : BaseAdapter<SonMesajlarListViewDataModel>, View.IOnClickListener
     {
         private Context mContext;
         private int mRowLayout;
         private List<SonMesajlarListViewDataModel> mDepartmanlar;
         Typeface normall, boldd;
-        public MesajlarListViewAdapter(Context context, int rowLayout, List<SonMesajlarListViewDataModel> friends)
+        List<string> FollowListID;
+        public MesajlarListViewAdapter(Context context, int rowLayout, List<SonMesajlarListViewDataModel> friends,List<string> FollowListID2)
         {
             mContext = context;
             mRowLayout = rowLayout;
             mDepartmanlar = friends;
             boldd = Typeface.CreateFromAsset(context.Assets, "Fonts/muliBold.ttf");
             normall = Typeface.CreateFromAsset(context.Assets, "Fonts/muliRegular.ttf");
+            this.FollowListID = FollowListID2;
         }
 
         public override int ViewTypeCount
@@ -86,9 +90,11 @@ namespace Buptis.Mesajlar.Mesajlarr
                 holder.SonMesajSaati = row.FindViewById<TextView>(Resource.Id.textView3);
                 holder.OkunmamisBadge = row.FindViewById<TextView>(Resource.Id.textView5);
                 holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
-                holder.KisiAdi.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
+                holder.FavoriButton = row.FindViewById<ImageView>(Resource.Id.ımageButton2);
 
-              
+
+                holder.FavoriButton.Visibility = ViewStates.Invisible;
+                holder.KisiAdi.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
                 var Boll = item.lastChatText.Split('#');
                 if (Boll.Length <= 1)
                 {
@@ -115,7 +121,9 @@ namespace Buptis.Mesajlar.Mesajlarr
                 holder.KisiAdi.SetTypeface(boldd, TypefaceStyle.Normal);
                 holder.EnSonMesaj.SetTypeface(normall, TypefaceStyle.Normal);
                 holder.OkunmamisBadge.SetTypeface(normall, TypefaceStyle.Normal);
-
+                holder.FavoriButton.Tag = position;
+                holder.FavoriButton.SetOnClickListener(this);
+                FavoriFilter(item.receiverId.ToString(),holder.FavoriButton);
                 row.Tag = holder;
             }
             return row;
@@ -139,6 +147,53 @@ namespace Buptis.Mesajlar.Mesajlarr
                 }
             })).Start();
         }
+
+        void FavoriFilter(string UserIDD, ImageView GelenButton)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                var IsFollow = FollowListID.FindAll(item => item == UserIDD.ToString());
+                if (IsFollow.Count > 0)
+                {
+                    ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
+                        GelenButton.Visibility = ViewStates.Invisible;
+                    });
+                }
+                else
+                {
+                    ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
+                        GelenButton.Visibility = ViewStates.Visible;
+                    });
+                }
+            })).Start();
+        }
+
+        public void OnClick(View v)
+        {
+            int Tagg = (int)v.Tag;
+            var itemm = mDepartmanlar[Tagg];
+            var MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+            WebService webService = new WebService();
+            FavoriDTO favoriDTO = new FavoriDTO()
+            {
+                userId = MeDTO.id,
+                favUserId = itemm.receiverId
+            };
+            string jsonString = JsonConvert.SerializeObject(favoriDTO);
+            var Donus = webService.ServisIslem("users/fav", jsonString);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster("Favorilere Ekledi.", mContext);
+                ((ImageView)v).Visibility = ViewStates.Invisible;
+                return;
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir Sorun Oluştu.", mContext);
+                return;
+            }
+        }
+
         public class UsaerImageDTO
         {
             public string createdDate { get; set; }
@@ -155,9 +210,13 @@ namespace Buptis.Mesajlar.Mesajlarr
             public TextView SonMesajSaati { get; set; }
             public TextView OkunmamisBadge { get; set; }
             public ImageViewAsync ProfilFoto { get; set; }
-
+            public ImageView FavoriButton { get; set; }
         }
 
-
+        public class FavoriDTO
+        {
+            public int favUserId { get; set; }
+            public int userId { get; set; }
+        }
     }
 }

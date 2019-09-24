@@ -83,22 +83,24 @@ namespace Buptis.PrivateProfile
             var UserInfo = DataBase.MEMBER_DATA_GETIR();
             if (UserInfo.Count > 0)
             {
-                //TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu;
-                KullaniciAdiYasi.Text = UserInfo[0].firstName + " " + UserInfo[0].lastName.Substring(0, 1) + ". ";
-                if (!string.IsNullOrEmpty(UserInfo[0].birthDayDate.ToString()))
-                {
-                    DateTime zeroTime = new DateTime(1, 1, 1);
-                    var Fark = (DateTime.Now - Convert.ToDateTime(UserInfo[0].birthDayDate));
-                    KullaniciAdiYasi.Text += ((zeroTime + Fark).Year - 1).ToString();
-                }
+              RunOnUiThread(delegate (){
+                  //TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu;
+                  KullaniciAdiYasi.Text = UserInfo[0].firstName + " " + UserInfo[0].lastName.Substring(0, 1) + ". ";
+                  if (!string.IsNullOrEmpty(UserInfo[0].birthDayDate.ToString()))
+                  {
+                      DateTime zeroTime = new DateTime(1, 1, 1);
+                      var Fark = (DateTime.Now - Convert.ToDateTime(UserInfo[0].birthDayDate));
+                      KullaniciAdiYasi.Text += ((zeroTime + Fark).Year - 1).ToString();
+                  }
 
-                Meslegi.Text = UserInfo[0].userJob;
-                HakkindaYazisi.Text = GetUserAbout();
-                Konumu.Text = "";
-                //UserInfo[0].townId = "0";
-                //GetUserTown(UserInfo[0].townId.ToString(),Konumu);
-                GetLastCechin(UserInfo[0].id);
-                GetUserImage(UserInfo[0].id);
+                  Meslegi.Text = UserInfo[0].userJob;
+                  HakkindaYazisi.Text = GetUserAbout();
+                  Konumu.Text = "";
+                  //UserInfo[0].townId = "0";
+                  //GetUserTown(UserInfo[0].townId.ToString(),Konumu);
+                  GetLastCechin(UserInfo[0].id);
+                  GetUserImage(UserInfo[0].id);
+              });
             }
         }
         void GetUserImage(int USERID)

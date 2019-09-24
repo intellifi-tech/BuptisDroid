@@ -48,8 +48,8 @@ namespace Buptis.Login
             InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
             imm.HideSoftInputFromInputMethod(inputmail.WindowToken, 0);
             this.Window.SetSoftInputMode(SoftInput.StateHidden);
-            inputmail.Text = "mesut@intellifi.tech";
-            Sifreinput.Text = "qwer1234";
+            //inputmail.Text = "mesut@intellifi.tech";
+            //Sifreinput.Text = "qwer1234";
 
 
 

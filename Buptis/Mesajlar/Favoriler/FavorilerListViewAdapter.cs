@@ -85,8 +85,11 @@ namespace Buptis.Mesajlar.Favoriler
                 holder.SonMesajSaati = row.FindViewById<TextView>(Resource.Id.textView3);
                 holder.OkunmamisBadge = row.FindViewById<TextView>(Resource.Id.textView5);
                 holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
-                holder.KisiAdi.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
+                holder.FavoriButton = row.FindViewById<ImageView>(Resource.Id.ımageButton2);
 
+
+                holder.KisiAdi.Text = item.firstName + " " + item.lastName.Substring(0, 1).ToString() + ".";
+                holder.FavoriButton.Visibility = ViewStates.Invisible;
                 var Boll = item.lastChatText.Split('#');
                 if (Boll.Length <= 1)
                 {
@@ -155,6 +158,7 @@ namespace Buptis.Mesajlar.Favoriler
             public TextView SonMesajSaati { get; set; }
             public TextView OkunmamisBadge { get; set; }
             public ImageViewAsync ProfilFoto { get; set; }
+            public ImageView FavoriButton { get; set; }
 
         }
     }

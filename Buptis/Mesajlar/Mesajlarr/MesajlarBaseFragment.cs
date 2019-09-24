@@ -56,11 +56,11 @@ namespace Buptis.Mesajlar.Mesajlarr
             GetUserInfo(mFriends[e.Position].receiverId.ToString(), mFriends[e.Position].key);
         }
 
-        void GetUserInfo(string UserID,string keyy)
+        void GetUserInfo(string UserID, string keyy)
         {
             //MesajlarIcinSecilenKullanici.Kullanici
             WebService webService = new WebService();
-            var Donus = webService.OkuGetir("users/"+UserID);
+            var Donus = webService.OkuGetir("users/" + UserID);
             if (Donus != null)
             {
                 var Userrr = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
@@ -79,16 +79,17 @@ namespace Buptis.Mesajlar.Mesajlarr
                 var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
                 var aa = Donus.ToString();
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
-                mFriends = mFriends.FindAll(item => item.request == false); 
+                mFriends = mFriends.FindAll(item => item.request == false);
                 if (mFriends.Count > 0)
                 {
 
                     mFriends.Where(item => item.receiverId == MeID).ToList().ForEach(item2 => item2.unreadMessageCount = 0);
                     SaveKeys();
-                    this.Activity.RunOnUiThread(() => {
+                    this.Activity.RunOnUiThread(() =>
+                    {
                         var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
                         var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
-                        mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends/*, normall,boldd*/);
+                        mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
                         Liste.Adapter = mAdapter;
                         ShowLoading.Hide();
                     });
@@ -105,6 +106,24 @@ namespace Buptis.Mesajlar.Mesajlarr
             }
         }
 
+        List<string> FavorileriCagir()
+        {
+            List<string> FollowListID = new List<string>();
+            WebService webService = new WebService();
+            var MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+            var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
+            if (Donus4 != null)
+            {
+                var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                if (!string.IsNullOrEmpty(JSONStringg))
+                {
+                    FollowListID = JSONStringg.Split(',').ToList();
+                }
+            }
+            return FollowListID;
+        }
+
+
         void SaveKeys()
         {
             var LocalKeys = DataBase.CHAT_KEYS_GETIR();
@@ -115,14 +134,15 @@ namespace Buptis.Mesajlar.Mesajlarr
                     var KeyKarsilastirmaDurum = LocalKeys.FindAll(item => item.UserID == mFriends[i].receiverId);
                     if (KeyKarsilastirmaDurum.Count > 0)
                     {
-                        if (KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count -1].MessageKey != mFriends[i].key)
+                        if (KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count - 1].MessageKey != mFriends[i].key)
                         {
                             //Güncelle
-                            DataBase.CHAT_KEYS_Guncelle(new CHAT_KEYS() {
+                            DataBase.CHAT_KEYS_Guncelle(new CHAT_KEYS()
+                            {
                                 UserID = KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count - 1].UserID,
                                 MessageKey = mFriends[i].key
                             });
-                            
+
                         }
                         else
                         {
@@ -139,7 +159,7 @@ namespace Buptis.Mesajlar.Mesajlarr
                         });
                         //Hiç Yok Yeni Ekle
                     }
-               }
+                }
             }
         }
     }

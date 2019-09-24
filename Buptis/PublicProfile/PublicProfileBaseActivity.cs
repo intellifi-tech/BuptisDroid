@@ -9,6 +9,8 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
@@ -22,6 +24,7 @@ using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using FFImageLoading.Work;
+using Newtonsoft.Json;
 using Org.Json;
 using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
 using static Buptis.PrivateProfile.PrivateProfileViewPager;
@@ -42,7 +45,9 @@ namespace Buptis.PublicProfile
         PublicProfileDataModel UserDatas = new PublicProfileDataModel();
         List<UserAnswerDataModel> UserAnswers = new List<UserAnswerDataModel>();
         GetUserLastLocation userlastloc = new GetUserLastLocation();
-
+        List<string> FollowListID = new List<string>();
+        ImageView FollowButton;
+        
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -57,6 +62,8 @@ namespace Buptis.PublicProfile
             HakkindaYazisi = FindViewById<TextView>(Resource.Id.textView3);
             EnSonLokasyonu = FindViewById<TextView>(Resource.Id.textView5);
             MesajAtButton = FindViewById<ImageButton>(Resource.Id.ımageButton4);
+            FollowButton = FindViewById<ImageView>(Resource.Id.ımageView1);
+            FollowButton.Click += FollowButton_Click;
             MesajAtButton.Click += MesajAtButton_Click;
             GeriButton.Click += GeriButton_Click;
             Engelle = FindViewById<TextView>(Resource.Id.engelle);
@@ -68,13 +75,73 @@ namespace Buptis.PublicProfile
             var yeniy = mevcut - Pix1;
             pagerhazne.SetY(yeniy);
             pagerhazne.ClipToOutline = true;
-
             _indicator = FindViewById<LinePageIndicator>(Resource.Id.indicator);
-
             KullaniciAdiYasi.Text = "";
             HakkindaYazisi.Text = "";
             EnSonLokasyonu.Text = "";
+            
         }
+
+        private void FollowButton_Click(object sender, EventArgs e)
+        {
+            var IsFollow = FollowListID.FindAll(item => item == SecilenKisi.SecilenKisiDTO.id.ToString());
+            if (IsFollow.Count > 0)//Takip Ettiklerim Arasaında
+            {
+                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                cevap.SetMessage(Spannla(Color.DarkGray, SecilenKisi.SecilenKisiDTO.firstName + " adlı kullanıcıyı favorilerilerinden çıkartmak istediğini emin misiniz?"));
+                cevap.SetPositiveButton("Evet", delegate
+                {
+                    cevap.Dispose();
+                    FavoriIslemleri(SecilenKisi.SecilenKisiDTO.firstName + " Favorilerinde çıkarıldı.");
+
+                });
+                cevap.SetNegativeButton("Hayır", delegate
+                {
+                    cevap.Dispose();
+                });
+                cevap.Show();
+            }
+            else
+            {
+                FavoriIslemleri(SecilenKisi.SecilenKisiDTO.firstName + " Favorilerine eklendi.");
+            }
+        }
+        SpannableStringBuilder Spannla(Color Renk, string textt)
+        {
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Renk);
+
+            string title = textt;
+            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
+            ssBuilder.SetSpan(
+                    foregroundColorSpan,
+                    0,
+                    title.Length,
+                    SpanTypes.ExclusiveExclusive
+            );
+
+            return ssBuilder;
+        }
+
+        void FavoriIslemleri(string Message)
+        {
+            var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+            WebService webService = new WebService();
+            FavoriDTO favoriDTO = new FavoriDTO() {
+                userId = MeID,
+                favUserId = SecilenKisi.SecilenKisiDTO.id
+            };
+            string jsonString = JsonConvert.SerializeObject(favoriDTO);
+            var Donus = webService.ServisIslem("users/fav", jsonString);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster(Message, this);
+                GetFavorite();
+                return;
+            }
+        }
+
         private void MesajAtButton_Click(object sender, EventArgs e)
         {
             MesajlarIcinSecilenKullanici.Kullanici = SecilenKisi.SecilenKisiDTO;
@@ -238,6 +305,27 @@ namespace Buptis.PublicProfile
                     EnSonLokasyonu.Text = "Henüz Check-in yapılmadı.";
                 }
             });
+            GetFavorite();
+        }
+        void GetFavorite()
+        {
+            RunOnUiThread(delegate ()
+            {
+                WebService webService = new WebService();
+                var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+                var Donus4 = webService.OkuGetir("users/favList/" + MeID.ToString());
+                if (Donus4 != null)
+                {
+                    var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                    if (!string.IsNullOrEmpty(JSONStringg))
+                    {
+                        FollowListID = JSONStringg.Split(',').ToList();
+                    }
+                }
+                else
+                {
+                }
+            });
         }
         string GetUserAbout()
         {
@@ -343,6 +431,11 @@ namespace Buptis.PublicProfile
 
                 return rootview;
             }
+        }
+        public class FavoriDTO
+        {
+            public int favUserId { get; set; }
+            public int userId { get; set; }
         }
 
     }
