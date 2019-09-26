@@ -12,12 +12,13 @@ using Android.Widget;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using System.Json;
+
 using System.Threading.Tasks;
 using Buptis.DataBasee;
 using Newtonsoft.Json;
 using Org.Json;
 using static Buptis.Login.LoginBaseActivity;
+using System.Json;
 
 namespace Buptis.WebServicee
 {
@@ -104,12 +105,21 @@ namespace Buptis.WebServicee
             }
 
         } 
-        public JsonValue OkuGetir(string url)
+        public string OkuGetir(string url,bool DontUseHostURL = false)
         {
             Atla:
             try
             {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(kokurl+url));
+                HttpWebRequest request;
+                if (DontUseHostURL)
+                {
+                     request = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
+                }
+                else
+                {
+                     request = (HttpWebRequest)HttpWebRequest.Create(new Uri(kokurl + url));
+                }
+
                 request.ContentType = "application/json";
                 request.Method = "GET";
                 request.Accept = "*/*";
@@ -121,10 +131,13 @@ namespace Buptis.WebServicee
                         Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
                     using (Stream stream = response.GetResponseStream())
                     {
-                        JsonValue jsonDoc = JsonObject.Load(stream);
-                       // Console.Out.WriteLine("Response: {0}", jsonDoc.ToString());
+                        using (StreamReader reader = new StreamReader(stream))
+                        {
+                            var jsonDoc = reader.ReadToEnd();
+                            return jsonDoc;
 
-                        return jsonDoc;
+                        }
+                           
                     }
                 }
             }

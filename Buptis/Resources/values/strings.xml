@@ -2,4 +2,5 @@
     <string name="app_name">BuptisAndroid</string>
     <string name="action_settings">Settings</string>
     <string name="GoogleKey">AIzaSyD6F8c4Mf4a4lMLj_XLYvLKnBd_SP4_jVE</string>
+    <string name="server_client_id">702647090904-kl55fbci18m2qttfrj2j3qs3l5k6bhea.apps.googleusercontent.com</string>
 </resources>

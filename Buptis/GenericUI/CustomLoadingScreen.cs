@@ -62,7 +62,14 @@ namespace Buptis.GenericUI
                 BaseContext = context;
                 CustomLoadingScreen1 = new CustomLoadingScreen(Des);
                 CustomLoadingScreen1.Cancelable = Cancelable;
-                CustomLoadingScreen1.Show(((Android.Support.V7.App.AppCompatActivity)BaseContext).SupportFragmentManager, "CustomLoadingScreen1");
+                try
+                {
+                    CustomLoadingScreen1.Show(((Android.Support.V7.App.AppCompatActivity)BaseContext).SupportFragmentManager, "CustomLoadingScreen1");
+
+                }
+                catch 
+                {
+                }
             });
         }
         public static void Hide()
