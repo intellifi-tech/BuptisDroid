@@ -16,12 +16,11 @@ namespace Buptis.GenericClass
    public static class BitmapHelpers
     {
      
-        public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
+        public static byte[] LoadAndResizeBitmap(byte[] fileByte, int width, int height)
         {
-         
+            
             BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
-            BitmapFactory.DecodeFile(fileName, options);
-
+            BitmapFactory.DecodeByteArray(fileByte, 0, fileByte.Length, options);
           
             int outHeight = options.OutHeight;
             int outWidth = options.OutWidth;
@@ -37,9 +36,13 @@ namespace Buptis.GenericClass
             
             options.InSampleSize = inSampleSize;
             options.InJustDecodeBounds = false;
-            Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
+            Bitmap resizedBitmap = BitmapFactory.DecodeByteArray(fileByte, 0, fileByte.Length, options);
 
-            return resizedBitmap;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                resizedBitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, ms);
+                return ms.ToArray();
+            }
         }
     }
 }

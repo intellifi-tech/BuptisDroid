@@ -72,36 +72,47 @@ namespace Buptis.LokasyondakiKisiler.Tumu
             int height = size.Y;
             var Genislik = width / 3;
             #endregion
-
             WebService webService = new WebService();
-            var Donus = webService.OkuGetir("users/location/" + SecilenLokasyonn.LokID.ToString() + "/online");
+            var Donus = webService.OkuGetir("users/location/" + SecilenLokasyonn.LokID + "/waiting");
+            var Donus2 = webService.OkuGetir("users/location/" + SecilenLokasyonn.LokID + "/online");
+            List<MEMBER_DATA> List1 = new List<MEMBER_DATA>();
+            List<MEMBER_DATA> List2 = new List<MEMBER_DATA>();
+            List<MEMBER_DATA> Toplanmis = new List<MEMBER_DATA>();
+            var MEDID = DataBase.MEMBER_DATA_GETIR()[0].id;
+
             if (Donus != null)
             {
-                var aa = Donus.ToString();
-                UserGallery1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MEMBER_DATA>>(Donus.ToString());
-                if (UserGallery1.Count > 0)
-                {
-                    this.Activity.RunOnUiThread(() => {
-                        var MeId = DataBase.MEMBER_DATA_GETIR()[0].id;
-                        FilterUsers();
-                        UserGallery1 = UserGallery1.FindAll(item => item.id != MeId);
-                        var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
-                        var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
-                        mViewAdapter = new GaleriRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik,normall,boldd);
-                        mRecyclerView.SetAdapter(mViewAdapter);
-                        mViewAdapter.ItemClick += MViewAdapter_ItemClick;
-                        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.Vertical);
-                        var pix = DPX.dpToPx(this.Activity, 15);
-                        mRecyclerView.AddItemDecoration(new SpacesItemDecoration(pix, this.Activity));
-                        mRecyclerView.SetLayoutManager(layoutManager);
-                        ShowLoading.Hide();
-                    });
-                }
-                else
-                {
-                    AlertHelper.AlertGoster("Henüz bu lokasyonda kimse yok...", this.Activity);
+                List1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MEMBER_DATA>>(Donus.ToString());
+            }
+            if (Donus2 != null)
+            {
+                List2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MEMBER_DATA>>(Donus2.ToString());
+            }
+
+            var l2 = List2.ToList();
+
+            List1.AddRange(l2);
+
+            UserGallery1 = new List<MEMBER_DATA>();
+            UserGallery1 = List1.Where(p => p.id != -1).GroupBy(p => p.id).Select(grp => grp.FirstOrDefault()).ToList();
+
+            if (UserGallery1.Count > 0)
+            {
+                this.Activity.RunOnUiThread(() => {
+                    var MeId = DataBase.MEMBER_DATA_GETIR()[0].id;
+                    FilterUsers();
+                    UserGallery1 = UserGallery1.FindAll(item => item.id != MeId);
+                    var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
+                    var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
+                    mViewAdapter = new GaleriRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik, normall, boldd);
+                    mRecyclerView.SetAdapter(mViewAdapter);
+                    mViewAdapter.ItemClick += MViewAdapter_ItemClick;
+                    StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.Vertical);
+                    var pix = DPX.dpToPx(this.Activity, 15);
+                    mRecyclerView.AddItemDecoration(new SpacesItemDecoration(pix, this.Activity));
+                    mRecyclerView.SetLayoutManager(layoutManager);
                     ShowLoading.Hide();
-                }
+                });
             }
             else
             {
@@ -115,21 +126,21 @@ namespace Buptis.LokasyondakiKisiler.Tumu
             if (GetUserFilter1.Count > 0)
             {
                 var GetUserFilter = GetUserFilter1[0];
-                var minDT = DateTime.Now.AddYears((-1) * (GetUserFilter.minAge));
-                var maxDate = DateTime.Now.AddYears(GetUserFilter.maxAge);
+                var minDT = DateTime.Now.AddYears((-1) * (GetUserFilter.minAge));//2015
+                var maxDate = DateTime.Now.AddYears((-1) * GetUserFilter.maxAge);//1990
                 if (GetUserFilter.Cinsiyet != 0)
                 {
                     if (GetUserFilter.Cinsiyet == 1)
                     {
-                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Erkek" & item.birthDayDate >= minDT & item.birthDayDate <= maxDate);
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Erkek" & item.birthDayDate <= minDT & item.birthDayDate >= maxDate);
                     }
                     else if (GetUserFilter.Cinsiyet == 2)
                     {
-                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadın" & item.birthDayDate >= minDT & item.birthDayDate <= maxDate);
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadýn" & item.birthDayDate <= minDT & item.birthDayDate >= maxDate);
                     }
                     else
                     {
-                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadın" | item.gender == "Erkek" & item.birthDayDate >= minDT & item.birthDayDate <= maxDate);
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadýn" | item.gender == "Erkek" & item.birthDayDate <= minDT & item.birthDayDate >= maxDate);
                     }
                 }
             }

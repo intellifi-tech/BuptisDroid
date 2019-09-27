@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -15,9 +16,12 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
+using Java.IO;
 using Newtonsoft.Json;
+using Plugin.ImageEdit;
 using Xamarin.RangeSlider;
 
 namespace Buptis.PrivateProfile.GaleriResimEkle
@@ -229,7 +233,8 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
             if ((requestCode == PickImageId) && (resultCode == -1) && (data != null))
             {
                 Android.Net.Uri uri = data.Data;
-                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+                ShowLoading.Show(this.Activity, "Fotoğrafınız Yükleniyor...");
+                new System.Threading.Thread(new System.Threading.ThreadStart(async delegate
                 {
                     using (var inputStream = this.Activity.ContentResolver.OpenInputStream(uri))
                     {
@@ -240,8 +245,23 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
                             {
                                 streamReader.BaseStream.CopyTo(memstream);
                                 bytes = memstream.ToArray();
-                                base64String = Convert.ToBase64String(bytes);
-                                FotografEkle(base64String);
+
+                                var Guidee = Guid.NewGuid().ToString();
+                                var FilePath = System.IO.Path.Combine(documentsFolder(), Guidee + ".jpg");
+                                System.IO.File.WriteAllBytes(FilePath, memstream.ToArray());
+                                if (System.IO.File.Exists(FilePath))
+                                {
+                                    var newbytess = ResizeImageAndroid(FilePath, bytes, 800, 800);
+                                    if (newbytess != null)
+                                    {
+                                        base64String = Convert.ToBase64String(newbytess);
+                                        var a = base64String;
+                                        System.Console.WriteLine(a);
+                                        FotografEkle(base64String);
+                                        ShowLoading.Hide();
+                                    }
+
+                                }
                             }
                         }
                     }
@@ -298,13 +318,169 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
         {
             this.Dismiss();
         }
-
         public override void OnDismiss(IDialogInterface dialog)
         {
             base.OnDismiss(dialog);
             PrivateProfileBaseActivity1.GetUserInfo();
         }
+        public byte[] scaleToFit(byte[] arrayy, int width, int height, bool isWidthReference)
+        {
+            Atla:
+            Bitmap image = BitmapFactory.DecodeByteArray(arrayy, 0, arrayy.Length);
+            if (isWidthReference)
+            {
+                int originalWidth = image.Width;
+                float wP = width / 100;
+                float dP = (originalWidth - width) / wP;
+                int originalHeight = image.Height;
+                float hP = originalHeight / 100;
+                int heightt = Convert.ToInt32(originalHeight - (hP * dP));
+                if (heightt <= 0)
+                {
+                    isWidthReference = false;
+                    goto Atla;
+                }
+                image = Bitmap.CreateScaledBitmap(image, width, heightt, true);
+            }
+            else
+            {
+                int originalHeight = image.Height;
+                float hP = height / 100;
+                float dP = (originalHeight - height) / hP;
+                int originalWidth = image.Width;
+                float wP = originalWidth / 100;
+                int widthh = Convert.ToInt32(originalWidth - (wP * dP));
+                if (width <= 0)
+                {
+                    isWidthReference = true;
+                    goto Atla;
+                }
+                image = Bitmap.CreateScaledBitmap(image, widthh, height, true);
+            }
 
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Compress(Bitmap.CompressFormat.Jpeg, 100, ms);
+                return ms.ToArray();
+            }
+
+            
+        }
+        public  byte[] ResizeImageAndroid(string FileDesc, byte[] imageData, float width, float height)
+        {
+
+            ExifInterface oldExif = new ExifInterface(FileDesc);
+            String exifOrientation = oldExif.GetAttribute(ExifInterface.TagOrientation);
+
+
+            // Load the bitmap 
+            Bitmap originalImage = BitmapFactory.DecodeByteArray(imageData, 0, imageData.Length);
+            //
+            float ZielHoehe = 0;
+            float ZielBreite = 0;
+            //
+            var Hoehe = originalImage.Height;
+            var Breite = originalImage.Width;
+
+            //
+            float NereyeRotate = 0;
+            if (Hoehe > Breite) // Höhe (71 für Avatar) ist Master
+            {
+                ZielHoehe = height;
+                float teiler = Hoehe / height;
+                ZielBreite = Breite / teiler;
+                NereyeRotate = 0;
+            }
+            else if (Hoehe < Breite) // Breite (61 für Avatar) ist Master
+            {
+                ZielBreite = width;
+                float teiler = Breite / width;
+                ZielHoehe = Hoehe / teiler;
+                NereyeRotate = -90;
+            }
+            else //EsitOlmaDurumu
+            {
+                ZielBreite = width;
+                ZielHoehe = height;
+                NereyeRotate = 0;
+            }
+            //
+            Bitmap resizedImage = Bitmap.CreateScaledBitmap(originalImage, (int)ZielBreite, (int)ZielHoehe, true);
+            //return rotateBitmap(resizedImage, 0);
+
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                resizedImage.Compress(Bitmap.CompressFormat.Jpeg, 100, ms);
+
+                var Guidee = Guid.NewGuid().ToString();
+                var FilePath = System.IO.Path.Combine(documentsFolder(), Guidee+".jpg");
+                System.IO.File.WriteAllBytes(FilePath, ms.ToArray());
+                if (System.IO.File.Exists(FilePath))
+                {
+                    if (exifOrientation != null)
+                    {
+                        ExifInterface newExif = new ExifInterface(FilePath);
+                        newExif.SetAttribute(ExifInterface.TagOrientation, exifOrientation);
+                        newExif.SaveAttributes();
+                        var bytess = System.IO.File.ReadAllBytes(FilePath);
+
+                        System.IO.File.Delete(FileDesc);
+                        System.IO.File.Delete(FilePath);
+
+                        return bytess;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+
+                
+            }
+        }
+        public byte[] rotateBitmap(Bitmap original, float degrees)
+        {
+
+            Matrix matrix = new Matrix();
+
+            matrix.PostRotate(degrees);
+
+           // Bitmap scaledBitmap = Bitmap.CreateScaledBitmap(original, width, height, true);
+
+            Bitmap rotatedBitmap = Bitmap.CreateBitmap(original, 0, 0, original.Width, original.Height, matrix, true);
+
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                rotatedBitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, ms);
+                return ms.ToArray();
+            }
+
+
+
+            //int width = original.Width;
+            //int height = original.Height;
+
+            //Matrix matrix = new Matrix();
+            //matrix.PreRotate(degrees);
+
+            //Bitmap rotatedBitmap = Bitmap.CreateBitmap(original, 0, 0, width, height, matrix, true);
+            //Canvas canvas = new Canvas(rotatedBitmap);
+            //canvas.DrawBitmap(original, 5.0f, 0.0f, null);
+
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+            //    rotatedBitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, ms);
+            //    return ms.ToArray();
+            //}
+
+            //return rotatedBitmap;
+        }
         public class FotografEkleDataModel
         {
             public string createdDate { get; set; }
