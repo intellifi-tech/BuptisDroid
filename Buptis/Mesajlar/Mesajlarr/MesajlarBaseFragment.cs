@@ -24,7 +24,14 @@ namespace Buptis.Mesajlar.Mesajlarr
         ListView Liste;
         List<SonMesajlarListViewDataModel> mFriends = new List<SonMesajlarListViewDataModel>();
         MesajlarListViewAdapter mAdapter;
+        EditText GenericAraEditText;
         #endregion
+
+        public MesajlarBaseFragment(EditText GenericAraEditText2)
+        {
+            GenericAraEditText = GenericAraEditText2;
+        }
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,7 +43,29 @@ namespace Buptis.Mesajlar.Mesajlarr
             View RootView = inflater.Inflate(Resource.Layout.MesajlarBaseFragment, container, false);
             Liste = RootView.FindViewById<ListView>(Resource.Id.listView1);
             Liste.ItemClick += Liste_ItemClick;
+            GenericAraEditText.TextChanged += GenericAraEditText_TextChanged;
             return RootView;
+        }
+
+        private void GenericAraEditText_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                List<SonMesajlarListViewDataModel> searchedFriends = (from friend in mFriends
+                                                                      where friend.firstName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
+                                                                      || friend.lastName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
+                                                                      || friend.lastChatText.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
+                                                                      select friend).ToList<SonMesajlarListViewDataModel>();
+                if (searchedFriends.Count > 0)
+                {
+                    mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, searchedFriends, FavorileriCagir());
+                    var ListeAdaptoru2 = mAdapter;
+                    this.Activity.RunOnUiThread(() =>
+                    {
+                        Liste.Adapter = ListeAdaptoru2;
+                    });
+                }
+            })).Start();
         }
 
         public override void OnStart()
@@ -53,7 +82,7 @@ namespace Buptis.Mesajlar.Mesajlarr
 
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            GetUserInfo(mFriends[e.Position].receiverId.ToString(), mFriends[e.Position].key);
+            GetUserInfo(mAdapter[e.Position].receiverId.ToString(), mAdapter[e.Position].key);
         }
 
         void GetUserInfo(string UserID, string keyy)

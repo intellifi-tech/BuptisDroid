@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="150.0dp"
         android:id="@+id/linearLayout1">
+		
         <RelativeLayout
             android:layout_marginTop="28.5dp"
             android:layout_marginLeft="20dp"
@@ -32,6 +33,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ımageButton1" />
             <ImageView
+				android:layout_toRightOf="@+id/ımageButton1"
+				android:layout_toLeftOf="@+id/ımageButton2"
                 android:src="@drawable/buptislogo"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -49,6 +52,35 @@
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:id="@+id/ımageButton2" />
+			<RelativeLayout
+				android:background="@drawable/customtablayoutbg"
+				android:minWidth="25px"
+				android:minHeight="25px"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:id="@+id/relativeLayout2" >
+				<ImageButton
+					android:background="@null"
+					android:layout_alignParentRight="true"
+					android:src="@mipmap/close_editing_icon"
+					android:scaleType="centerInside"
+					android:padding="8dp"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					android:id="@+id/ımageButton3" />
+				<EditText
+					android:paddingLeft="20dp"
+					android:textSize="15sp"
+					android:hint="Bir isim yazmayı dene..."
+					android:inputType="textPersonName"
+					android:background="@null"
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_toLeftOf="@id/ımageButton3"
+					android:id="@+id/searchView1" />
+		</RelativeLayout>
         </RelativeLayout>
         <LinearLayout
             android:layout_marginTop="10dp"

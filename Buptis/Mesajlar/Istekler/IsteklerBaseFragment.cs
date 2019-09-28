@@ -24,12 +24,16 @@ namespace Buptis.Mesajlar.Istekler
         ListView Liste;
         List<IsteklerListViewDataModel> mFriends = new List<IsteklerListViewDataModel>();
         IsteklerListViewAdapter mAdapter;
+        EditText GenericAraEditText;
         #endregion
+
+        public IsteklerBaseFragment(EditText GenericAraEditText2)
+        {
+            GenericAraEditText = GenericAraEditText2;
+        }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -37,12 +41,35 @@ namespace Buptis.Mesajlar.Istekler
             View RootView = inflater.Inflate(Resource.Layout.IsteklerBaseFragment, container, false);
             Liste = RootView.FindViewById<ListView>(Resource.Id.listView1);
             Liste.ItemClick += Liste_ItemClick;
+            GenericAraEditText.TextChanged += GenericAraEditText_TextChanged;
             return RootView;
         }
 
+        private void GenericAraEditText_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                List<IsteklerListViewDataModel> searchedFriends = (from friend in mFriends
+                                                                      where friend.firstName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
+                                                                      || friend.lastName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
+                                                                      || friend.lastChatText.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
+                                                                      select friend).ToList<IsteklerListViewDataModel>();
+                if (searchedFriends.Count > 0)
+                {
+                    mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, searchedFriends);
+                    var ListeAdaptoru2 = mAdapter;
+                    this.Activity.RunOnUiThread(() =>
+                    {
+                        Liste.Adapter = ListeAdaptoru2;
+                    });
+                }
+            })).Start();
+        }
+
+
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            GetUserInfo(mFriends[e.Position].receiverId.ToString(), mFriends[e.Position].key);
+            GetUserInfo(mAdapter[e.Position].receiverId.ToString(), mAdapter[e.Position].key);
         }
 
         void GetUserInfo(string UserID, string keyy)

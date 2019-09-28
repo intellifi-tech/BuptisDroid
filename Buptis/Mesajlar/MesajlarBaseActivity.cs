@@ -26,7 +26,10 @@ namespace Buptis.Mesajlar
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         Button MesajlarButton, IsteklerButton, FavorilerButton;
         ImageButton Geri;
-        ImageButton ProfilButton;
+        ImageButton ProfilButton,AraButton,AraKapatButton;
+        RelativeLayout AraBackHazne;
+        EditText AraEdittex;
+
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,11 +41,31 @@ namespace Buptis.Mesajlar
             IsteklerButton = FindViewById<Button>(Resource.Id.button2);
             FavorilerButton = FindViewById<Button>(Resource.Id.button3);
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            AraButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            AraBackHazne = FindViewById<RelativeLayout>(Resource.Id.relativeLayout2);
+            AraKapatButton = FindViewById<ImageButton>(Resource.Id.ımageButton3);
+            AraEdittex = FindViewById<EditText>(Resource.Id.searchView1);
+            AraBackHazne.Visibility = ViewStates.Gone;
+            AraKapatButton.Click += AraKapatButton_Click;
+
+            AraButton.Click += AraButton_Click;
             Geri.Click += Geri_Click;
             MesajlarButton.Click += MesajlarButton_Click;
             IsteklerButton.Click += IsteklerButton_Click;
             FavorilerButton.Click += FavorilerButton_Click;
             ParcaYerlestir(0);
+        }
+
+        private void AraKapatButton_Click(object sender, EventArgs e)
+        {
+            AraBackHazne.Visibility = ViewStates.Gone;
+            AraEdittex.Text = "";
+        }
+
+        private void AraButton_Click(object sender, EventArgs e)
+        {
+            AraBackHazne.Visibility = ViewStates.Visible;
+            AraEdittex.Text = "";
         }
 
         private void Geri_Click(object sender, EventArgs e)
@@ -80,7 +103,7 @@ namespace Buptis.Mesajlar
                 case 0:
                     MesajlarButton.SetBackgroundResource(Resource.Drawable.customtabselecteditem);
                     MesajlarButton.SetTextColor(Color.White);
-                    MesajlarBaseFragment BanaYakinBaseFragment1 = new MesajlarBaseFragment();
+                    MesajlarBaseFragment BanaYakinBaseFragment1 = new MesajlarBaseFragment(AraEdittex);
                     IcerikHazesi.RemoveAllViews();
                     ft = this.SupportFragmentManager.BeginTransaction();
                     ft.AddToBackStack(null);
@@ -90,7 +113,7 @@ namespace Buptis.Mesajlar
                 case 1:
                     IsteklerButton.SetBackgroundResource(Resource.Drawable.customtabselecteditem);
                     IsteklerButton.SetTextColor(Color.White);
-                    IsteklerBaseFragment IsteklerBaseFragment1 = new IsteklerBaseFragment();
+                    IsteklerBaseFragment IsteklerBaseFragment1 = new IsteklerBaseFragment(AraEdittex);
                     IcerikHazesi.RemoveAllViews();
                     ft = this.SupportFragmentManager.BeginTransaction();
                     ft.AddToBackStack(null);
@@ -100,7 +123,7 @@ namespace Buptis.Mesajlar
                 case 2:
                     FavorilerButton.SetBackgroundResource(Resource.Drawable.customtabselecteditem);
                     FavorilerButton.SetTextColor(Color.White);
-                    FavorilerBaseFragment FavorilerBaseFragment1 = new FavorilerBaseFragment();
+                    FavorilerBaseFragment FavorilerBaseFragment1 = new FavorilerBaseFragment(AraEdittex);
                     IcerikHazesi.RemoveAllViews();
                     ft = this.SupportFragmentManager.BeginTransaction();
                     ft.AddToBackStack(null);
