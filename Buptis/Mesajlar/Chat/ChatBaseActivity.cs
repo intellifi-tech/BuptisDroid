@@ -403,7 +403,7 @@ namespace Buptis.Mesajlar.Chat
         void BekletVeSonaGetir()
         {
             Task.Run(async delegate () {
-               await Task.Delay(700);
+               await Task.Delay(300);
                 RunOnUiThread(delegate () {
                     mRecyclerView.ScrollToPosition(chatList.Count - 1);
                 });
