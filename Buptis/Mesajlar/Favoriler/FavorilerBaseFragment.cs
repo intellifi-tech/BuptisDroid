@@ -55,7 +55,6 @@ namespace Buptis.Mesajlar.Favoriler
             {
                 List<SonFavorilerListViewDataModel> searchedFriends = (from friend in mFriends
                                                                    where friend.firstName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
-                                                                   || friend.lastName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
                                                                    || friend.lastChatText.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
                                                                    select friend).ToList<SonFavorilerListViewDataModel>();
                 if (searchedFriends.Count > 0)
@@ -154,7 +153,7 @@ namespace Buptis.Mesajlar.Favoriler
                     {
                         DataBase.CHAT_KEYS_EKLE(new CHAT_KEYS()
                         {
-                            UserID = KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count - 1].UserID,
+                            UserID = mFriends[i].receiverId,
                             MessageKey = mFriends[i].key
                         });
                         //Hiç Yok Yeni Ekle

@@ -51,7 +51,6 @@ namespace Buptis.Mesajlar.Istekler
             {
                 List<IsteklerListViewDataModel> searchedFriends = (from friend in mFriends
                                                                       where friend.firstName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
-                                                                      || friend.lastName.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
                                                                       || friend.lastChatText.Contains(GenericAraEditText.Text, StringComparison.OrdinalIgnoreCase)
                                                                       select friend).ToList<IsteklerListViewDataModel>();
                 if (searchedFriends.Count > 0)

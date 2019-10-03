@@ -37,11 +37,9 @@ namespace Buptis.Login
         TextView kayitol;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         Button GirisYap,GoogleButton,FacebookButton;
-
         const string TAG = "Buptis";
         const int RC_SIGN_IN = 9001;
         GoogleApiClient mGoogleApiClient;
-
 
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
@@ -142,7 +140,7 @@ namespace Buptis.Login
             StartActivity(ui);
         }
 
-        private async void FacebookAuth_CompletedAsync(object sender, AuthenticatorCompletedEventArgs e)
+        private void FacebookAuth_CompletedAsync(object sender, AuthenticatorCompletedEventArgs e)
         {
             if (e.IsAuthenticated)
             {

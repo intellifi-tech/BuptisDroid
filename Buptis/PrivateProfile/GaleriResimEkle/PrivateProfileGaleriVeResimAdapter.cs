@@ -76,7 +76,6 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
                 ImageService.Instance.LoadUrl(CDN.CDN_Path+item.imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Into(viewholder.UserImage);
                 viewholder.DeleteButton.Tag = position;
                 viewholder.DeleteButton.SetOnClickListener(this);
-             
             }
         }
 
