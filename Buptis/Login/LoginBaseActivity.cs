@@ -29,7 +29,7 @@ using System.Net.Http;
 
 namespace Buptis.Login
 {
-    [Activity(Label = "Buptis"/*, MainLauncher = true*/)]
+    [Activity(Label = "Buptis"/*, MainLauncher = true*//*, WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden*/)]
     public class LoginBaseActivity : Android.Support.V7.App.AppCompatActivity, View.IOnClickListener, GoogleApiClient.IOnConnectionFailedListener
     {
         #region Tanimlamalar
@@ -59,9 +59,9 @@ namespace Buptis.Login
             GirisYap = FindViewById<Button>(Resource.Id.button1);
             GirisYap.Click += GirisYap_Click;
             kayitol.Click += Kayitol_Click;
-            InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
-            imm.HideSoftInputFromInputMethod(inputmail.WindowToken, 0);
-            this.Window.SetSoftInputMode(SoftInput.StateHidden);
+            //InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
+            //imm.HideSoftInputFromInputMethod(inputmail.WindowToken, 0);
+            //this.Window.SetSoftInputMode(SoftInput.StateHidden);
 
             #region Gmail Login Init
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
@@ -77,6 +77,8 @@ namespace Buptis.Login
             //var signInButton = FindViewById<SignInButton>(Resource.Id.sign_in_button);
             //signInButton.SetSize(SignInButton.SizeStandard);
             #endregion
+
+            //Window.SetSoftInputMode(Android.Views.SoftInput.AdjustPan | Android.Views.SoftInput.StateHidden);
 
         }
 
@@ -355,7 +357,6 @@ namespace Buptis.Login
         private void Kayitol_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(KayitOlBaseActivity));
-            Finish();
         }
 
         void SetFonts()

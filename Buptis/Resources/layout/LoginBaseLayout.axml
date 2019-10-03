@@ -51,12 +51,13 @@
 					<EditText
 						android:layout_width="match_parent"
 						android:layout_height="50dp"
-						android:hint="Mail/Telefon Numarası"
+						android:hint="E-mail"
 						android:textColorHint="#ffffff"
 						android:textColor="#ffffff"
 						android:textSize="14dp"
 						android:paddingLeft="10dp"
 						android:layout_marginTop="20dp"
+						android:inputType="textEmailAddress"
 						android:background="@drawable/inputbg"
 						android:id="@+id/textInputEditText1"
 						
