@@ -10,27 +10,32 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
+using Buptis.GenericUI;
 using Buptis.WebServicee;
 using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using FFImageLoading.Work;
+using Newtonsoft.Json;
 
 namespace Buptis.Mesajlar.Favoriler
 {
-    class FavorilerListViewAdapter : BaseAdapter<SonFavorilerListViewDataModel>
+    class FavorilerListViewAdapter : BaseAdapter<SonFavorilerListViewDataModel>, View.IOnClickListener
     {
         private Context mContext;
         private int mRowLayout;
         private List<SonFavorilerListViewDataModel> mDepartmanlar;
         Typeface normall, boldd;
-        public FavorilerListViewAdapter(Context context, int rowLayout, List<SonFavorilerListViewDataModel> friends)
+        List<string> FollowListID;
+        public FavorilerListViewAdapter(Context context, int rowLayout, List<SonFavorilerListViewDataModel> friends, List<string> FollowListID2)
         {
             mContext = context;
             mRowLayout = rowLayout;
             mDepartmanlar = friends;
             boldd = Typeface.CreateFromAsset(context.Assets, "Fonts/muliBold.ttf");
             normall = Typeface.CreateFromAsset(context.Assets, "Fonts/muliRegular.ttf");
+            this.FollowListID = FollowListID2;
         }
 
         public override int ViewTypeCount
@@ -116,7 +121,9 @@ namespace Buptis.Mesajlar.Favoriler
                 holder.OkunmamisBadge.SetTypeface(normall, TypefaceStyle.Normal);
 
                 GetUserImage(item.receiverId.ToString(), holder.ProfilFoto);
-
+                holder.FavoriButton.Tag = position;
+                holder.FavoriButton.SetOnClickListener(this);
+                FavoriFilter(item.receiverId.ToString(), holder.FavoriButton);
 
                 row.Tag = holder;
             }
@@ -142,6 +149,81 @@ namespace Buptis.Mesajlar.Favoriler
                 }
             })).Start();
         }
+        void FavoriFilter(string UserIDD, ImageView GelenButton)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                var IsFollow = FollowListID.FindAll(item => item == UserIDD.ToString());
+                if (IsFollow.Count > 0)
+                {
+                    ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
+                        GelenButton.SetBackgroundResource(Resource.Drawable.favori_aktif);
+                    });
+                }
+                else
+                {
+                    ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
+                        GelenButton.SetBackgroundResource(Resource.Drawable.favori_pasif);
+                    });
+                }
+            })).Start();
+        }
+
+        public void OnClick(View v)
+        {
+            int Tagg = (int)v.Tag;
+            var itemm = mDepartmanlar[Tagg];
+            var MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+            WebService webService = new WebService();
+            FavoriDTO favoriDTO = new FavoriDTO()
+            {
+                userId = MeDTO.id,
+                favUserId = itemm.receiverId
+            };
+            string jsonString = JsonConvert.SerializeObject(favoriDTO);
+            var IsFollow = FollowListID.FindAll(item => item == itemm.receiverId.ToString());
+            if (IsFollow.Count > 0)//Fav varmış Kaldır
+            {
+                ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate ()
+                {
+                    if (FavEkleKaldir(jsonString, (v as ImageView)))
+                    {
+                        (v as ImageView).SetBackgroundResource(Resource.Drawable.favori_pasif);
+                        FollowListID.Remove(itemm.receiverId.ToString());
+                        AlertHelper.AlertGoster("Favorilerden Çıkarıldı.", mContext);
+                        return;
+                    }
+
+                });
+            }
+            else//Fav yokmus Ekle
+            {
+                ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate ()
+                {
+                    if (FavEkleKaldir(jsonString, (v as ImageView)))
+                    {
+                        (v as ImageView).SetBackgroundResource(Resource.Drawable.favori_aktif);
+                        FollowListID.Add(itemm.receiverId.ToString());
+                        AlertHelper.AlertGoster("Favorilere Eklendi.", mContext);
+                    }
+
+                });
+            }
+        }
+        bool FavEkleKaldir(string jsonString, ImageView v)
+        {
+            WebService webService = new WebService();
+            var Donus = webService.ServisIslem("users/fav", jsonString);
+            if (Donus != "Hata")
+            {
+                return true;
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir Sorun Oluştu.", mContext);
+                return false;
+            }
+        }
 
         public class UsaerImageDTO
         {
@@ -159,7 +241,12 @@ namespace Buptis.Mesajlar.Favoriler
             public TextView OkunmamisBadge { get; set; }
             public ImageViewAsync ProfilFoto { get; set; }
             public ImageView FavoriButton { get; set; }
+        }
 
+        public class FavoriDTO
+        {
+            public int favUserId { get; set; }
+            public int userId { get; set; }
         }
     }
 }

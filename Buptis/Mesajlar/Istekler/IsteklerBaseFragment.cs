@@ -55,7 +55,7 @@ namespace Buptis.Mesajlar.Istekler
                                                                       select friend).ToList<IsteklerListViewDataModel>();
                 if (searchedFriends.Count > 0)
                 {
-                    mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, searchedFriends);
+                    mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, searchedFriends, FavorileriCagir());
                     var ListeAdaptoru2 = mAdapter;
                     this.Activity.RunOnUiThread(() =>
                     {
@@ -73,7 +73,22 @@ namespace Buptis.Mesajlar.Istekler
             })).Start();
         }
 
-
+        List<string> FavorileriCagir()
+        {
+            List<string> FollowListID = new List<string>();
+            WebService webService = new WebService();
+            var MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+            var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
+            if (Donus4 != null)
+            {
+                var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                if (!string.IsNullOrEmpty(JSONStringg))
+                {
+                    FollowListID = JSONStringg.Split(',').ToList();
+                }
+            }
+            return FollowListID;
+        }
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             GetUserInfo(mAdapter[e.Position].receiverId.ToString(), mAdapter[e.Position].key);
@@ -116,7 +131,7 @@ namespace Buptis.Mesajlar.Istekler
                 if (mFriends.Count > 0)
                 {
                     this.Activity.RunOnUiThread(() => {
-                        mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends);
+                        mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
                         Liste.Adapter = mAdapter;
                         ShowLoading.Hide();
                     });

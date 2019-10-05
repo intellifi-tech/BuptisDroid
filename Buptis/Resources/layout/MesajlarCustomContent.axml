@@ -5,7 +5,7 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-    android:background="@null"
+    android:background="#000"
 	android:padding="5dp">
     <RelativeLayout
         android:minWidth="25px"
@@ -64,25 +64,25 @@
 			android:gravity="center_vertical"
 			android:layout_marginBottom="6.5dp" />
 	</LinearLayout>
-	<LinearLayout
-		android:layout_marginRight="16dp"
-		android:orientation="vertical"
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:layout_width="wrap_content"
-		android:layout_height="70dp"
-		android:layout_alignParentRight="true"
-		android:weightSum="100"
-		android:id="@+id/linearLayout4">
-      <ImageView
-                android:padding="3dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/customyildizbgwhite"
-                android:src="@mipmap/yildiz1"
-                android:scaleType="centerInside"
-                android:tint="#DA0069"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:id="@+id/ımageButton2" />
-	</LinearLayout>
+    <LinearLayout
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="29.5dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:weightSum="100"
+        android:id="@+id/linearLayout4">
+        <ImageView
+            android:padding="5.5dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/favori_pasif"
+            android:src="@mipmap/yildiz1"
+            android:scaleType="centerInside"
+            android:tint="#F1F2F2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/ımageButton2" />
+    </LinearLayout>
 </RelativeLayout>

@@ -95,6 +95,7 @@ namespace Buptis.PublicProfile
                 {
                     cevap.Dispose();
                     FavoriIslemleri(SecilenKisi.SecilenKisiDTO.firstName + " Favorilerinde çıkarıldı.");
+                    FollowButton.SetBackgroundResource(Resource.Drawable.favori_pasif);
 
                 });
                 cevap.SetNegativeButton("Hayır", delegate
@@ -106,8 +107,10 @@ namespace Buptis.PublicProfile
             else
             {
                 FavoriIslemleri(SecilenKisi.SecilenKisiDTO.firstName + " Favorilerine eklendi.");
+                FollowButton.SetBackgroundResource(Resource.Drawable.favori_aktif);
             }
         }
+        
         SpannableStringBuilder Spannla(Color Renk, string textt)
         {
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Renk);
@@ -123,7 +126,61 @@ namespace Buptis.PublicProfile
 
             return ssBuilder;
         }
+        void FavoriMi()
+        {
+            bool durum = false;
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                try
+                {
+                    List<string> FollowListID = new List<string>();
+                    WebService webService = new WebService();
+                    var MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+                    var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
+                    if (Donus4 != null)
+                    {
+                        var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                        if (!string.IsNullOrEmpty(JSONStringg))
+                        {
+                            FollowListID = JSONStringg.Split(',').ToList();
+                            var IsFollow = FollowListID.FindAll(item => item == SecilenKisi.SecilenKisiDTO.id.ToString());
+                            if (IsFollow.Count > 0)//Fav varmış Kaldır
+                            {
+                                durum = true;
+                            }
+                            else
+                            {
+                                durum = false;
+                            }
+                        }
+                        else
+                        {
+                            durum = false;
+                        }
+                    }
+                    else
+                    {
+                        durum = false;
+                    }
 
+
+                    RunOnUiThread(delegate () {
+                        if (durum)
+                        {
+                            FollowButton.SetBackgroundResource(Resource.Drawable.favori_aktif);
+                        }
+                        else
+                        {
+                            FollowButton.SetBackgroundResource(Resource.Drawable.favori_pasif);
+                        }
+                    });
+
+                }
+                catch
+                {
+                }
+            })).Start();
+        }
         void FavoriIslemleri(string Message)
         {
             var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
@@ -180,6 +237,7 @@ namespace Buptis.PublicProfile
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
                 GetUserInfo();
+                FavoriMi();
                 ViewPagerSetup();
             })).Start();
         }
@@ -239,7 +297,7 @@ namespace Buptis.PublicProfile
                         fragments = new Android.Support.V4.App.Fragment[1];
                         fragments[0] = new FotografPage("");
                         _viewpageer.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, null);
-                        AlertHelper.AlertGoster("Kullanıcıya ait fotoğraf bulunamadı...", this);
+                       // AlertHelper.AlertGoster("Kullanıcıya ait fotoğraf bulunamadı...", this);
                         ShowLoading.Hide();
                         SetupViewPagerIndicator();
                     }
@@ -249,7 +307,7 @@ namespace Buptis.PublicProfile
                     fragments = new Android.Support.V4.App.Fragment[1];
                     fragments[0] = new FotografPage("");
                     _viewpageer.Adapter = new TabPagerAdaptor(this.SupportFragmentManager, fragments, null);
-                    AlertHelper.AlertGoster("Kullanıcıya ait fotoğraf bulunamadı...", this);
+                    //AlertHelper.AlertGoster("Kullanıcıya ait fotoğraf bulunamadı...", this);
                     ShowLoading.Hide();
                     SetupViewPagerIndicator();
                 }

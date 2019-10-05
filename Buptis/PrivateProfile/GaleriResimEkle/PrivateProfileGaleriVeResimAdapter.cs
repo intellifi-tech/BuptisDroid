@@ -26,12 +26,13 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
     {
         public CardView card_view;
         public ImageViewAsync UserImage;
-        public ImageButton DeleteButton;
+        public ImageButton DeleteButton,ProfileIcon;
         public PrivateProfileGaleriVeResimAdapterHolder(View itemView, Action<int> listener) : base(itemView)
         {
             card_view = itemView.FindViewById<CardView>(Resource.Id.card_view);
             UserImage = itemView.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
             DeleteButton = itemView.FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            ProfileIcon = itemView.FindViewById<ImageButton>(Resource.Id.ımageButton2);
             itemView.Click += (sender, e) => listener(base.Position);
         }
     }
@@ -76,6 +77,14 @@ namespace Buptis.PrivateProfile.GaleriResimEkle
                 ImageService.Instance.LoadUrl(CDN.CDN_Path+item.imagePath).LoadingPlaceholder("https://demo.intellifi.tech/demo/Buptis/Generic/auser.jpg", ImageSource.Url).Into(viewholder.UserImage);
                 viewholder.DeleteButton.Tag = position;
                 viewholder.DeleteButton.SetOnClickListener(this);
+            }
+            if (position == 1)
+            {
+                viewholder.ProfileIcon.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                viewholder.ProfileIcon.Visibility = ViewStates.Invisible;
             }
         }
 

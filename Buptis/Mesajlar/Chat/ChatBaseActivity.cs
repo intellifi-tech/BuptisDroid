@@ -69,7 +69,6 @@ namespace Buptis.Mesajlar.Chat
             Geri.Click += Geri_Click;
             Emoji.Click += Emoji_Click;
             MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
-            Favori.Visibility = ViewStates.Invisible;
         }
 
         private void Favori_Click(object sender, EventArgs e)
@@ -443,7 +442,7 @@ namespace Buptis.Mesajlar.Chat
                     {
                         RunOnUiThread(delegate ()
                         {
-                            Favori.Visibility = ViewStates.Invisible;
+                            Favori.SetBackgroundResource(Resource.Drawable.favori_pasif);
                         });
                         
                     }
@@ -451,7 +450,7 @@ namespace Buptis.Mesajlar.Chat
                     {
                         RunOnUiThread(delegate ()
                         {
-                            Favori.Visibility = ViewStates.Visible;
+                            Favori.SetBackgroundResource(Resource.Drawable.favori_aktif);
                         });
                         
                     }
@@ -482,12 +481,14 @@ namespace Buptis.Mesajlar.Chat
             if (Donus != "Hata")
             {
                 AlertHelper.AlertGoster("Favorilere Ekledi.", this);
+                Favori.SetBackgroundResource(Resource.Drawable.favori_aktif);
                 FavorileriCagir();
                 return;
             }
             else
             {
                 AlertHelper.AlertGoster("Bir Sorun Oluştu.", this);
+                Favori.SetBackgroundResource(Resource.Drawable.favori_pasif);
                 return;
             }
         }

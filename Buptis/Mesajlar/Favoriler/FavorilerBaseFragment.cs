@@ -59,7 +59,7 @@ namespace Buptis.Mesajlar.Favoriler
                                                                    select friend).ToList<SonFavorilerListViewDataModel>();
                 if (searchedFriends.Count > 0)
                 {
-                    mAdapter = new FavorilerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, searchedFriends);
+                    mAdapter = new FavorilerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, searchedFriends, FavorileriCagir());
                     var ListeAdaptoru2 = mAdapter;
                     this.Activity.RunOnUiThread(() =>
                     {
@@ -77,7 +77,7 @@ namespace Buptis.Mesajlar.Favoriler
             })).Start();
         }
 
-
+      
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             this.Activity.StartActivity(typeof(ChatBaseActivity));
@@ -114,7 +114,7 @@ namespace Buptis.Mesajlar.Favoriler
                     {
                         var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
                         var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
-                        mAdapter = new FavorilerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends);
+                        mAdapter = new FavorilerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
                         Liste.Adapter = mAdapter;
                         ShowLoading.Hide();
                     });

@@ -50,12 +50,19 @@ namespace Buptis.PrivateProfile
             GaleriButton = FindViewById<ImageButton>(Resource.Id.ımageButton4);
             GaleriButton.Click += GaleriButton_Click;
             UserProfilPhoto = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
-
+            UserProfilPhoto.Click += UserProfilPhoto_Click;
             ProfileEdit.Click += ProfileEdit_Click;
             imageayarlar.Click += İmageayarlar_Click;
             GeriButton.Click += GeriButton_Click;
             DinamikStatusBarColor1.SetFullScreen(this);
 
+        }
+
+        private void UserProfilPhoto_Click(object sender, EventArgs e)
+        {
+            var PrivateProfileGaleriVeResimEkleDialogFragment1 = new PrivateProfileGaleriVeResimEkleDialogFragment();
+            PrivateProfileGaleriVeResimEkleDialogFragment1.PrivateProfileBaseActivity1 = this;
+            PrivateProfileGaleriVeResimEkleDialogFragment1.Show(this.SupportFragmentManager, "PrivateProfileGaleriVeResimEkleDialogFragment1");
         }
 
         private void GaleriButton_Click(object sender, EventArgs e)

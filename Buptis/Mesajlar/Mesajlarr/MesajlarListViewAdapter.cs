@@ -156,13 +156,13 @@ namespace Buptis.Mesajlar.Mesajlarr
                 if (IsFollow.Count > 0)
                 {
                     ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
-                        GelenButton.Visibility = ViewStates.Invisible;
+                        GelenButton.SetBackgroundResource(Resource.Drawable.favori_aktif);
                     });
                 }
                 else
                 {
                     ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate () {
-                        GelenButton.Visibility = ViewStates.Visible;
+                        GelenButton.SetBackgroundResource(Resource.Drawable.favori_pasif);
                     });
                 }
             })).Start();
@@ -180,17 +180,47 @@ namespace Buptis.Mesajlar.Mesajlarr
                 favUserId = itemm.receiverId
             };
             string jsonString = JsonConvert.SerializeObject(favoriDTO);
+            var IsFollow = FollowListID.FindAll(item => item == itemm.receiverId.ToString());
+            if (IsFollow.Count > 0)//Fav varmış Kaldır
+            {
+                ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate ()
+                {
+                    if (FavEkleKaldir(jsonString, (v as ImageView)))
+                    {
+                        (v as ImageView).SetBackgroundResource(Resource.Drawable.favori_pasif);
+                        FollowListID.Remove(itemm.receiverId.ToString());
+                        AlertHelper.AlertGoster("Favorilerden Çıkarıldı.", mContext);
+                        return;
+                    }
+                   
+                });
+            }
+            else//Fav yokmus Ekle
+            {
+                ((Android.Support.V7.App.AppCompatActivity)mContext).RunOnUiThread(delegate ()
+                {
+                    if (FavEkleKaldir(jsonString, (v as ImageView)))
+                    {
+                        (v as ImageView).SetBackgroundResource(Resource.Drawable.favori_aktif);
+                        FollowListID.Add(itemm.receiverId.ToString());
+                        AlertHelper.AlertGoster("Favorilere Eklendi.", mContext);
+                    }
+                   
+                });
+            }
+        }
+        bool FavEkleKaldir(string jsonString, ImageView v)
+        {
+            WebService webService = new WebService();
             var Donus = webService.ServisIslem("users/fav", jsonString);
             if (Donus != "Hata")
             {
-                AlertHelper.AlertGoster("Favorilere Ekledi.", mContext);
-                ((ImageView)v).Visibility = ViewStates.Invisible;
-                return;
+                return true;
             }
             else
             {
                 AlertHelper.AlertGoster("Bir Sorun Oluştu.", mContext);
-                return;
+                return false;
             }
         }
 
