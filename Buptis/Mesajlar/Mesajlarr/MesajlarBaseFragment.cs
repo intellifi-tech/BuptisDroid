@@ -64,6 +64,14 @@ namespace Buptis.Mesajlar.Mesajlarr
                         Liste.Adapter = ListeAdaptoru2;
                     });
                 }
+                else
+                {
+                    this.Activity.RunOnUiThread(() =>
+                    {
+                        Liste.Adapter = null;
+                        AlertHelper.AlertGoster("Kimse bulunamadı", this.Activity);
+                    });
+                }
             })).Start();
         }
 

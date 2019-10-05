@@ -663,7 +663,7 @@ namespace Buptis
 			public const int layout_item_slide_in = 2130772003;
 			
 			// aapt resource value: 0x7F010024
-			public const int listeIcinAnimasyon_SoldanGiris = 2130772004;
+			public const int listeicinanimasyon_soldaniris = 2130772004;
 			
 			// aapt resource value: 0x7F010025
 			public const int sagdanCikis = 2130772005;

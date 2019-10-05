@@ -81,6 +81,13 @@ namespace Buptis.Lokasyonlar.BirYerSec
             mViewAdapter.NotifyItemChanged(e);
         }
 
+        public void SecimYap(int position)
+        {
+            mRecyclerView.SmoothScrollToPosition(position);
+            //MapDataModel1[position].Secim = true;
+            mViewAdapter.NotifyItemChanged(position);
+        }
+
         class HaritaListeRecyclerViewOnScrollListener : RecyclerView.OnScrollListener
         {
             int mLastFirstVisibleItem = 0;

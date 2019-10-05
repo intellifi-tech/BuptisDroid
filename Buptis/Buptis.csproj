@@ -247,7 +247,7 @@
     <AndroidResource Include="Resources\anim\jump_from_down.xml" />
     <AndroidResource Include="Resources\anim\jump_to_down.xml" />
     <AndroidResource Include="Resources\anim\layout_item_slide_in.xml" />
-    <AndroidResource Include="Resources\anim\listeIcinAnimasyon_SoldanGiris.xml" />
+    <AndroidResource Include="Resources\anim\listeicinanimasyon_soldaniris.xml" />
     <AndroidResource Include="Resources\anim\sagdanCikis.xml" />
     <AndroidResource Include="Resources\anim\scale_up_fast.xml" />
     <AndroidResource Include="Resources\anim\scaleAnimation.xml" />
@@ -322,55 +322,6 @@
     <AndroidResource Include="Resources\drawable\unselectedradiobutton.xml" />
     <AndroidResource Include="Resources\drawable\unselectedwhiteradio.xml" />
     <AndroidResource Include="Resources\drawable\yuvarlakbeyaz.xml" />
-    <AndroidResource Include="Resources\layout\ActionSheet.axml" />
-    <AndroidResource Include="Resources\layout\ActionSheetCustomButtonView.axml" />
-    <AndroidResource Include="Resources\layout\AnaMainAdresSec_CustomButton.axml" />
-    <AndroidResource Include="Resources\layout\app_bar.axml" />
-    <AndroidResource Include="Resources\layout\BanaYakinBaseFragment.axml" />
-    <AndroidResource Include="Resources\layout\BilgiGirisiFragmentDialog.axml" />
-    <AndroidResource Include="Resources\layout\BirYerSecBaseFragment.axml" />
-    <AndroidResource Include="Resources\layout\ChatBaseActivity.axml" />
-    <AndroidResource Include="Resources\layout\custom_map_marker_layout.axml" />
-    <AndroidResource Include="Resources\layout\CustomLoadingScreen.axml" />
-    <AndroidResource Include="Resources\layout\CustommAlert.axml" />
-    <AndroidResource Include="Resources\layout\custompin.axml" />
-    <AndroidResource Include="Resources\layout\FavorilerBaseFragment.axml" />
-    <AndroidResource Include="Resources\layout\FotografPage.axml" />
-    <AndroidResource Include="Resources\layout\GaleriVeResimEkleCutomCardView.axml" />
-    <AndroidResource Include="Resources\layout\GelenMesajLayout.axml" />
-    <AndroidResource Include="Resources\layout\GidenMesajBalon.axml" />
-    <AndroidResource Include="Resources\layout\HaritaListeBaseFragment.axml" />
-    <AndroidResource Include="Resources\layout\HorizontalMapCardView.axml" />
-    <AndroidResource Include="Resources\layout\IsteklerBaseFragment.axml" />
-    <AndroidResource Include="Resources\layout\KayitOl.axml" />
-    <AndroidResource Include="Resources\layout\LoginBaseLayout.axml" />
-    <AndroidResource Include="Resources\layout\LokasyonCustomCardView.axml" />
-    <AndroidResource Include="Resources\layout\LokasyondakiKisilerBaseActivity.axml" />
-    <AndroidResource Include="Resources\layout\LokasyondakiKisilerCustomCardView.axml" />
-    <AndroidResource Include="Resources\layout\LokasyonlarBaseActivity.axml" />
-    <AndroidResource Include="Resources\layout\LokayonDetayBaseActivity.axml" />
-    <AndroidResource Include="Resources\layout\MesajlarBaseActivity.axml" />
-    <AndroidResource Include="Resources\layout\MesajlarBaseFragment.axml" />
-    <AndroidResource Include="Resources\layout\MesajlarCustomContent.axml" />
-    <AndroidResource Include="Resources\layout\PopulerBaseFragment.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileAyarlar.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileBaseActivity.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileBizeYazin.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileCoktanSecmeli.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileEngelle.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileFiltreleActivity.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileGaleriVeFotografEkle.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileHakkimizda.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileHesap.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileNotification.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileRatingFragment.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileTemelBilgiler.axml" />
-    <AndroidResource Include="Resources\layout\PrivateProfileViewPager.axml" />
-    <AndroidResource Include="Resources\layout\PublicProfileBaseActivity.axml" />
-    <AndroidResource Include="Resources\layout\Rustomradiobutton.axml" />
-    <AndroidResource Include="Resources\layout\Saat_Secim.axml" />
-    <AndroidResource Include="Resources\layout\Splash.axml" />
-    <AndroidResource Include="Resources\layout\TumuBaseFragment.axml" />
     <AndroidResource Include="Resources\mipmap-xhdpi\addphoto.png" />
     <AndroidResource Include="Resources\mipmap-xhdpi\auser.png" />
     <AndroidResource Include="Resources\mipmap-xhdpi\geriicon.png" />
@@ -398,44 +349,13 @@
     <AndroidResource Include="Resources\values\Integers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\LokasyonDetayFragment.axml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\PrivateProfileViewPagerSonuc.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\circular_progress_bar.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\circle_shape.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\PrivateProfileEngelliListesi.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\EngellilerListCustomView.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\stariconmavi.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\HediyelerBaseFragment.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\spinnericinozelitemm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\SpinnerCustomItem.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\send_icon1.png" />
@@ -447,7 +367,172 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\close_editing_icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\layout\CustomLoadingScreen.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CustommAlert.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\custompin.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\EngellilerListCustomView.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\FavorilerBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\FotografPage.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\GaleriVeResimEkleCutomCardView.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\GelenMesajLayout.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\GidenMesajBalon.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\HaritaListeBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\HediyelerBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\HorizontalMapCardView.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\IsteklerBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\KayitOl.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\LoginBaseLayout.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\LokasyonCustomCardView.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\LokasyondakiKisilerBaseActivity.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\LokasyondakiKisilerCustomCardView.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\LokasyonDetayFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\layout\LokasyonlarBaseActivity.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\LokayonDetayBaseActivity.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MesajlarBaseActivity.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MesajlarBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\MesajlarCustomContent.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PopulerBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileAyarlar.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileBaseActivity.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileBizeYazin.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileCoktanSecmeli.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileEngelle.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileEngelliListesi.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileFiltreleActivity.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileGaleriVeFotografEkle.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileHakkimizda.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileHesap.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileNotification.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileRatingFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileTemelBilgiler.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileViewPager.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PrivateProfileViewPagerSonuc.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PublicProfileBaseActivity.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Rustomradiobutton.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Saat_Secim.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SpinnerCustomItem.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\spinnericinozelitemm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\Splash.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TumuBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ActionSheet.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ActionSheetCustomButtonView.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnaMainAdresSec_CustomButton.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\app_bar.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\BanaYakinBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\BilgiGirisiFragmentDialog.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\BirYerSecBaseFragment.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ChatBaseActivity.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\custom_map_marker_layout.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

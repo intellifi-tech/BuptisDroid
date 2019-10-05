@@ -29,6 +29,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
         ImageButton ListeAcKapat, MyLocationButton;
         HaritaListeBaseFragment HaritaListeBaseFragment1;
         List<HaritaListeDataModel> Locationss = new List<HaritaListeDataModel>();
+        View MapBaseView;
         #endregion
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,7 +48,8 @@ namespace Buptis.Lokasyonlar.BirYerSec
             ListeAcKapat = RootView.FindViewById<ImageButton>(Resource.Id.ımageButton1);
             MyLocationButton = RootView.FindViewById<ImageButton>(Resource.Id.ımageButton3);
             ListeAcKapat.Click += ListeAcKapat_Click;
-            MyLocationButton.Click += MyLocationButton_Click; 
+            MyLocationButton.Click += MyLocationButton_Click;
+            MapBaseView = RootView;
             return RootView;
         }
 
@@ -162,8 +164,15 @@ namespace Buptis.Lokasyonlar.BirYerSec
 
         public bool OnMarkerClick(Marker marker)
         {
+            HaritaListeBaseFragment1.SecimYap(Convert.ToInt32(marker.Title));
+
+            if (durum == false)
+            {
+                AcKapat();
+            }
             return true;
         }
+
 
 
         private void InitMapFragment()
