@@ -361,10 +361,31 @@ namespace Buptis.PrivateProfile
             slider.DefaultColor = defaultcolor;
             slider.SetBarHeight(15);
             PinYerlestir();
-            slider.DragCompleted += Slider_DragCompleted;
+            slider.LowerValueChanged += Slider_LowerValueChanged;
             BoyText.Text = "0";
             CevapYansit();
             return RootView;
+        }
+
+        private void Slider_LowerValueChanged(object sender, EventArgs e)
+        {
+             var MinValue = slider.GetSelectedMinValue() * 2.5f;
+            if (MinValue <= 0)
+            {
+                slider.SetSelectedMinValue((int)(25 / 2.5f));
+                BoyText.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
+                SecimYapildimi = true;
+            }
+            else
+            {
+                BoyText.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
+                SecimYapildimi = true;
+            }
+        }
+
+        private void Slider_Drag(object sender, View.DragEventArgs e)
+        {
+          
         }
 
         private void Sifirla_Click(object sender, EventArgs e)
@@ -374,9 +395,8 @@ namespace Buptis.PrivateProfile
 
         private void Slider_DragCompleted(object sender, EventArgs e)
         {
-            var MinValue = slider.GetSelectedMinValue() * 2.5f;
-            BoyText.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
-            SecimYapildimi = true;
+            
+          
         }
         public UserAnswersDTO GetSelectedAnswer()
         {
