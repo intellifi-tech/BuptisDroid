@@ -26,7 +26,7 @@ namespace Buptis.Lokasyonlar.BanaYakin
         public string lastModifiedDate { get; set; }
         public string name { get; set; }
         public string place { get; set; }
-        public string rating { get; set; }
+        public double rating { get; set; }
         public string telephone { get; set; }
         public string townId { get; set; }
         public string townName { get; set; }

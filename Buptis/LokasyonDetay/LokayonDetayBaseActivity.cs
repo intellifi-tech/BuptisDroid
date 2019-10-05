@@ -158,12 +158,20 @@ namespace Buptis.LokasyonDetay
                 {
                     var aa = Donus.ToString();
                     JSONObject js = new JSONObject(Donus.ToString());
-                    var Rating = js.GetString("rating");
+                    var Rating = js.GetDouble("rating");
 
                     this.RunOnUiThread(() =>
                     {
-                        SecilenLokasyonn.Rate = Rating.ToString();
-                        ratingButton.Text = SecilenLokasyonn.Rate;
+                        SecilenLokasyonn.Rate = Rating;
+                        if (Convert.ToDouble(SecilenLokasyonn.Rate) >= 10)
+                        {
+                            ratingButton.Text = "10";
+                        }
+                        else
+                        {
+                            ratingButton.Text = Math.Round(Convert.ToDouble(SecilenLokasyonn.Rate), 1).ToString();
+                        }
+                        
                     });
                 }
             })).Start();

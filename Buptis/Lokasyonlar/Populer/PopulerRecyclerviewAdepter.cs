@@ -70,7 +70,14 @@ namespace Buptis.Lokasyonlar.Populer
             viewholder.LokasyonAdi.Text = "";
             viewholder.LokasyonTuru.Text = "";
             viewholder.UzaklikveSemt.Text = " / " + item.environment + " km";
-            viewholder.Puan.Text = item.rating;
+            if (Convert.ToDouble(item.rating) >= 10)
+            {
+                viewholder.Puan.Text = "10";
+            }
+            else
+            {
+                viewholder.Puan.Text = Math.Round(Convert.ToDouble(item.rating), 1).ToString();
+            }
             viewholder.LokasyonAdi.Text = item.name;
             viewholder.DolulukOrani.Max = (item.capacity);
             viewholder.DolulukOrani.Progress = item.allUserCheckIn;
@@ -91,7 +98,8 @@ namespace Buptis.Lokasyonlar.Populer
                         JSONObject js = new JSONObject(Donus1.ToString());
                         var TownName = js.GetString("townName");
                         BaseActivity.RunOnUiThread(() => {
-                            UzaklikveSemt.Text = TownName;
+                            var km = UzaklikveSemt.Text;
+                            UzaklikveSemt.Text = TownName + km; 
                         });
                     }
                     else

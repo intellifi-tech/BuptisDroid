@@ -68,6 +68,7 @@
 						android:paddingLeft="10dp"
 						android:layout_marginTop="20dp"
 						android:background="@drawable/inputbg"
+                        android:inputType="textPersonName"
 						android:id="@+id/editad"/>
 					<EditText
 						android:layout_width="match_parent"
@@ -80,6 +81,7 @@
 						android:layout_marginTop="20dp"
 						android:layout_below="@+id/editad"
 						android:background="@drawable/inputbg"
+                        android:inputType="textPersonName"
 						android:id="@+id/editsoyad"/>
 					<EditText
 						android:layout_width="match_parent"
@@ -92,6 +94,7 @@
 						android:layout_marginTop="20dp"
 						android:background="@drawable/inputbg"
 						android:layout_below="@+id/editsoyad"
+                        android:inputType="textEmailAddress"
 						android:id="@+id/textInputEditText1"/>
 					<EditText
 						android:layout_width="match_parent"
