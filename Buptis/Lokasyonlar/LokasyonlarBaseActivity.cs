@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Buptis.BackgroundServices;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.Lokasyonlar.BanaYakin;
@@ -59,6 +60,7 @@ namespace Buptis.Lokasyonlar
             UserInfoo = DataBase.MEMBER_DATA_GETIR()[0];
             ParcaYerlestir(0);
 
+            StartService(new Android.Content.Intent(this, typeof(BuptisMessageListener)));
         }
 
         private void MesajButton_Click(object sender, EventArgs e)
