@@ -67,6 +67,7 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundServices\BuptisMessageListener.cs" />
     <Compile Include="DataBasee\DataBase.cs" />
     <Compile Include="DataBasee\DataModel.cs" />
     <Compile Include="GenericClass\AuthenticationState.cs" />
