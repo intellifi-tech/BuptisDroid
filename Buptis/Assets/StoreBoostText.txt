@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800,900&display=swap" rel="stylesheet">
+</head>
+<body style="background:none;font-family:Muli,sans-serif; font-size:13px ">
+<font color="#fff"><p>Kendinizi Boost’layarak <font color="#E10068">30 dakika boyunca</font> mesajlarda üst sıralarda olun!</br>
+Boost satın almanız durumunda
+servis sağlayıcının ismi tümüyle güvenilir ve anonim
+olacak şekilde ödeme listenizde <strong>“Apple iTunes Store”
+</strong>olarak güncellenecektir.</p></font>
+</body>
+</html>

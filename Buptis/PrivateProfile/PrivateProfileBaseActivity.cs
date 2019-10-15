@@ -13,6 +13,7 @@ using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PrivateProfile.GaleriResimEkle;
+using Buptis.PrivateProfile.Store;
 using Buptis.WebServicee;
 using FFImageLoading;
 using FFImageLoading.Transformations;
@@ -27,7 +28,7 @@ namespace Buptis.PrivateProfile
     public class PrivateProfileBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar 
-        ImageButton imageayarlar,FilterButton,GeriButton,ProfileEdit,GaleriButton;
+        ImageButton imageayarlar,FilterButton,GeriButton,ProfileEdit,GaleriButton,krediButton,boostButton,superBoostButton;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu;
         ImageViewAsync UserProfilPhoto;
@@ -55,7 +56,33 @@ namespace Buptis.PrivateProfile
             imageayarlar.Click += İmageayarlar_Click;
             GeriButton.Click += GeriButton_Click;
             DinamikStatusBarColor1.SetFullScreen(this);
+            krediButton = FindViewById<ImageButton>(Resource.Id.ımageButton8);
+            krediButton.Click += KrediButton_Click;
+            boostButton = FindViewById<ImageButton>(Resource.Id.ımageButton6);
+            superBoostButton = FindViewById<ImageButton>(Resource.Id.ımageButton7);
+            boostButton.Click += BoostButton_Click;
+            superBoostButton.Click += SuperBoostButton_Click;
+        }
 
+        private void SuperBoostButton_Click(object sender, EventArgs e)
+        {
+            var StoreSuperBoost1 = new StoreSuperBoostDF();
+            StoreSuperBoost1.PrivateProfileBaseActivity1 = this;
+            StoreSuperBoost1.Show(this.SupportFragmentManager, "StoreSuperBoost1");
+        }
+
+        private void BoostButton_Click(object sender, EventArgs e)
+        {
+            var StoreBoost1 = new StoreBoostDF();
+            StoreBoost1.PrivateProfileBaseActivity1 = this;
+            StoreBoost1.Show(this.SupportFragmentManager, "StoreBoost1");
+        }
+
+        private void KrediButton_Click(object sender, EventArgs e)
+        {
+            var StoreKrediYukle1 = new StoreKredi();
+            StoreKrediYukle1.PrivateProfileBaseActivity1 = this;
+            StoreKrediYukle1.Show(this.SupportFragmentManager, "StoreKrediYukle1");
         }
 
         private void UserProfilPhoto_Click(object sender, EventArgs e)

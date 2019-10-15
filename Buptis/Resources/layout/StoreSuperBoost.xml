@@ -1,0 +1,250 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:gravity="center"
+        android:id="@+id/rootView"
+        android:background="@drawable/storebackground"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/linearLayout2" >
+            <TextView
+                android:text="Super Boost"
+                android:textColor="#E10068"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:layout_width="251.0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:layout_height="match_parent"
+                android:id="@+id/textView1"
+                android:layout_marginRight="0.0dp" />
+            <ImageButton
+                android:src="@mipmap/close_boost"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:padding="20dp"
+                android:layout_width="81.0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ımageButton1" />
+        </LinearLayout>
+        <RelativeLayout
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="278.0dp"
+            android:gravity="center"
+            android:id="@+id/relativeLayout1" >
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:id="@+id/relativeLayout2" 
+                android:background="@drawable/storebackgroundstroke">
+                <ImageView
+                    android:src="@mipmap/super_boost_icon"
+                    android:layout_width="match_parent"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerInside"
+                    android:id="@+id/ımageView1" />
+                <TextView
+                    android:text="1 Super Boost"
+                    android:textColor="#9B9B9B"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ımageView1"
+                    android:id="@+id/textView2" />
+                <TextView
+                    android:text="54,00 ₺"
+                    android:textColor="#E10068"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView2"
+                    android:id="@+id/tv1" />
+                <TextView
+                    android:text="34,00 ₺"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp"
+                     android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv1"
+                    android:id="@+id/textView4" />
+            </RelativeLayout>
+              <RelativeLayout
+                android:layout_margin="10dp"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:id="@+id/relativeLayout3" 
+                android:layout_toRightOf="@+id/relativeLayout2"
+                android:background="@drawable/storebackgroundstroke">
+                <ImageView
+                    android:src="@mipmap/super_boost_icon"
+                    android:layout_width="match_parent"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerInside"
+                    android:id="@+id/ımageView1" />
+                <TextView
+                    android:text="3 Super Boost"
+                    android:textColor="#9B9B9B"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ımageView1"
+                    android:id="@+id/textView2" />
+                <TextView
+                    android:text="64,00 ₺"
+                    android:textColor="#E10068"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView2"
+                    android:id="@+id/tv2" />
+                <TextView
+                    android:text="44,00 ₺"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp"
+                     android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv2"
+                    android:id="@+id/textView4" />
+                </RelativeLayout>
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_alignParentBottom="true"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:id="@+id/relativeLayout4" 
+                android:background="@drawable/storebackgroundstroke">
+                 <ImageView
+                    android:src="@mipmap/super_boost_icon"
+                    android:layout_width="match_parent"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerInside"
+                    android:id="@+id/ımageView1" />
+                <TextView
+                    android:text="5 Super Boost"
+                    android:textColor="#9B9B9B"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ımageView1"
+                    android:id="@+id/textView2" />
+                <TextView
+                    android:text="84,00 ₺"
+                    android:textColor="#E10068"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView2"
+                    android:id="@+id/tv3" />
+                <TextView
+                    android:text="64,00 ₺"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp"
+                     android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv3"
+                    android:id="@+id/textView4" />
+                </RelativeLayout>
+             <RelativeLayout
+                android:layout_margin="10dp"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:id="@+id/relativeLayout5" 
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/relativeLayout4"
+                android:background="@drawable/storebackgroundstroke">
+                <ImageView
+                    android:src="@mipmap/super_boost_icon"
+                    android:layout_width="match_parent"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerInside"
+                    android:id="@+id/ımageView1" />
+                <TextView
+                    android:text="10 Super Boost"
+                    android:textColor="#9B9B9B"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ımageView1"
+                    android:id="@+id/textView2" />
+                <TextView
+                    android:text="154,00 ₺"
+                    android:textColor="#E10068"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView2"
+                    android:id="@+id/tv4" />
+                <TextView
+                    android:text="94,00 ₺"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp"
+                     android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv4"
+                    android:id="@+id/textView4" />
+                </RelativeLayout>
+        </RelativeLayout>
+        <android.webkit.WebView
+            android:layout_width="300dp"
+            android:layout_height="160dp"
+            android:id="@+id/webView1" />
+        <Button
+            android:text="Satın Al"
+            android:textColor="#9B9B9B"
+            android:textSize="22dp"
+            android:background="@drawable/storebutton"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:id="@+id/button1"
+        android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
+</RelativeLayout>
