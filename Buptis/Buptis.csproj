@@ -148,6 +148,7 @@
     <Compile Include="PrivateProfile\PrivateProfileViewPager.cs" />
     <Compile Include="PrivateProfile\PrivateProfileViewPagerSonuc.cs" />
     <Compile Include="PrivateProfile\Store\StoreBoostDF.cs" />
+    <Compile Include="PrivateProfile\Store\StoreGold.cs" />
     <Compile Include="PrivateProfile\Store\StoreKredi.cs" />
     <Compile Include="PrivateProfile\Store\StoreSuperBoostDF.cs" />
     <Compile Include="PublicProfile\PublicProfileBaseActivity.cs" />
@@ -630,6 +631,25 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\StoreSuperBoostText.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\StoreGold.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\StoreGoldText.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\StoreGoldViewPager.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\gold_icon5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\storegoldselected.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -1,0 +1,12 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800,900&display=swap" rel="stylesheet">
+</head>
+<body style="background:none;font-family:Muli,sans-serif; font-size:13px ">
+<font color="#fff"><p><font color="#BC9F43">Buptis Gold</font>’a geçmeniz durumunda servis sağlayıcının ismi tümüyle güvenilir ve anonim olacak şekilde ödeme listenizde <strong>“Apple iTunes Store”
+</strong>olarak güncellenecektir. Daha detaylı bilgi için lütfen
+<a href="http://buptis.com/assets/doc/buptis_gizlilik-politikasi.pdf" style="color:#BC9F43">Gizlilik Politikası</a> ve <a href="http://buptis.com/assets/doc/buptis_kullanim-kosullari.pdf" style="color:#BC9F43">Kullanım Koşulları</a>
+sayfalarını ziyaret edin.</p></font>
+</body>
+</html>

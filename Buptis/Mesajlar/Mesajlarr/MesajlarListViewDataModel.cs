@@ -23,5 +23,7 @@ namespace Buptis.Mesajlar.Mesajlarr
         public int receiverId { get; set; }
         public bool request { get; set; }
         public int unreadMessageCount { get; set; }
+        //Custom Property
+        public bool BoostOrSuperBoost { get; set; }
     }
 }

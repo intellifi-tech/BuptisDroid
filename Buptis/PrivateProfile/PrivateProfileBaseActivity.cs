@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.GenericUI;
 using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PrivateProfile.GaleriResimEkle;
 using Buptis.PrivateProfile.Store;
@@ -28,10 +29,12 @@ namespace Buptis.PrivateProfile
     public class PrivateProfileBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar 
-        ImageButton imageayarlar,FilterButton,GeriButton,ProfileEdit,GaleriButton,krediButton,boostButton,superBoostButton;
+        ImageButton imageayarlar,FilterButton,GeriButton,ProfileEdit,GaleriButton,krediButton,boostButton,superBoostButton,goldImageButton;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
-        TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu;
+        TextView KullaniciAdiYasi, Meslegi, Konumu, HakkindaYazisi, EnSonLokasyonu,BuptistxtView;
+        TextView boosTxt, sBoosTxt, krediTxt;
         ImageViewAsync UserProfilPhoto;
+
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -62,20 +65,47 @@ namespace Buptis.PrivateProfile
             superBoostButton = FindViewById<ImageButton>(Resource.Id.ımageButton7);
             boostButton.Click += BoostButton_Click;
             superBoostButton.Click += SuperBoostButton_Click;
+            goldImageButton = FindViewById<ImageButton>(Resource.Id.goldpicture);
+            BuptistxtView = FindViewById<TextView>(Resource.Id.goldtext);
+            goldImageButton.Click += OpenGoldPackage;
+            BuptistxtView.Click += OpenGoldPackage;
+            boosTxt = FindViewById<TextView>(Resource.Id.textView8);
+            sBoosTxt = FindViewById<TextView>(Resource.Id.textView9);
+            krediTxt = FindViewById<TextView>(Resource.Id.textView10);
+        }
+        private void OpenGoldPackage(object sender, EventArgs e)
+        {
+            var StoreGoldPackage1 = new StoreGold();
+            StoreGoldPackage1.PrivateProfileBaseActivity1 = this;
+            StoreGoldPackage1.Show(this.SupportFragmentManager, "StoreGoldPackage1");
         }
 
         private void SuperBoostButton_Click(object sender, EventArgs e)
         {
-            var StoreSuperBoost1 = new StoreSuperBoostDF();
-            StoreSuperBoost1.PrivateProfileBaseActivity1 = this;
-            StoreSuperBoost1.Show(this.SupportFragmentManager, "StoreSuperBoost1");
+            if (sBoosTxt.Text == "+")
+            {
+                var StoreSuperBoost1 = new StoreSuperBoostDF();
+                StoreSuperBoost1.PrivateProfileBaseActivity1 = this;
+                StoreSuperBoost1.Show(this.SupportFragmentManager, "StoreSuperBoost1");
+            }
+            else
+            {
+                UseBoostOrSuperBoost("SUPER_BOOST");
+            }
         }
 
         private void BoostButton_Click(object sender, EventArgs e)
         {
-            var StoreBoost1 = new StoreBoostDF();
-            StoreBoost1.PrivateProfileBaseActivity1 = this;
-            StoreBoost1.Show(this.SupportFragmentManager, "StoreBoost1");
+            if (boosTxt.Text == "+")
+            {
+                var StoreBoost1 = new StoreBoostDF();
+                StoreBoost1.PrivateProfileBaseActivity1 = this;
+                StoreBoost1.Show(this.SupportFragmentManager, "StoreBoost1");
+            }
+            else
+            {
+                UseBoostOrSuperBoost("BOOST");
+            }
         }
 
         private void KrediButton_Click(object sender, EventArgs e)
@@ -84,7 +114,6 @@ namespace Buptis.PrivateProfile
             StoreKrediYukle1.PrivateProfileBaseActivity1 = this;
             StoreKrediYukle1.Show(this.SupportFragmentManager, "StoreKrediYukle1");
         }
-
         private void UserProfilPhoto_Click(object sender, EventArgs e)
         {
             var PrivateProfileGaleriVeResimEkleDialogFragment1 = new PrivateProfileGaleriVeResimEkleDialogFragment();
@@ -110,6 +139,7 @@ namespace Buptis.PrivateProfile
         {
             base.OnStart();
             GetUserInfo();
+            GetUserLicence();
         }
 
         public void GetUserInfo()
@@ -136,6 +166,81 @@ namespace Buptis.PrivateProfile
                   GetUserImage(UserInfo[0].id);
               });
             }
+        }
+        void UseBoostOrSuperBoost(string LicenceType)
+        {
+            WebService webService = new WebService();
+            var Donus = webService.ServisIslem("licences/use", LicenceType, ContentType: "text/plain");
+            if (Donus != "Hata")
+            {
+                switch (LicenceType)
+                {
+                    case "SUPER_BOOST":
+                        AlertHelper.AlertGoster("1 Super Boost Aktifleştirildi.", this);
+                        break;
+                    case "BOOST":
+                        AlertHelper.AlertGoster("1 Boost Aktifleştirildi.", this);
+                        break;
+                    default:
+                        break;
+                }
+
+                GetUserLicence();
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen daha sonra tekrar deneyin.", this);
+            }
+        }
+        public void GetUserLicence()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("users/" + MeID);
+                if (Donus != null)
+                {
+                    var aa = Donus.ToString();
+                    var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                    if (Icerikk != null)
+                    {
+                        RunOnUiThread(delegate ()
+                        {
+                            if (Icerikk.boost <= 0 || Icerikk.boost==null)
+                            {
+                                boosTxt.Text = "+";
+                            }
+                            else
+                            {
+                                boosTxt.Text = Icerikk.boost.ToString();
+                            }
+
+                            if (Icerikk.superBoost <= 0 || Icerikk.superBoost == null)
+                            {
+                                sBoosTxt.Text = "+";
+                            }
+                            else
+                            {
+                                sBoosTxt.Text = Icerikk.superBoost.ToString();
+                            }
+
+                            if (Icerikk.messageCount <= 0 || Icerikk.messageCount == null)
+                            {
+                                krediTxt.Text = "+";
+                            }
+                            else
+                            {
+                                krediTxt.Text = " " + Icerikk.messageCount.ToString() + " ";
+                            }
+                            if (Icerikk.gold != null)
+                            {
+                                goldImageButton.SetImageResource(Resource.Mipmap.gold_acik);
+                            }
+                        });
+                    }
+                }
+            })).Start();
         }
         void GetUserImage(int USERID)
         {

@@ -83,6 +83,7 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
                         var MeId = DataBase.MEMBER_DATA_GETIR()[0].id;
                         UserGallery1 = UserGallery1.FindAll(item => item.id != MeId);
                         FilterUsers();
+                        SuperBoostKullaniminaGoreSirala();
                         var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
                         var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
                         mViewAdapter = new CevrimIciRecyclerViewAdapter(UserGallery1, (Android.Support.V7.App.AppCompatActivity)this.Activity, Genislik,normall,boldd);
@@ -106,6 +107,18 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
                 AlertHelper.AlertGoster("Henüz bu lokasyonda kimse yok...", this.Activity);
                 ShowLoading.Hide();
             }
+        }
+        void SuperBoostKullaniminaGoreSirala()
+        {
+            //SUPER BOSTA GÖRE SIRANMASI GEREK ŞUAN BOOSTA GÖRE SIRALIYOR
+            UserGallery1.ForEach(item => {
+                if (item.superBoostTime == null)
+                {
+                    item.superBoostTime = new DateTime(1, 1, 1);
+                }
+            });
+            UserGallery1.Sort((x, y) => DateTime.Compare((DateTime)x.superBoostTime, (DateTime)y.superBoostTime));
+            UserGallery1.Reverse();
         }
         void FilterUsers()
         {

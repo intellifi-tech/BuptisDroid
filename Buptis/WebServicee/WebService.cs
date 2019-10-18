@@ -25,14 +25,14 @@ namespace Buptis.WebServicee
     class WebService
     {
         string kokurl = "http://185.184.208.157:8080/api/";
-        public string ServisIslem(string url, string istekler,bool isLogin=false,string Method = "POST")
+        public string ServisIslem(string url, string istekler,bool isLogin=false,string Method = "POST", string ContentType = "application/json")
         {
             Atla:
             try
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(kokurl + url);
                 request.Method = Method;
-                request.ContentType = "application/json"; /*"application/x-www-form-urlencoded";*/
+                request.ContentType = ContentType; /*"application/x-www-form-urlencoded";*/
                 request.Accept = "*/*";
                 request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36";
                 if (!isLogin)

@@ -6,28 +6,34 @@ using Android.Content.Res;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Runtime;
+using Android.Support.V4.View;
 using Android.Views;
 using Android.Webkit;
 using Android.Widget;
 using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
+using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using Newtonsoft.Json;
 
 namespace Buptis.PrivateProfile.Store
 {
-    class StoreSuperBoostDF : Android.Support.V7.App.AppCompatDialogFragment
+    class StoreGold : Android.Support.V7.App.AppCompatDialogFragment
     {
         #region Tanimlamlar
         string content;
         WebView webviewstore;
-        TextView txtw1, txtw2, txtw3, txtw4;
+        TextView txtw1, txtw2, txtw3,txt1,txt2,txt3;
         ImageButton geriButton;
-        RelativeLayout rKredi1, rKredi2, rKredi3, rKredi4;
-        Button BuyBoost;
-        int sBoostGoal, sBoostCount;
+        ViewPager _viewpageer;
+        protected IPageIndicator _indicator;
+        RelativeLayout rKredi1, rKredi2, rKredi3;
+        Button BuyButton;
+        int goldGoal, goldCount;
         public PrivateProfileBaseActivity PrivateProfileBaseActivity1;
-        #endregion  
+
+        #endregion
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
@@ -38,13 +44,11 @@ namespace Buptis.PrivateProfile.Store
         {
             var dialog = base.OnCreateDialog(savedInstanceState);
             dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
-
             return dialog;
         }
-
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            View view = inflater.Inflate(Resource.Layout.StoreSuperBoost, container, false);
+            View view = inflater.Inflate(Resource.Layout.StoreGold, container, false);
             SetFonts(view);
             view.FindViewById<LinearLayout>(Resource.Id.rootView).ClipToOutline = true;
             geriButton = view.FindViewById<ImageButton>(Resource.Id.ımageButton1);
@@ -52,68 +56,70 @@ namespace Buptis.PrivateProfile.Store
             txtw1 = view.FindViewById<TextView>(Resource.Id.tv1);
             txtw2 = view.FindViewById<TextView>(Resource.Id.tv2);
             txtw3 = view.FindViewById<TextView>(Resource.Id.tv3);
-            txtw4 = view.FindViewById<TextView>(Resource.Id.tv4);
+            txt1 = view.FindViewById<TextView>(Resource.Id.txt1);
+            txt2= view.FindViewById<TextView>(Resource.Id.txt2);
+            txt3= view.FindViewById<TextView>(Resource.Id.txt3);
             rKredi1 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout2);
             rKredi2 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout3);
             rKredi3 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout4);
-            rKredi4 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout5);
-            BuyBoost = view.FindViewById<Button>(Resource.Id.button1);
-            BuyBoost.Click += BuyBoost_Click;
+            BuyButton = view.FindViewById<Button>(Resource.Id.button1);
             rKredi1.Tag = 1;
             rKredi2.Tag = 2;
             rKredi3.Tag = 3;
-            rKredi4.Tag = 4;
             rKredi1.Click += RKredi_Click;
             rKredi2.Click += RKredi_Click;
             rKredi3.Click += RKredi_Click;
-            rKredi4.Click += RKredi_Click;
+            rKredi2.PerformClick();
+            _viewpageer = view.FindViewById<ViewPager>(Resource.Id.goldviewpager);
+            _indicator = view.FindViewById<LinePageIndicator>(Resource.Id.indicator);
             geriButton.Click += GeriButton_Click;
             GetTextViewStrikeThrough();
             GetWebViewText();
-            rKredi3.PerformClick();
+            BuyButton.Click += BuyButton_Click;
+           // viepageratama();
             return view;
         }
 
-        private void BuyBoost_Click(object sender, EventArgs e)
+        private void BuyButton_Click(object sender, EventArgs e)
         {
-            BuySuperBoost(sBoostCount);
+            BuyPackage(goldCount);
         }
-        public void BuySuperBoost(int ChoosenBoost)
+        
+        void BuyPackage(int choosenPackage)
         {
-            sBoostGoal = 0;
-            switch (ChoosenBoost)
+           
+            switch (goldCount)
             {
                 case 1:
-                    sBoostGoal = 1;
+                    goldGoal = 1;
                     break;
                 case 2:
-                    sBoostGoal = 3;
+                    goldGoal = 6;
                     break;
                 case 3:
-                    sBoostGoal = 5;
-                    break;
-                case 4:
-                    sBoostGoal = 10;
+                    goldGoal = 12;
                     break;
                 default:
                     break;
             }
-            if (sBoostGoal != 0)
+            if (goldGoal != 0)
             {
                 BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
                 {
-                    count = sBoostGoal,
+                    count = goldGoal,
                     credit = 0,
-                    licenceType = "SUPER_BOOST"
-
+                    licenceType = "GOLD"
                 };
                 WebService webService = new WebService();
                 string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
                 var Donus = webService.ServisIslem("licences/buy", jsonString);
                 if (Donus != "Hata")
                 {
-                    AlertHelper.AlertGoster(sBoostGoal + " Süper Boost satın alındı.", this.Activity);
-                    PrivateProfileBaseActivity1.GetUserLicence();
+                    AlertHelper.AlertGoster(goldGoal + "Aylık Buptis Gold Paketi Satın Alındı", this.Activity);
+                    if (PrivateProfileBaseActivity1 != null)
+                    {
+                        PrivateProfileBaseActivity1.GetUserLicence();
+                    } 
                     this.Dismiss();
                 }
                 else
@@ -126,34 +132,42 @@ namespace Buptis.PrivateProfile.Store
             {
                 AlertHelper.AlertGoster("Lütfen bir paket seçin!", this.Activity);
             }
-        
         }
+        
+
         private void RKredi_Click(object sender, EventArgs e)
         {
             var GelenTag = (int)((RelativeLayout)sender).Tag;
 
             rKredi1.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
+            txt1.SetTextColor(Color.ParseColor("#BC9F43"));
+            txtw1.SetTextColor(Color.ParseColor("#999999"));
             rKredi2.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
+            txt2.SetTextColor(Color.ParseColor("#BC9F43"));
+            txtw2.SetTextColor(Color.ParseColor("#999999"));
             rKredi3.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
-            rKredi4.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
-
+            txt3.SetTextColor(Color.ParseColor("#BC9F43"));
+            txtw3.SetTextColor(Color.ParseColor("#999999"));
+            
             switch (GelenTag)
             {
                 case 1:
-                    rKredi1.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
-                    sBoostCount = 1;
+                    rKredi1.SetBackgroundResource(Resource.Drawable.storegoldselected);
+                    txt1.SetTextColor(Color.ParseColor("#221E20"));
+                    txtw1.SetTextColor(Color.ParseColor("#221E20"));
+                    goldCount = 1;
                     break;
                 case 2:
-                    rKredi2.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
-                    sBoostCount = 2;
+                    rKredi2.SetBackgroundResource(Resource.Drawable.storegoldselected);
+                    txt2.SetTextColor(Color.ParseColor("#221E20"));
+                    txtw2.SetTextColor(Color.ParseColor("#221E20"));
+                    goldCount = 2;
                     break;
                 case 3:
-                    rKredi3.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
-                    sBoostCount = 3;
-                    break;
-                case 4:
-                    rKredi4.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
-                    sBoostCount = 4;
+                    rKredi3.SetBackgroundResource(Resource.Drawable.storegoldselected);
+                    txt3.SetTextColor(Color.ParseColor("#221E20"));
+                    txtw3.SetTextColor(Color.ParseColor("#221E20"));
+                    goldCount = 3;
                     break;
                 default:
                     break;
@@ -171,26 +185,22 @@ namespace Buptis.PrivateProfile.Store
                         this.Dismiss();
                     });
                 });
-
             }
             catch
             {
             }
         }
-
         public override void OnStart()
         {
             base.OnStart();
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Bottom);
             SetBackGround();
-
         }
-
         void GetWebViewText()
         {
             AssetManager assets = this.Activity.Assets;
-            using (StreamReader sr = new StreamReader(assets.Open("StoreSuperBoostText.txt")))
+            using (StreamReader sr = new StreamReader(assets.Open("StoreGoldText.txt")))
             {
                 content = sr.ReadToEnd();
             }
@@ -203,7 +213,6 @@ namespace Buptis.PrivateProfile.Store
             txtw1.PaintFlags = PaintFlags.StrikeThruText;
             txtw2.PaintFlags = PaintFlags.StrikeThruText;
             txtw3.PaintFlags = PaintFlags.StrikeThruText;
-            txtw4.PaintFlags = PaintFlags.StrikeThruText;
         }
         void SetBackGround()
         {
@@ -255,11 +264,79 @@ namespace Buptis.PrivateProfile.Store
                 Resource.Id.button4
             }, this.Activity, true, BaseView);
         }
-        public class BuyLicenceDTO
+        void SetupViewPagerIndicator()
         {
-            public int count { get; set; }
-            public int credit { get; set; }
-            public string licenceType { get; set; }
+                var density = Resources.DisplayMetrics.Density;
+                ((LinePageIndicator)_indicator).LineWidth = 30 * density;
+                ((LinePageIndicator)_indicator).SelectedColor = Color.ParseColor("#E5E5E5");
+                ((LinePageIndicator)_indicator).UnselectedColor = Color.ParseColor("#BC9F43");
+                ((LinePageIndicator)_indicator).StrokeWidth = 4 * density;
+                _indicator.SetViewPager(_viewpageer);
         }
+        Android.Support.V4.App.Fragment[] fragments;
+        void viepageratama()
+        {
+           
+            var ss1 = new IntroFragment("Daha çok kişiyle sohbet edin!", Resource.Mipmap.gold_icon1);
+            var ss2 = new IntroFragment("İsterseniz kimliğinizi gizleyin!", Resource.Mipmap.gold_icon2);
+            var ss3 = new IntroFragment("Her ay 3 Boost kazanın!", Resource.Mipmap.gold_icon3);
+            var ss4 = new IntroFragment("Her ay 3 Super Boost kazanın!", Resource.Mipmap.gold_icon5);
+            var ss5 = new IntroFragment("Anında 100 Kredi kazanın!", Resource.Mipmap.gold_icon4);
+
+            fragments = new Android.Support.V4.App.Fragment[]
+            {
+                ss1,
+                ss2,
+                ss3,
+                ss4,
+                ss5
+
+            };
+            var titles = CharSequence.ArrayFromStringArray(new[] {
+               "s1",
+               "s2",
+               "s3",
+               "s4",
+               "s5"
+            });
+            try
+            {
+                
+               // _viewpageer.Adapter = new TabPagerAdaptor(this.Activity.SupportFragmentManager, fragments, titles);
+                //SetupViewPagerIndicator();
+            }
+            catch
+            {
+
+            }
+        }
+    }
+    public class IntroFragment : Android.Support.V4.App.Fragment
+    {
+        string icerik;
+        int imageid;
+      
+        TextView txtview;
+        ImageView imageview;
+        public IntroFragment(string gelenicerikk, int gelenimageid)
+        {
+            icerik = gelenicerikk;
+            imageid = gelenimageid;
+        }
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            View view = inflater.Inflate(Resource.Layout.StoreGoldViewPager, container, false);
+            imageview = view.FindViewById<ImageView>(Resource.Id.ımageView1);
+            txtview = view.FindViewById<TextView>(Resource.Id.textView1);
+            imageview.SetImageResource(imageid);
+            txtview.Text = icerik;
+            return view;
+        }
+    }
+    public class BuyLicenceDTO
+    {
+        public int count { get; set; }
+        public int credit { get; set; }
+        public string licenceType { get; set; }
     }
 }

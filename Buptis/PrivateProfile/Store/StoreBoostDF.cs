@@ -10,6 +10,9 @@ using Android.Views;
 using Android.Webkit;
 using Android.Widget;
 using Buptis.GenericClass;
+using Buptis.GenericUI;
+using Buptis.WebServicee;
+using Newtonsoft.Json;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -20,7 +23,11 @@ namespace Buptis.PrivateProfile.Store
         WebView webviewstore;
         TextView txtw1, txtw2, txtw3, txtw4;
         ImageButton geriButton;
+        RelativeLayout rKredi1, rKredi2, rKredi3, rKredi4;
+        Button BuyButton;
         public PrivateProfileBaseActivity PrivateProfileBaseActivity1;
+        int boostCount;
+        int boostGoal;
         #endregion  
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
@@ -48,10 +55,110 @@ namespace Buptis.PrivateProfile.Store
             txtw2 = view.FindViewById<TextView>(Resource.Id.tv2);
             txtw3 = view.FindViewById<TextView>(Resource.Id.tv3);
             txtw4 = view.FindViewById<TextView>(Resource.Id.tv4);
+            rKredi1 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout2);
+            rKredi2 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout3);
+            rKredi3 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout4);
+            rKredi4 = view.FindViewById<RelativeLayout>(Resource.Id.relativeLayout5);
+            BuyButton = view.FindViewById<Button>(Resource.Id.button1);
+            BuyButton.Click += BuyButton_Click;
+            rKredi1.Tag = 1;
+            rKredi2.Tag = 2;
+            rKredi3.Tag = 3;
+            rKredi4.Tag = 4;
+            rKredi1.Click += RKredi_Click;
+            rKredi2.Click += RKredi_Click;
+            rKredi3.Click += RKredi_Click;
+            rKredi4.Click += RKredi_Click;
             geriButton.Click += GeriButton_Click;
             GetTextViewStrikeThrough();
             GetWebViewText();
+            rKredi3.PerformClick();
             return view;
+        }
+
+        private void BuyButton_Click(object sender, EventArgs e)
+        {
+            BuyBoost(boostCount);
+        }
+        public void BuyBoost(int ChoosenPackage)
+        {
+            boostGoal = 0;
+            switch (ChoosenPackage)
+            {
+                case 1:
+                    boostGoal = 1;
+                    break;
+                case 2:
+                    boostGoal = 3;
+                    break;
+                case 3:
+                    boostGoal = 5;
+                    break;
+                case 4:
+                    boostGoal = 10;
+                    break;
+                default:
+                    break;
+            }
+            if (boostGoal != 0)
+            {
+                BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
+                {
+                    count = boostGoal,
+                    credit = 0,
+                    licenceType = "BOOST"
+                };
+                WebService webService = new WebService();
+                string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
+                var Donus = webService.ServisIslem("licences/buy", jsonString);
+                if (Donus != "Hata")
+                {
+                    AlertHelper.AlertGoster(boostGoal + " Boost satın alındı.", this.Activity);
+                    PrivateProfileBaseActivity1.GetUserLicence();
+                    this.Dismiss();
+                }
+                else
+                {
+                    AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen tekrar deneyin.", this.Activity);
+                    this.Dismiss();
+                }
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Lütfen bir paket seçin!", this.Activity);
+            }
+        
+        }
+        private void RKredi_Click(object sender, EventArgs e)
+        {
+            var GelenTag = (int)((RelativeLayout)sender).Tag;
+
+            rKredi1.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
+            rKredi2.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
+            rKredi3.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
+            rKredi4.SetBackgroundResource(Resource.Drawable.storebackgroundstroke);
+
+            switch (GelenTag)
+            {
+                case 1:
+                    rKredi1.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
+                    boostCount = 1;
+                    break;
+                case 2:
+                    rKredi2.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
+                    boostCount = 2;
+                    break;
+                case 3:
+                    rKredi3.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
+                    boostCount = 3;
+                    break;
+                case 4:
+                    rKredi4.SetBackgroundResource(Resource.Drawable.storebackgroundstrokeselected);
+                    boostCount = 4;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void GeriButton_Click(object sender, EventArgs e)
@@ -65,22 +172,18 @@ namespace Buptis.PrivateProfile.Store
                         this.Dismiss();
                     });
                 });
-
             }
             catch
             {
             }
         }
-
         public override void OnStart()
         {
             base.OnStart();
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Bottom);
             SetBackGround();
-
         }
-
         void GetWebViewText()
         {
             AssetManager assets = this.Activity.Assets;
@@ -99,6 +202,7 @@ namespace Buptis.PrivateProfile.Store
             txtw3.PaintFlags = PaintFlags.StrikeThruText;
             txtw4.PaintFlags = PaintFlags.StrikeThruText;
         }
+
         void SetBackGround()
         {
             var sayac = 10;
@@ -149,6 +253,11 @@ namespace Buptis.PrivateProfile.Store
                 Resource.Id.button4
             }, this.Activity, true, BaseView);
         }
-
+        public class BuyLicenceDTO
+        {
+            public int count { get; set; }
+            public int credit { get; set; }
+            public string licenceType { get; set; }
+        }
     }
 }

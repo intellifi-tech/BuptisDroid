@@ -77,7 +77,7 @@ namespace Buptis.Mesajlar.Favoriler
             })).Start();
         }
 
-      
+        
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             this.Activity.StartActivity(typeof(ChatBaseActivity));
@@ -93,7 +93,49 @@ namespace Buptis.Mesajlar.Favoriler
 
             })).Start();
         }
-       
+        void BoostUygula()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                for (int i = 0; i < mFriends.Count; i++)
+                {
+                    WebService webService = new WebService();
+                    var Donus = webService.OkuGetir("users/" + mFriends[i].receiverId.ToString());
+                    if (Donus != null)
+                    {
+                        var aa = Donus.ToString();
+                        var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                        if (Icerikk.boost != null)
+                        {
+                            if (Convert.ToInt32(Icerikk.boost) > 0)
+                            {
+                                mFriends[i].BoostOrSuperBoost = true;
+                            }
+                        }
+                        if (Icerikk.superBoost != null)
+                        {
+                            if (Convert.ToInt32(Icerikk.superBoost) > 0)
+                            {
+                                mFriends[i].BoostOrSuperBoost = true;
+                            }
+                        }
+                    }
+                }
+
+                var PaketeGoreSirala = (from item in mFriends
+                                        orderby item.BoostOrSuperBoost descending
+                                        select item).ToList();
+                mFriends = PaketeGoreSirala;
+
+                this.Activity.RunOnUiThread(() =>
+                {
+
+                    mAdapter = new FavorilerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
+                    Liste.Adapter = mAdapter;
+                });
+
+            })).Start();
+        }
         void SonMesajlariGetir()
         {
             WebService webService = new WebService();
@@ -117,6 +159,7 @@ namespace Buptis.Mesajlar.Favoriler
                         mAdapter = new FavorilerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
                         Liste.Adapter = mAdapter;
                         ShowLoading.Hide();
+                        BoostUygula();
                     });
                 }
                 else

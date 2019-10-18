@@ -134,6 +134,7 @@ namespace Buptis.Mesajlar.Istekler
                         mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
                         Liste.Adapter = mAdapter;
                         ShowLoading.Hide();
+                        BoostUygula();
                     });
                 }
                 else
@@ -146,6 +147,50 @@ namespace Buptis.Mesajlar.Istekler
             {
                 ShowLoading.Hide();
             }
+        }
+        void BoostUygula()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                for (int i = 0; i < mFriends.Count; i++)
+                {
+                    WebService webService = new WebService();
+                    var Donus = webService.OkuGetir("users/" + mFriends[i].receiverId.ToString());
+                    if (Donus != null)
+                    {
+                        var aa = Donus.ToString();
+                        var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                        try
+                        {
+                            if (Icerikk.boostTime >= DateTime.Now.AddMinutes(-30) && Icerikk.boostTime <= DateTime.Now)
+                            {
+                                mFriends[i].BoostOrSuperBoost = true;
+                            }
+                            else if (Icerikk.superBoostTime >= DateTime.Now.AddMinutes(-30) && Icerikk.superBoostTime <= DateTime.Now)
+                            {
+                                mFriends[i].BoostOrSuperBoost = true;
+                            }
+                            else
+                            {
+                                mFriends[i].BoostOrSuperBoost = false;
+                            }
+                        }
+                        catch { }
+                    }
+                }
+
+                var PaketeGoreSirala = (from item in mFriends
+                                        orderby item.BoostOrSuperBoost descending
+                                        select item).ToList();
+                mFriends = PaketeGoreSirala;
+
+                this.Activity.RunOnUiThread(() =>
+                {
+                    mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
+                    Liste.Adapter = mAdapter;
+                });
+
+            })).Start();
         }
     }
 }

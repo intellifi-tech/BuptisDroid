@@ -57,6 +57,7 @@
                 android:background="@drawable/storebackgroundstroke">
                 <ImageView
                     android:src="@mipmap/super_boost_icon"
+                    android:clickable="false"
                     android:layout_width="match_parent"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -65,6 +66,7 @@
                     android:id="@+id/ımageView1" />
                 <TextView
                     android:text="1 Super Boost"
+                    android:clickable="false"
                     android:textColor="#9B9B9B"
                     android:textStyle="bold"
                     android:textSize="18dp"
@@ -74,16 +76,18 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="54,00 ₺"
+                    android:text="39,90 ₺"
+                    android:clickable="false"
                     android:textColor="#E10068"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv1" />
                 <TextView
-                    android:text="34,00 ₺"
+                    android:text="29,90 ₺"
+                    android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
                      android:gravity="center"
@@ -103,6 +107,7 @@
                 android:background="@drawable/storebackgroundstroke">
                 <ImageView
                     android:src="@mipmap/super_boost_icon"
+                    android:clickable="false"
                     android:layout_width="match_parent"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -111,6 +116,7 @@
                     android:id="@+id/ımageView1" />
                 <TextView
                     android:text="3 Super Boost"
+                    android:clickable="false"
                     android:textColor="#9B9B9B"
                     android:textStyle="bold"
                     android:textSize="18dp"
@@ -120,16 +126,18 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="64,00 ₺"
+                    android:text="59,90 ₺"
+                    android:clickable="false"
                     android:textColor="#E10068"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv2" />
                 <TextView
-                    android:text="44,00 ₺"
+                    android:text="49,90 ₺"
+                    android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
                      android:gravity="center"
@@ -149,6 +157,7 @@
                 android:background="@drawable/storebackgroundstroke">
                  <ImageView
                     android:src="@mipmap/super_boost_icon"
+                    android:clickable="false"
                     android:layout_width="match_parent"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -157,6 +166,7 @@
                     android:id="@+id/ımageView1" />
                 <TextView
                     android:text="5 Super Boost"
+                    android:clickable="false"
                     android:textColor="#9B9B9B"
                     android:textStyle="bold"
                     android:textSize="18dp"
@@ -166,16 +176,18 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="84,00 ₺"
+                    android:text="79,90 ₺"
+                    android:clickable="false"
                     android:textColor="#E10068"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv3" />
                 <TextView
-                    android:text="64,00 ₺"
+                    android:text="69,90 ₺"
+                    android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
                      android:gravity="center"
@@ -196,6 +208,7 @@
                 android:background="@drawable/storebackgroundstroke">
                 <ImageView
                     android:src="@mipmap/super_boost_icon"
+                    android:clickable="false"
                     android:layout_width="match_parent"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -204,6 +217,7 @@
                     android:id="@+id/ımageView1" />
                 <TextView
                     android:text="10 Super Boost"
+                    android:clickable="false"
                     android:textColor="#9B9B9B"
                     android:textStyle="bold"
                     android:textSize="18dp"
@@ -213,16 +227,18 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="154,00 ₺"
+                    android:text="109,90 ₺"
+                    android:clickable="false"
                     android:textColor="#E10068"
-                    android:textSize="16dp"
+                    android:textSize="14dp"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv4" />
                 <TextView
-                    android:text="94,00 ₺"
+                    android:text="99,90 ₺"
+                    android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
                      android:gravity="center"

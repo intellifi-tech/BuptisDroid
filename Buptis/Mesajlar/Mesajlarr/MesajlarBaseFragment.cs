@@ -69,7 +69,7 @@ namespace Buptis.Mesajlar.Mesajlarr
                     this.Activity.RunOnUiThread(() =>
                     {
                         Liste.Adapter = null;
-                        AlertHelper.AlertGoster("Kimse bulunamadı", this.Activity);
+                        //AlertHelper.AlertGoster("Kimse bulunamadı", this.Activity);
                     });
                 }
             })).Start();
@@ -128,6 +128,7 @@ namespace Buptis.Mesajlar.Mesajlarr
                         mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
                         Liste.Adapter = mAdapter;
                         ShowLoading.Hide();
+                        BoostUygula();
                     });
                 }
                 else
@@ -141,7 +142,49 @@ namespace Buptis.Mesajlar.Mesajlarr
                 ShowLoading.Hide();
             }
         }
+        void BoostUygula()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                for (int i = 0; i < mFriends.Count; i++)
+                {
+                    WebService webService = new WebService();
+                    var Donus = webService.OkuGetir("users/" + mFriends[i].receiverId.ToString());
+                    if (Donus != null)
+                    {
+                        var aa = Donus.ToString();
+                        var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                        if (Icerikk.boost != null)
+                        {
+                            if (Convert.ToInt32(Icerikk.boost) > 0)
+                            {
+                                mFriends[i].BoostOrSuperBoost = true;
+                            }
+                        }
+                        if (Icerikk.superBoost != null)
+                        {
+                            if (Convert.ToInt32(Icerikk.superBoost) > 0)
+                            {
+                                mFriends[i].BoostOrSuperBoost = true;
+                            }
+                        }
+                    }
+                }
 
+                var PaketeGoreSirala = (from item in mFriends
+                                        orderby item.BoostOrSuperBoost descending
+                                        select item).ToList();
+                mFriends = PaketeGoreSirala;
+
+                this.Activity.RunOnUiThread(() =>
+                {
+
+                    mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
+                    Liste.Adapter = mAdapter;
+                });
+
+            })).Start();
+        }
         List<string> FavorileriCagir()
         {
             List<string> FollowListID = new List<string>();
