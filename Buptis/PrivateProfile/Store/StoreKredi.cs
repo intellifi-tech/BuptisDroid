@@ -13,6 +13,7 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
+using Plugin.InAppBilling;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -79,22 +80,26 @@ namespace Buptis.PrivateProfile.Store
             BuyCredit(creditcount);
         }
 
-        public void BuyCredit(int ChoosenPackage)
+        public async void BuyCredit(int ChoosenPackage)
         {
-             
+            string pakett = "";
             switch (ChoosenPackage)
             {
                 case 1:
                     creditgoal = 200;
+                    pakett = "android.test.purchased";
                     break;
                 case 2:
                     creditgoal = 500;
+                    pakett = "android.test.purchased";
                     break;
                 case 3:
                     creditgoal = 1000;
+                    pakett = "android.test.purchased";
                     break;
                 case 4:
                     creditgoal = 2000;
+                    pakett = "android.test.purchased";
                     break;
                 default:
                     break;
@@ -102,26 +107,23 @@ namespace Buptis.PrivateProfile.Store
 
             if (creditcount!=0)
             {
-                BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
+                try
                 {
-                    count=0,
-                    credit=creditgoal,
-                    licenceType= "ONLY_CREDİT"
+                    var purchase = await CrossInAppBilling.Current.PurchaseAsync(pakett, Plugin.InAppBilling.Abstractions.ItemType.InAppPurchase, "buptispayload");
 
-                };
-                WebService webService = new WebService();
-                string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
-                var Donus = webService.ServisIslem("licences/buy",jsonString);
-                if (Donus!="Hata")
-                {
-                    AlertHelper.AlertGoster(creditgoal + " Kredi satın alındı.",this.Activity);
-                    PrivateProfileBaseActivity1.GetUserLicence();
-                    this.Dismiss();
+                    if (purchase == null)
+                    {
+                        AlertHelper.AlertGoster("Bir Sorun Oluştu!", this.Activity);
+                    }
+                    else
+                    {
+                        PaketSatinAlmaUzakDBAyarla(creditgoal);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen tekrar deneyin.", this.Activity);
-                    this.Dismiss();
+                    AlertHelper.AlertGoster(ex.Message, this.Activity);
+                    Console.WriteLine(ex);
                 }
             }
             else
@@ -129,7 +131,30 @@ namespace Buptis.PrivateProfile.Store
                 AlertHelper.AlertGoster("Lütfen bir paket seçin!", this.Activity);
             }
         }
+        void PaketSatinAlmaUzakDBAyarla(int Miktar)
+        {
+            BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
+            {
+                count = 0,
+                credit = creditgoal,
+                licenceType = "ONLY_CREDİT"
 
+            };
+            WebService webService = new WebService();
+            string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
+            var Donus = webService.ServisIslem("licences/buy", jsonString);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster(creditgoal + " Kredi satın alındı.", this.Activity);
+                PrivateProfileBaseActivity1.GetUserLicence();
+                this.Dismiss();
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen tekrar deneyin.", this.Activity);
+                this.Dismiss();
+            }
+        }
         private void RKredi_Click(object sender, EventArgs e)
         {
             var GelenTag = (int)((RelativeLayout)sender).Tag;
