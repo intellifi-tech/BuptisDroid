@@ -16,6 +16,7 @@ using Buptis.GenericUI;
 using Buptis.WebServicee;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using Newtonsoft.Json;
+using Plugin.InAppBilling;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -80,52 +81,50 @@ namespace Buptis.PrivateProfile.Store
             return view;
         }
 
-        private void BuyButton_Click(object sender, EventArgs e)
+        private  void BuyButton_Click(object sender, EventArgs e)
         {
             BuyPackage(goldCount);
         }
-        
-        void BuyPackage(int choosenPackage)
+
+        async void BuyPackage(int choosenPackage)
         {
-           
+            string pakett = "";
             switch (goldCount)
             {
                 case 1:
                     goldGoal = 1;
+                    pakett = "com.buptis.android.1gold";
                     break;
                 case 2:
                     goldGoal = 6;
+                    pakett = "com.buptis.android.6gold";
                     break;
                 case 3:
                     goldGoal = 12;
+                    pakett = "com.buptis.android.12gold";
                     break;
                 default:
                     break;
             }
             if (goldGoal != 0)
             {
-                BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
+                try
                 {
-                    count = goldGoal,
-                    credit = 0,
-                    licenceType = "GOLD"
-                };
-                WebService webService = new WebService();
-                string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
-                var Donus = webService.ServisIslem("licences/buy", jsonString);
-                if (Donus != "Hata")
-                {
-                    AlertHelper.AlertGoster(goldGoal + "Aylık Buptis Gold Paketi Satın Alındı", this.Activity);
-                    if (PrivateProfileBaseActivity1 != null)
+                    var purchase = await CrossInAppBilling.Current.PurchaseAsync(pakett, Plugin.InAppBilling.Abstractions.ItemType.InAppPurchase, "buptispayload");
+
+                    if (purchase == null)
                     {
-                        PrivateProfileBaseActivity1.GetUserLicence();
-                    } 
-                    this.Dismiss();
+                        AlertHelper.AlertGoster("Bir Sorun Oluştu!", this.Activity);
+                    }
+                    else
+                    {
+                        PaketSatinAlmaUzakDBAyarla();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen tekrar deneyin.", this.Activity);
-                    this.Dismiss();
+                    AlertHelper.AlertGoster(ex.Message, this.Activity);
+                    Console.WriteLine(ex);
                 }
             }
             else
@@ -133,8 +132,33 @@ namespace Buptis.PrivateProfile.Store
                 AlertHelper.AlertGoster("Lütfen bir paket seçin!", this.Activity);
             }
         }
-        
 
+        void PaketSatinAlmaUzakDBAyarla()
+        {
+            BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
+            {
+                count = goldGoal,
+                credit = 0,
+                licenceType = "GOLD"
+            };
+            WebService webService = new WebService();
+            string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
+            var Donus = webService.ServisIslem("licences/buy", jsonString);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster(goldGoal + "Aylık Buptis Gold Paketi Satın Alındı", this.Activity);
+                if (PrivateProfileBaseActivity1 != null)
+                {
+                    PrivateProfileBaseActivity1.GetUserLicence();
+                }
+                this.Dismiss();
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen tekrar deneyin.", this.Activity);
+                this.Dismiss();
+            }
+        }
         private void RKredi_Click(object sender, EventArgs e)
         {
             var GelenTag = (int)((RelativeLayout)sender).Tag;

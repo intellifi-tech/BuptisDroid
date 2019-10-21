@@ -87,19 +87,19 @@ namespace Buptis.PrivateProfile.Store
             {
                 case 1:
                     creditgoal = 200;
-                    pakett = "android.test.purchased";
+                    pakett = "com.buptis.android.200kredi";
                     break;
                 case 2:
                     creditgoal = 500;
-                    pakett = "android.test.purchased";
+                    pakett = "com.buptis.android.500kredi";
                     break;
                 case 3:
                     creditgoal = 1000;
-                    pakett = "android.test.purchased";
+                    pakett = "com.buptis.android.1000kredi";
                     break;
                 case 4:
                     creditgoal = 2000;
-                    pakett = "android.test.purchased";
+                    pakett = "com.buptis.android.2000kredi";
                     break;
                 default:
                     break;
@@ -117,7 +117,7 @@ namespace Buptis.PrivateProfile.Store
                     }
                     else
                     {
-                        PaketSatinAlmaUzakDBAyarla(creditgoal);
+                        PaketSatinAlmaUzakDBAyarla();
                     }
                 }
                 catch (Exception ex)
@@ -131,7 +131,7 @@ namespace Buptis.PrivateProfile.Store
                 AlertHelper.AlertGoster("Lütfen bir paket seçin!", this.Activity);
             }
         }
-        void PaketSatinAlmaUzakDBAyarla(int Miktar)
+        void PaketSatinAlmaUzakDBAyarla()
         {
             BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
             {
