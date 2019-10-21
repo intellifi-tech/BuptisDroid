@@ -13,6 +13,7 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
+using Plugin.InAppBilling;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -80,47 +81,50 @@ namespace Buptis.PrivateProfile.Store
         {
             BuyBoost(boostCount);
         }
-        public void BuyBoost(int ChoosenPackage)
+        async void BuyBoost(int ChoosenPackage)
         {
             boostGoal = 0;
+            string pakett = "";
             switch (ChoosenPackage)
             {
                 case 1:
                     boostGoal = 1;
+                    pakett = "com.buptis.android.1boost";
                     break;
                 case 2:
                     boostGoal = 3;
+                    pakett = "com.buptis.android.3boost";
                     break;
                 case 3:
                     boostGoal = 5;
+                    pakett = "com.buptis.android.5boost";
                     break;
                 case 4:
                     boostGoal = 10;
+                    pakett = "com.buptis.android.10boost";
                     break;
                 default:
                     break;
             }
             if (boostGoal != 0)
             {
-                BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
+                try
                 {
-                    count = boostGoal,
-                    credit = 0,
-                    licenceType = "BOOST"
-                };
-                WebService webService = new WebService();
-                string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
-                var Donus = webService.ServisIslem("licences/buy", jsonString);
-                if (Donus != "Hata")
-                {
-                    AlertHelper.AlertGoster(boostGoal + " Boost satın alındı.", this.Activity);
-                    PrivateProfileBaseActivity1.GetUserLicence();
-                    this.Dismiss();
+                    var purchase = await CrossInAppBilling.Current.PurchaseAsync(pakett, Plugin.InAppBilling.Abstractions.ItemType.InAppPurchase, "buptispayload");
+
+                    if (purchase == null)
+                    {
+                        AlertHelper.AlertGoster("Bir Sorun Oluştu!", this.Activity);
+                    }
+                    else
+                    {
+                        PaketSatinAlmaUzakDBAyarla();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen tekrar deneyin.", this.Activity);
-                    this.Dismiss();
+                    AlertHelper.AlertGoster(ex.Message, this.Activity);
+                    Console.WriteLine(ex);
                 }
             }
             else
@@ -128,6 +132,30 @@ namespace Buptis.PrivateProfile.Store
                 AlertHelper.AlertGoster("Lütfen bir paket seçin!", this.Activity);
             }
         
+        }
+
+        void PaketSatinAlmaUzakDBAyarla()
+        {
+            BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
+            {
+                count = boostGoal,
+                credit = 0,
+                licenceType = "BOOST"
+            };
+            WebService webService = new WebService();
+            string jsonString = JsonConvert.SerializeObject(buyCreditDTO);
+            var Donus = webService.ServisIslem("licences/buy", jsonString);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster(boostGoal + " Boost satın alındı.", this.Activity);
+                PrivateProfileBaseActivity1.GetUserLicence();
+                this.Dismiss();
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Bir sorun oluştu. Lütfen tekrar deneyin.", this.Activity);
+                this.Dismiss();
+            }
         }
         private void RKredi_Click(object sender, EventArgs e)
         {

@@ -72,6 +72,7 @@ namespace Buptis.PrivateProfile
             boosTxt = FindViewById<TextView>(Resource.Id.textView8);
             sBoosTxt = FindViewById<TextView>(Resource.Id.textView9);
             krediTxt = FindViewById<TextView>(Resource.Id.textView10);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
         }
         private void OpenGoldPackage(object sender, EventArgs e)
         {
