@@ -14,6 +14,7 @@ using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericUI;
 using Buptis.Mesajlar.Chat;
+using Buptis.PrivateProfile;
 using Buptis.WebServicee;
 
 namespace Buptis.Mesajlar.Mesajlarr
@@ -25,6 +26,7 @@ namespace Buptis.Mesajlar.Mesajlarr
         List<SonMesajlarListViewDataModel> mFriends = new List<SonMesajlarListViewDataModel>();
         MesajlarListViewAdapter mAdapter;
         EditText GenericAraEditText;
+        public PrivateProfileBaseActivity PrivateProfileBaseActivity1;
         #endregion
 
         public MesajlarBaseFragment(EditText GenericAraEditText2)
@@ -170,7 +172,7 @@ namespace Buptis.Mesajlar.Mesajlarr
                         }
                     }
                 }
-
+                PrivateProfileBaseActivity1.GetUserLicence();
                 var PaketeGoreSirala = (from item in mFriends
                                         orderby item.BoostOrSuperBoost descending
                                         select item).ToList();
