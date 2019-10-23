@@ -5,7 +5,7 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-    android:background="#000"
+    android:background="@null"
 	android:padding="5dp">
     <RelativeLayout
         android:minWidth="25px"
@@ -74,15 +74,14 @@
         android:layout_alignParentRight="true"
         android:weightSum="100"
         android:id="@+id/linearLayout4">
-        <ImageView
-            android:padding="5.5dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/favori_pasif"
-            android:src="@mipmap/yildiz1"
-            android:scaleType="centerInside"
-            android:tint="#F1F2F2"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:id="@+id/ımageButton2" />
+        		<ImageView
+					android:padding="7dp"
+					android:scaleType="centerInside"
+					android:background="@drawable/pinyapbg2"
+					android:src="@mipmap/yildiz1"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
+					android:id="@+id/ımageButton2"/>
+
     </LinearLayout>
 </RelativeLayout>

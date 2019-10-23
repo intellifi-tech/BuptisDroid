@@ -26,6 +26,7 @@ using Org.Json;
 using Xamarin.Auth;
 using Java.Lang;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace Buptis.Login
 {
@@ -59,10 +60,10 @@ namespace Buptis.Login
             GirisYap = FindViewById<Button>(Resource.Id.button1);
             GirisYap.Click += GirisYap_Click;
             kayitol.Click += Kayitol_Click;
-            //InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
-            //imm.HideSoftInputFromInputMethod(inputmail.WindowToken, 0);
-            //this.Window.SetSoftInputMode(SoftInput.StateHidden);
-
+            inputmail.KeyPress += text_keypress;
+            Sifreinput.KeyPress += text_keypress;
+            inputmail.Tag = "1";
+            Sifreinput.Tag = "2";
             #region Gmail Login Init
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
                     //.RequestIdToken("702647090904-ntokk5v6g4hco5kk98oosn2l9n5k1ds7.apps.googleusercontent.com")
@@ -77,12 +78,32 @@ namespace Buptis.Login
             //var signInButton = FindViewById<SignInButton>(Resource.Id.sign_in_button);
             //signInButton.SetSize(SignInButton.SizeStandard);
             #endregion
-
-            //Window.SetSoftInputMode(Android.Views.SoftInput.AdjustPan | Android.Views.SoftInput.StateHidden);
-
         }
 
-
+        private void text_keypress(object sender, View.KeyEventArgs e)
+        {
+            if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
+            {
+                e.Handled = true;
+                DismissKeyboard();
+                var editText = (EditText)sender;
+            }
+            else
+                e.Handled = false;
+        }
+        private void DismissKeyboard()
+        {
+            var view = CurrentFocus;
+            if (view != null)
+            {
+                var imm = (InputMethodManager)GetSystemService(InputMethodService);
+                imm.HideSoftInputFromWindow(view.WindowToken, 0);
+            }
+        }
+        private void İnputmail_KeyPress(object sender, View.KeyEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         protected override void OnStart()
         {
@@ -333,18 +354,30 @@ namespace Buptis.Login
                 return false;
             }
         }
+        private bool isValidEmail(string email)
+        {
+            var emailPattern = @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$";
+            if (Regex.IsMatch(email, emailPattern))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         bool BosVarmi()
         {
-            if (inputmail.Text.Trim() == "")
+            if (inputmail.Text.Trim() == "" && isValidEmail(inputmail.ToString()) == false)
             {
-                AlertHelper.AlertGoster("Lütfen Email adresinizi yazın", this);
+                AlertHelper.AlertGoster("Hatalı veya eksik email girdiniz!", this);
                 return false;
             }
             else
             {
-                if (Sifreinput.Text.Trim() == "")
+                if (Sifreinput.Text.Trim() == "" && Sifreinput.Text.Length < 6)
                 {
-                    AlertHelper.AlertGoster("Lütfen Şifrenizi yazın", this);
+                    AlertHelper.AlertGoster("Hatalı veya eksik şifre girdiniz!", this);
                     return false;
                 }
                 else
@@ -353,7 +386,7 @@ namespace Buptis.Login
                 }
             }
         }
-
+        
         private void Kayitol_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(KayitOlBaseActivity));

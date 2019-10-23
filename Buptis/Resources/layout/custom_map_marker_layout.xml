@@ -13,8 +13,8 @@
 	android:minHeight="25px">
     <ImageView
         android:scaleType="centerInside"
-        android:src="@mipmap/mapmarkerr"
-        android:layout_width="51dp"
+        android:src="@mipmap/mapmarkerr1"
+        android:layout_width="70dp"
         android:layout_height="68.0dp"
         android:id="@+id/ımageView1" />
 </LinearLayout>

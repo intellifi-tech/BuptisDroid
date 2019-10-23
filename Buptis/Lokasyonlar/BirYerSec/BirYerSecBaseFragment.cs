@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using Android.Animation;
@@ -7,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
@@ -207,6 +209,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
                 GetLocationss();
             })).Start();
         }
+       
         void GetLocationss()
         {
             WebService webService = new WebService();
@@ -224,6 +227,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
                         {
                             MapUtils mapUtils = new MapUtils();
                             Android.Graphics.Bitmap bitmap = mapUtils.createStoreMarker(this.Activity, false);
+
                             BitmapDescriptor image = BitmapDescriptorFactory.FromBitmap(bitmap);
 
                             if (_map != null)
@@ -242,7 +246,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
                         if (Locationss.Count > 0)
                         {
                             ListeyiFragmentCagir();
-                            CameraUpdate cameraUpdate = CameraUpdateFactory.NewLatLngZoom(new LatLng(StartLocationCall.UserLastLocation.Latitude, StartLocationCall.UserLastLocation.Longitude), 15);
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.NewLatLngZoom(new LatLng(StartLocationCall.UserLastLocation.Latitude, StartLocationCall.UserLastLocation.Longitude),20);
                             _map.MoveCamera(cameraUpdate);
                         }
                         ShowLoading.Hide();

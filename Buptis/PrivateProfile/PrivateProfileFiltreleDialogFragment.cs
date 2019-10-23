@@ -69,8 +69,8 @@ namespace Buptis.PrivateProfile
             var activecolor = Android.Graphics.Color.ParseColor("#E8004F");
             var defaultcolor = Android.Graphics.Color.ParseColor("#221E20");
             slider = view.FindViewById<RangeSliderControl>(Resource.Id.rangeSliderControl1);
-            slider.SetSelectedMinValue(0);
-            slider.SetSelectedMaxValue(70);
+            slider.SetSelectedMinValue(18);
+            slider.SetSelectedMaxValue(40);
             slider.ActiveColor = activecolor;
             slider.DefaultColor = defaultcolor;
             slider.SetBarHeight(15);
@@ -89,7 +89,7 @@ namespace Buptis.PrivateProfile
         {
             var MinValue = slider.GetSelectedMinValue();
             var MaxValue = slider.GetSelectedMaxValue();
-
+            
             FILTRELER fILTRELER = new FILTRELER() {
                 Cinsiyet = SonCinsiyetSecim,
                 minAge = (int)Math.Round(Convert.ToDouble(MinValue), 0),
@@ -193,7 +193,15 @@ namespace Buptis.PrivateProfile
         {
             var MinValue = slider.GetSelectedMinValue();
             var MaxValue = slider.GetSelectedMaxValue();
-
+            if (MinValue <= 18)
+            {
+                MinValue = 18;
+            }
+            else if (MaxValue >= 70)
+            {
+                MaxValue = 70;
+            }
+            
             txtStart.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
             textEnd.Text = Math.Round(Convert.ToDouble(MaxValue), 0).ToString();
         }

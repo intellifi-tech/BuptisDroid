@@ -3,146 +3,146 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:focusable="true" 
 	android:id="@+id/relativeLayout1"
 	android:background="@drawable/gradientbg">
-	<RelativeLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="80dp"
-		android:id="@+id/toolbarlinear"
-		android:animateLayoutChanges="true"
-		android:minWidth="25px"
-		android:minHeight="25px">
-		<include
-			layout="@layout/app_bar"
-			android:elevation="4dp"/>
-	</RelativeLayout>
-	<ScrollView
-		android:layout_below="@+id/toolbarlinear"
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:id="@+id/scrollView1">
-		<LinearLayout
-			android:paddingLeft="20dp"
-			android:paddingRight="20dp"
-			android:orientation="vertical"
-			android:minWidth="25px"
-			android:minHeight="25px"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:id="@+id/linearLayout1">
-			<RelativeLayout
-				android:minWidth="25px"
-				android:minHeight="25px"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/relativeLayout5">
-				<RelativeLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:gravity="center"
-					android:paddingTop="60dp"
-					android:id="@+id/relativeLayout3"
-					android:layout_below="@+id/relativeLayout2">
-					<ImageView
-						android:src="@drawable/buptislogo"
-						android:layout_width="match_parent"
-						android:layout_height="60dp"
-						android:scaleType="centerInside"
-						android:id="@+id/ımageView1" />
-				</RelativeLayout>
-				<RelativeLayout
-					android:layout_below="@+id/relativeLayout3"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:id="@+id/relativeLayout4">
-					<EditText
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:hint="Ad"
-						android:textColorHint="#ffffff"
-						android:textColor="#ffffff"
-						android:textSize="14dp"
-						android:paddingLeft="10dp"
-						android:layout_marginTop="20dp"
-						android:background="@drawable/inputbg"
+
+    <ScrollView
+        android:layout_below="@+id/toolbarlinear"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView1">
+        <LinearLayout
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/linearLayout1">
+            <RelativeLayout
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relativeLayout5">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingTop="60dp"
+                    android:id="@+id/relativeLayout3"
+                    android:layout_below="@+id/relativeLayout2">
+                    <ImageView
+                        android:src="@drawable/buptislogo"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:scaleType="centerInside"
+                        android:id="@+id/ımageView1" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_below="@+id/relativeLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relativeLayout4">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="50dp"
+                        android:hint="Ad"
+                        android:textColorHint="#ffffff"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"
+                        android:paddingLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/inputbg"
                         android:inputType="textPersonName"
-						android:id="@+id/editad"/>
-					<EditText
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:hint="Soyad"
-						android:textColorHint="#ffffff"
-						android:textColor="#ffffff"
-						android:textSize="14dp"
-						android:paddingLeft="10dp"
-						android:layout_marginTop="20dp"
-						android:layout_below="@+id/editad"
-						android:background="@drawable/inputbg"
+                        android:id="@+id/editad"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="50dp"
+                        android:hint="Soyad"
+                        android:textColorHint="#ffffff"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"
+                        android:paddingLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_below="@+id/editad"
+                        android:background="@drawable/inputbg"
                         android:inputType="textPersonName"
-						android:id="@+id/editsoyad"/>
-					<EditText
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:hint="Mail/Telefon Numarası"
-						android:textColorHint="#ffffff"
-						android:textColor="#ffffff"
-						android:textSize="14dp"
-						android:paddingLeft="10dp"
-						android:layout_marginTop="20dp"
-						android:background="@drawable/inputbg"
-						android:layout_below="@+id/editsoyad"
+                        android:id="@+id/editsoyad"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="50dp"
+                        android:hint="Mail/Telefon Numarası"
+                        android:textColorHint="#ffffff"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"
+                        android:paddingLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/inputbg"
+                        android:layout_below="@+id/editsoyad"
                         android:inputType="textEmailAddress"
-						android:id="@+id/textInputEditText1"/>
-					<EditText
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:hint="Şifre"
-						android:layout_marginTop="20dp"
-						android:textColorHint="#ffffff"
-						android:textColor="#ffffff"
-						android:textSize="14dp"
-						android:paddingLeft="10dp"
-						android:layout_below="@+id/textInputEditText1"
-						android:background="@drawable/inputbg"
-						android:id="@+id/textInputEditText2"
-						android:inputType="textPassword" />
-					<EditText
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:hint="Şifre Tekrar"
-						android:layout_marginTop="20dp"
-						android:textColorHint="#ffffff"
-						android:textColor="#ffffff"
-						android:textSize="14dp"
-						android:paddingLeft="10dp"
-						android:layout_below="@+id/textInputEditText2"
-						android:background="@drawable/inputbg"
-						android:id="@+id/textInputEditText3"
-						android:inputType="textPassword" />
-					<Button
-						android:text="Kaydol"
-						android:textColor="#ffffff"
-						android:layout_below="@+id/textInputEditText3"
-						android:layout_width="match_parent"
-						android:layout_height="50dp"
-						android:layout_marginTop="20dp"
-						android:background="@drawable/inputbg2"
-						android:id="@+id/button1" />
-					<TextView
-						android:text="Zaten hesabım var. Giriş yap"
-						android:layout_below="@+id/button1"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:textColor="#ffffff"
-						android:textSize="12dp"
-						android:layout_marginTop="50dp"
-						android:gravity="center"
-						android:id="@+id/textView2" />
-				</RelativeLayout>
-			</RelativeLayout>
-		</LinearLayout>
-	</ScrollView>
+                        android:id="@+id/textInputEditText1"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="50dp"
+                        android:hint="Şifre"
+                        android:layout_marginTop="20dp"
+                        android:textColorHint="#ffffff"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"
+                        android:paddingLeft="10dp"
+                        android:layout_below="@+id/textInputEditText1"
+                        android:background="@drawable/inputbg"
+                        android:id="@+id/textInputEditText2"
+                        android:inputType="textPassword" />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:singleLine="true"
+                        android:layout_height="50dp"
+                        android:hint="Şifre Tekrar"
+                        android:layout_marginTop="20dp"
+                        android:textColorHint="#ffffff"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp"
+                        android:paddingLeft="10dp"
+                        android:layout_below="@+id/textInputEditText2"
+                        android:background="@drawable/inputbg"
+                        android:id="@+id/textInputEditText3"
+                        android:inputType="textPassword" />
+                    <Button
+                        android:text="Kaydol"
+                        android:textColor="#ffffff"
+                        android:layout_below="@+id/textInputEditText3"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/inputbg2"
+                        android:id="@+id/button1" />
+                    <TextView
+                        android:text="Zaten hesabım var. Giriş yap"
+                        android:layout_below="@+id/button1"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:textColor="#ffffff"
+                        android:textSize="12dp"
+                        android:layout_marginTop="50dp"
+                       
+                        android:gravity="center"
+                        android:id="@+id/textView2" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

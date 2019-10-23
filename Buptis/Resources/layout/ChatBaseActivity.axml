@@ -26,12 +26,11 @@
 		<ImageButton
 			android:layout_marginRight="20dp"
 		   android:layout_marginTop="20dp"
-           android:padding="4dp"
+           android:padding="7dp"
            android:layout_alignParentRight="true"
-           android:background="@drawable/customyildizbgwhite"
+           android:background="@drawable/pinyapbg2"
            android:src="@mipmap/yildiz1"
            android:scaleType="centerInside"
-           android:tint="#DA0069"
            android:layout_width="30dp"
            android:layout_height="30dp"
            android:id="@+id/ımageButton2" />

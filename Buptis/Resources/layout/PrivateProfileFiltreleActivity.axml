@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView3" />
             <TextView
-                android:text="0"
+                android:text="18"
                 android:layout_toRightOf="@+id/textView3"
                 android:layout_marginLeft="200dp"
                 android:textSize="18dp"

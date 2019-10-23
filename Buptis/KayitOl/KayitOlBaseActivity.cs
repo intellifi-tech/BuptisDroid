@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Text.RegularExpressions;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -19,7 +19,13 @@ using Buptis.Splashh;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
 using Org.Json;
+using Android.Content;
+using Android.Views;
+using Android.Views.InputMethods;
+
 using static Buptis.Login.LoginBaseActivity;
+using static Android.Support.Design.Widget.AppBarLayout;
+using Android.Text;
 
 namespace Buptis.KayitOl
 {
@@ -31,6 +37,7 @@ namespace Buptis.KayitOl
         TextView girisyap;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         Button KayitOlButton;
+        RelativeLayout relativemargin;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -48,23 +55,43 @@ namespace Buptis.KayitOl
             inputmail = FindViewById<EditText>(Resource.Id.textInputEditText1);
             SifreText = FindViewById<EditText>(Resource.Id.textInputEditText2);
             SifreTekrarText = FindViewById<EditText>(Resource.Id.textInputEditText3);
-            InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
-            imm.HideSoftInputFromInputMethod(inputmail.WindowToken, 0);
-            this.Window.SetSoftInputMode(SoftInput.StateHidden);
-
-            //AdText.Text = "Mesut";
-            //SoyadText.Text = "Polat";
-            //inputmail.Text = "mesut@intellifi.tech";
-            //SifreText.Text = "qwer1234";
-            //SifreTekrarText.Text = "qwer1234";
-            
+            relativemargin = FindViewById<RelativeLayout>(Resource.Id.relativeLayout5);
+            AdText.KeyPress += Text_KeyPress;
+            SoyadText.KeyPress += Text_KeyPress;
+            inputmail.KeyPress += Text_KeyPress;
+            SifreText.KeyPress += Text_KeyPress;
+            SifreTekrarText.KeyPress += Text_KeyPress;
+            AdText.Tag = "1";
+            SoyadText.Tag = "2";
+            inputmail.Tag = "3";
+            SifreText.Tag = "4";
+            SifreTekrarText.Tag = "5";
         }
-
+        private void Text_KeyPress(object sender, View.KeyEventArgs e)
+        {
+            if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
+            {
+                e.Handled = true;
+                DismissKeyboard();
+                var editText = (EditText)sender;
+            }
+            else
+                e.Handled = false;
+        }
+        private void DismissKeyboard()
+        {
+            var view = CurrentFocus;
+            if (view != null)
+            {
+                var imm = (InputMethodManager)GetSystemService(InputMethodService);
+                imm.HideSoftInputFromWindow(view.WindowToken, 0);
+            }
+        }
         private void KayitOlButton_Click(object sender, EventArgs e)
         {
             if (BosVarmi())
             {
-                ShowLoading.Show(this, "Lütfen Bekle");
+               ShowLoading.Show(this, "Lütfen Bekle");
                 new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                 {
                     WebService webService = new WebService();
@@ -82,17 +109,18 @@ namespace Buptis.KayitOl
                     {
                         TokenAlDevamEt();
                         ShowLoading.Hide();
+                        BosVarmi();
                     }
+
                     else
                     {
                         ShowLoading.Hide();
-                        AlertHelper.AlertGoster("Bir sorun oluştu lütfen internet bağlantınızı kontrol edin.", this);
+                        BosVarmi();
                         return;
                     }
                 })).Start();
             }
         }
-
         void TokenAlDevamEt()
         {
             LoginRoot loginRoot = new LoginRoot()
@@ -153,32 +181,35 @@ namespace Buptis.KayitOl
             }
 
         }
-
+        private bool isValidEmail(string email)
+        {
+            return !TextUtils.IsEmpty(email) && Android.Util.Patterns.EmailAddress.Matcher(email).Matches();
+        }
         bool BosVarmi()
         {
-            if (AdText.Text.Trim() == "")
+            if (isValidUserName(AdText.Text) == false && AdText.Text.Trim() == ""  )
             {
-                AlertHelper.AlertGoster("Lütfen Adınızı Girin", this);
+                AlertHelper.AlertGoster("Lütfen adınızı kontrol ediniz!", this);
                 return false;
             }
-            else if (SoyadText.Text.Trim() == "")
+            else if (isValidUserName(SoyadText.Text) == false && SoyadText.Text.Trim() == ""  )
             {
-                AlertHelper.AlertGoster("Lütfen Soyadınızı Girin", this);
+                AlertHelper.AlertGoster("Lütfen soyadınızı kontrol ediniz!", this);
                 return false;
             }
-            else if (inputmail.Text.Trim() == "")
+            else if (isValidEmail(inputmail.Text) == false && inputmail.Text.Trim() == ""  )
             {
-                AlertHelper.AlertGoster("Lütfen Email Girin", this);
+                AlertHelper.AlertGoster("Eksik veya hatalı bir email girdiniz!", this);
                 return false;
             }
-            else if (SifreText.Text.Trim() == "")
+            else if (SifreText.Text.Length < 6 && SifreText.Text.Trim() == ""  )
             {
-                AlertHelper.AlertGoster("Lütfen bir şifre belirtin", this);
+                AlertHelper.AlertGoster("Hatalı veya eksik şifre girdiniz!", this);
                 return false;
             }
-            else if (SifreTekrarText.Text.Trim() == "")
+            else if (SifreTekrarText.Text.Length < 6 &&  SifreTekrarText.Text.Trim() == "" )
             {
-                AlertHelper.AlertGoster("Lütfen şifre tekrarını yazınız", this);
+                AlertHelper.AlertGoster("Hatalı veya eksik şifre girdiniz!", this);
                 return false;
             }
             else if (SifreText.Text != SifreTekrarText.Text)
@@ -191,7 +222,30 @@ namespace Buptis.KayitOl
                 return true;
             }
         }
-
+        bool isValidUserName(string username)
+        {
+            var usernamePattern = "^[a-z0-9_-]{3,15}$";
+            if (Regex.IsMatch(username, usernamePattern))
+            {
+                return true;
+            }
+            else
+            {
+               return false;
+            }
+        }
+        //private bool isValidEmail(string email)
+        //{
+        //    var emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        //    if (Regex.IsMatch(email, emailPattern))
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         private void Girisyap_Click(object sender, EventArgs e)
         {
 

@@ -9,6 +9,8 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.Widget;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -144,7 +146,132 @@ namespace Buptis.Mesajlar.Chat
                 return;
             }
         }
-      
+        #region Favori Islemleri
+        void FavorileriCagir()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                WebService webService = new WebService();
+                var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
+                if (Donus4 != null)
+                {
+                    var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                    if (!string.IsNullOrEmpty(JSONStringg))
+                    {
+                        FollowListID = JSONStringg.Split(',').ToList();
+                    }
+                    var IsFollow = FollowListID.FindAll(item => item == MesajlarIcinSecilenKullanici.Kullanici.id.ToString());
+                    if (IsFollow.Count > 0)
+                    {
+                        RunOnUiThread(delegate ()
+                        {
+                            Favori.SetBackgroundResource(Resource.Drawable.favori_aktif);
+                        });
+
+                    }
+                    else
+                    {
+                        RunOnUiThread(delegate ()
+                        {
+                            Favori.SetBackgroundResource(Resource.Drawable.favori_pasif);
+                        });
+
+                    }
+                }
+                else
+                {
+                    RunOnUiThread(delegate ()
+                    {
+                        Favori.Visibility = ViewStates.Invisible;
+                    });
+
+                }
+            })).Start();
+
+        }
+        SpannableStringBuilder Spannla(Color Renk, string textt)
+        {
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Renk);
+
+            string title = textt;
+            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
+            ssBuilder.SetSpan(
+                    foregroundColorSpan,
+                    0,
+                    title.Length,
+                    SpanTypes.ExclusiveExclusive
+            );
+
+            return ssBuilder;
+        }
+        void FavoriIslemleri()
+        {
+
+            var IsFollow = FollowListID.FindAll(item => item == MesajlarIcinSecilenKullanici.Kullanici.id.ToString());
+            if (IsFollow.Count > 0)//Takip Ettiklerim Arasaında
+            {
+                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                cevap.SetMessage(Spannla(Color.DarkGray, MesajlarIcinSecilenKullanici.Kullanici.firstName + " adlı kullanıcıyı favorilerilerinden çıkartmak istediğini emin misiniz?"));
+                cevap.SetPositiveButton("Evet", delegate
+                {
+                    cevap.Dispose();
+                    FavoriIslemleri(MesajlarIcinSecilenKullanici.Kullanici.firstName + " Favorilerinde çıkarıldı.");
+                    Favori.SetBackgroundResource(Resource.Drawable.favori_pasif);
+
+                });
+                cevap.SetNegativeButton("Hayır", delegate
+                {
+                    cevap.Dispose();
+                });
+                cevap.Show();
+            }
+            else
+            {
+                FavoriIslemleri(MesajlarIcinSecilenKullanici.Kullanici.firstName + " Favorilerine eklendi.");
+                Favori.SetBackgroundResource(Resource.Drawable.favori_aktif);
+            }
+        }
+        void FavoriIslemleri(string Message)
+        {
+            var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+            WebService webService = new WebService();
+            FavoriDTO favoriDTO = new FavoriDTO()
+            {
+                userId = MeID,
+                favUserId = MesajlarIcinSecilenKullanici.Kullanici.id
+            };
+            string jsonString = JsonConvert.SerializeObject(favoriDTO);
+            var Donus = webService.ServisIslem("users/fav", jsonString);
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster(Message, this);
+                GetFavorite();
+                return;
+            }
+        }
+        void GetFavorite()
+        {
+            RunOnUiThread(delegate ()
+            {
+                WebService webService = new WebService();
+                var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+                var Donus4 = webService.OkuGetir("users/favList/" + MeID.ToString());
+                if (Donus4 != null)
+                {
+                    var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                    if (!string.IsNullOrEmpty(JSONStringg))
+                    {
+                        FollowListID = JSONStringg.Split(',').ToList();
+                    }
+                }
+                else
+                {
+                }
+            });
+        }
+        #endregion
         void GetUserInfo()
         {
             UserName.Text = MesajlarIcinSecilenKullanici.Kullanici.firstName + " " + MesajlarIcinSecilenKullanici.Kullanici.lastName.Substring(0, 1).ToString() + ".";
@@ -423,77 +550,7 @@ namespace Buptis.Mesajlar.Chat
 
         #endregion
 
-        #region Favori Islemleri
-        void FavorileriCagir()
-        {
-            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
-            {
-                WebService webService = new WebService();
-                var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
-                if (Donus4 != null)
-                {
-                    var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
-                    if (!string.IsNullOrEmpty(JSONStringg))
-                    {
-                        FollowListID = JSONStringg.Split(',').ToList();
-                    }
-                    var IsFollow = FollowListID.FindAll(item => item == MesajlarIcinSecilenKullanici.Kullanici.id.ToString());
-                    if (IsFollow.Count > 0)
-                    {
-                        RunOnUiThread(delegate ()
-                        {
-                            Favori.SetBackgroundResource(Resource.Drawable.favori_pasif);
-                        });
-                        
-                    }
-                    else
-                    {
-                        RunOnUiThread(delegate ()
-                        {
-                            Favori.SetBackgroundResource(Resource.Drawable.favori_aktif);
-                        });
-                        
-                    }
-                }
-                else
-                {
-                    RunOnUiThread(delegate ()
-                    {
-                        Favori.Visibility = ViewStates.Invisible;
-                    });
-                    
-                }
-            })).Start();
-
-        }
-
-        void FavoriIslemleri()
-        {
-            
-            WebService webService = new WebService();
-            FavoriDTO favoriDTO = new FavoriDTO()
-            {
-                userId = MeDTO.id,
-                favUserId = SecilenKisi.SecilenKisiDTO.id
-            };
-            string jsonString = JsonConvert.SerializeObject(favoriDTO);
-            var Donus = webService.ServisIslem("users/fav", jsonString);
-            if (Donus != "Hata")
-            {
-                AlertHelper.AlertGoster("Favorilere Ekledi.", this);
-                Favori.SetBackgroundResource(Resource.Drawable.favori_aktif);
-                FavorileriCagir();
-                return;
-            }
-            else
-            {
-                AlertHelper.AlertGoster("Bir Sorun Oluştu.", this);
-                Favori.SetBackgroundResource(Resource.Drawable.favori_pasif);
-                return;
-            }
-        }
-
-        #endregion
+       
         public class UsaerImageDTO
         {
             public string createdDate { get; set; }
