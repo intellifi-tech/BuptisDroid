@@ -7,7 +7,7 @@
 <font color="#fff"><p>Kendinizi Super Boost’layarak <font color="#E10068">30 dakika boyunca</font> hem mesajlarda hem de mekanda üst sıralarda olun!</br>
 Super Boost satın almanız durumunda
 servis sağlayıcının ismi tümüyle güvenilir ve anonim
-olacak şekilde ödeme listenizde <strong>“Apple iTunes Store”
+olacak şekilde ödeme listenizde <strong>“Google Play Store”
 </strong>olarak güncellenecektir.</p></font>
 </body>
 </html>

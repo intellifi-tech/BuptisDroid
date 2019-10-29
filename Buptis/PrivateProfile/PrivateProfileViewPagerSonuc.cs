@@ -17,7 +17,7 @@ using static Buptis.PrivateProfile.PrivateProfileViewPager;
 
 namespace Buptis.PrivateProfile
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PrivateProfileViewPagerSonuc : Android.Support.V7.App.AppCompatActivity
     {
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
@@ -26,6 +26,7 @@ namespace Buptis.PrivateProfile
         ProgressBar ProgressCounter;
         List<UserAnswersDTO> KullanicininCevaplari = new List<UserAnswersDTO>();
         Button ProfilButton;
+        bool Actimi = false;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -41,6 +42,13 @@ namespace Buptis.PrivateProfile
             ProfilButton.Click += ProfilButton_Click;
             DahaSonraText.Click += DahaSonraText_Click;
             Kapat.Click += Kapat_Click;
+            if (!Actimi)
+            {
+                SonDurumuYansit();
+                CreateProgress();
+                Actimi = true;
+            }
+
         }
 
         private void DahaSonraText_Click(object sender, EventArgs e)
@@ -72,8 +80,10 @@ namespace Buptis.PrivateProfile
         protected override void OnStart()
         {
             base.OnStart();
-            SonDurumuYansit();
-            CreateProgress();
+          
+            //SonDurumuYansit();
+            //CreateProgress();
+
         }
         void SonDurumuYansit()
         {

@@ -45,6 +45,9 @@ namespace Buptis.GenericClass
                                                            currently.Month,
                                                            currently.Day);
             //dialog.DatePicker.MinDate  = new Java.Util.Date().Time;
+            double maxSeconds = (new DateTime(DateTime.Now.Year,12,31).AddYears(-18) - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            dialog.DatePicker.MaxDate = (long)maxSeconds;
+            
             return dialog;
         }
         public void OnDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)

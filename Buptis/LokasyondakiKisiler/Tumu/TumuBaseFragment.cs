@@ -149,11 +149,11 @@ namespace Buptis.LokasyondakiKisiler.Tumu
                     }
                     else if (GetUserFilter.Cinsiyet == 2)
                     {
-                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadýn" & item.birthDayDate <= minDT & item.birthDayDate >= maxDate);
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadın" & item.birthDayDate <= minDT & item.birthDayDate >= maxDate);
                     }
                     else
                     {
-                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadýn" | item.gender == "Erkek" & item.birthDayDate <= minDT & item.birthDayDate >= maxDate);
+                        UserGallery1 = UserGallery1.FindAll(item => item.gender == "Kadın" | item.gender == "Erkek" & item.birthDayDate <= minDT & item.birthDayDate >= maxDate);
                     }
                 }
             }

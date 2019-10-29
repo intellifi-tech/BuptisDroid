@@ -24,7 +24,7 @@ using Android.Gms.Common.Apis;
 
 namespace Buptis.Splashh
 {
-    [Activity(Label = "Buptis", MainLauncher = true)]
+    [Activity(Label = "Buptis", MainLauncher = true, ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class Splash : Android.Support.V7.App.AppCompatActivity
     {
 

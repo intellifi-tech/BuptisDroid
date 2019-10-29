@@ -12,6 +12,7 @@ using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.GenericUI;
+using Buptis.Lokasyonlar;
 using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PrivateProfile.GaleriResimEkle;
 using Buptis.PrivateProfile.Store;
@@ -25,7 +26,7 @@ using static Buptis.PrivateProfile.PrivateProfileViewPager;
 
 namespace Buptis.PrivateProfile
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PrivateProfileBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar 
@@ -36,6 +37,8 @@ namespace Buptis.PrivateProfile
         ImageViewAsync UserProfilPhoto;
 
         #endregion
+
+        
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -73,7 +76,9 @@ namespace Buptis.PrivateProfile
             sBoosTxt = FindViewById<TextView>(Resource.Id.textView9);
             krediTxt = FindViewById<TextView>(Resource.Id.textView10);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+
         }
+
         private void OpenGoldPackage(object sender, EventArgs e)
         {
             var StoreGoldPackage1 = new StoreGold();
@@ -352,6 +357,7 @@ namespace Buptis.PrivateProfile
 
         public override void OnBackPressed()
         {
+            this.Finish();
         }
         private void ProfileEdit_Click(object sender, EventArgs e)
         {

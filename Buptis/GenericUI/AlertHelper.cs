@@ -30,7 +30,7 @@ namespace Buptis.GenericUI
                         Duration = ToastLength.Short,
                         View = view
                     };
-                    toast.SetGravity(GravityFlags.Top | GravityFlags.Top, 0, 0);
+                    toast.SetGravity(GravityFlags.Center | GravityFlags.Center, 0, 0);
                     toast.Show();
                 }
                 catch

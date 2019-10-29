@@ -5,10 +5,10 @@
 </head>
 <body style="background:none;font-family:Muli,sans-serif; font-size:14px ">
 <font color="#fff"><p>Mesaj göndererek <font color="#E10068">30 Kredi</font></br>
-Mesajınıza cevap verilmesi durumunda <font color="#E10068">20 Kredi</font></br>
-Kredi satın almanız durumunda
+Mesajınıza cevap verilmesi durumunda <font color="#E10068">20 Kredi</font>harcamış olursunuz.</br> 
+Kredi satın almanız durumunda 
 servis sağlayıcının ismi tümüyle güvenilir ve anonim
-olacak şekilde ödeme listenizde <strong>“Apple iTunes Store”
+olacak şekilde ödeme listenizde <strong>“Google Play Store”
 </strong>olarak güncellenecektir.</p></font>
 </body>
 </html>

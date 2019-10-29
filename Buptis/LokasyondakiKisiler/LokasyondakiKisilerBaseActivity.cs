@@ -20,7 +20,7 @@ using Buptis.Mesajlar;
 
 namespace Buptis.LokasyondakiKisiler
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class LokasyondakiKisilerBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalr

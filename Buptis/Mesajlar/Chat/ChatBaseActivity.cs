@@ -30,7 +30,7 @@ using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
 namespace Buptis.Mesajlar.Chat
 {
 
-    [Activity(Label = "Buptis"/*, MainLauncher = true*/)]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
 
     public class ChatBaseActivity : Android.Support.V7.App.AppCompatActivity, View.IOnFocusChangeListener
     {

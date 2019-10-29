@@ -29,7 +29,7 @@ using Android.Text;
 
 namespace Buptis.KayitOl
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis",ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class KayitOlBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar
@@ -91,7 +91,9 @@ namespace Buptis.KayitOl
         {
             if (BosVarmi())
             {
-               ShowLoading.Show(this, "Lütfen Bekle");
+                if (ControlUserAction())
+                {
+               ShowLoading.Show(this, "Lütfen Bekleyin");
                 new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                 {
                     WebService webService = new WebService();
@@ -109,16 +111,15 @@ namespace Buptis.KayitOl
                     {
                         TokenAlDevamEt();
                         ShowLoading.Hide();
-                        BosVarmi();
                     }
-
                     else
                     {
                         ShowLoading.Hide();
-                        BosVarmi();
+                        AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
                         return;
                     }
                 })).Start();
+                }
             }
         }
         void TokenAlDevamEt()
@@ -181,35 +182,31 @@ namespace Buptis.KayitOl
             }
 
         }
-        private bool isValidEmail(string email)
+        bool ControlUserAction()
         {
-            return !TextUtils.IsEmpty(email) && Android.Util.Patterns.EmailAddress.Matcher(email).Matches();
-        }
-        bool BosVarmi()
-        {
-            if (isValidUserName(AdText.Text) == false && AdText.Text.Trim() == ""  )
+            if (AdText.Text.Length<2)
             {
-                AlertHelper.AlertGoster("Lütfen adınızı kontrol ediniz!", this);
+                AlertHelper.AlertGoster("Lütfen adınızı kontrol edin!", this);
                 return false;
             }
-            else if (isValidUserName(SoyadText.Text) == false && SoyadText.Text.Trim() == ""  )
+            else if (SoyadText.Text.Length < 2)
             {
-                AlertHelper.AlertGoster("Lütfen soyadınızı kontrol ediniz!", this);
+                AlertHelper.AlertGoster("Lütfen soyadınızı kontrol edin!", this);
                 return false;
             }
-            else if (isValidEmail(inputmail.Text) == false && inputmail.Text.Trim() == ""  )
+            else if (isValidEmail(inputmail.Text) == false)
             {
-                AlertHelper.AlertGoster("Eksik veya hatalı bir email girdiniz!", this);
+                AlertHelper.AlertGoster("Lütfen emalinizi kontrol edin!", this);
                 return false;
             }
-            else if (SifreText.Text.Length < 6 && SifreText.Text.Trim() == ""  )
+            else if (SifreText.Text.Length < 6 == true)
             {
-                AlertHelper.AlertGoster("Hatalı veya eksik şifre girdiniz!", this);
+                AlertHelper.AlertGoster("Şifreniz 6 karakterden az olamaz!", this);
                 return false;
             }
-            else if (SifreTekrarText.Text.Length < 6 &&  SifreTekrarText.Text.Trim() == "" )
+            else if (SifreTekrarText.Text.Length < 6 == true)
             {
-                AlertHelper.AlertGoster("Hatalı veya eksik şifre girdiniz!", this);
+                AlertHelper.AlertGoster("Şifreniz 6 karakterden az olamaz!", this);
                 return false;
             }
             else if (SifreText.Text != SifreTekrarText.Text)
@@ -222,30 +219,43 @@ namespace Buptis.KayitOl
                 return true;
             }
         }
-        bool isValidUserName(string username)
+        bool BosVarmi()
         {
-            var usernamePattern = "^[a-z0-9_-]{3,15}$";
-            if (Regex.IsMatch(username, usernamePattern))
+            if (AdText.Text.Trim() == ""  )
+            {
+                AlertHelper.AlertGoster("Lütfen adınızı giriniz!", this);
+                return false;
+            }
+            else if (SoyadText.Text.Trim() == ""  )
+            {
+                AlertHelper.AlertGoster("Lütfen soyadınızı giriniz!", this);
+                return false;
+            }
+            else if (inputmail.Text.Trim() == ""  )
+            {
+                AlertHelper.AlertGoster("Lütfen emalinizi giriniz!", this);
+                return false;
+            }
+            else if (SifreText.Text.Trim() == ""  )
+            {
+                AlertHelper.AlertGoster("Lütfen şifrenizi giriniz!", this);
+                return false;
+            }
+            else if (SifreTekrarText.Text.Trim() == "" )
+            {
+                AlertHelper.AlertGoster("Lütfen şifre tekrarını giriniz!", this);
+                return false;
+            }
+            
+            else
             {
                 return true;
             }
-            else
-            {
-               return false;
-            }
         }
-        //private bool isValidEmail(string email)
-        //{
-        //    var emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        //    if (Regex.IsMatch(email, emailPattern))
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
+        private bool isValidEmail(string email)
+        {
+            return !TextUtils.IsEmpty(email) && Android.Util.Patterns.EmailAddress.Matcher(email).Matches();
+        }
         private void Girisyap_Click(object sender, EventArgs e)
         {
 

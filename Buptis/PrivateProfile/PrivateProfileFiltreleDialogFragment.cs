@@ -27,7 +27,8 @@ namespace Buptis.PrivateProfile
         RangeSliderControl slider;
         ImageButton Geri;
         Button Erkek, Kadin, HerIkisi,Onayla;
-        #endregion  
+        
+        #endregion
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
@@ -61,16 +62,17 @@ namespace Buptis.PrivateProfile
             Erkek.Tag = 1;
             Kadin.Tag = 2;
             HerIkisi.Tag = 3;
-
+            
             Erkek.Click += CinsiyetClick;
             Kadin.Click += CinsiyetClick;
             HerIkisi.Click += CinsiyetClick;
-
+            textEnd.Text = "";
+            txtStart.Text = "";
             var activecolor = Android.Graphics.Color.ParseColor("#E8004F");
             var defaultcolor = Android.Graphics.Color.ParseColor("#221E20");
             slider = view.FindViewById<RangeSliderControl>(Resource.Id.rangeSliderControl1);
             slider.SetSelectedMinValue(18);
-            slider.SetSelectedMaxValue(40);
+            slider.SetSelectedMaxValue(70);
             slider.ActiveColor = activecolor;
             slider.DefaultColor = defaultcolor;
             slider.SetBarHeight(15);
@@ -81,16 +83,36 @@ namespace Buptis.PrivateProfile
             slider.ThumbPressedImage = bmp;
             slider.DragCompleted += Slider_DragCompleted;
             slider.SetTextAboveThumbsColor(Color.Transparent);
-            Kaydet.Click += Kaydet_Click;
+            GetSelectedFilter();
             return view;
+           
         }
-
+       
+        public void GetSelectedFilter()
+        {
+            var filtre = DataBase.FILTRELER_GETIR()[0];
+            txtStart.Text = Convert.ToString(filtre.minAge);
+            textEnd.Text = Convert.ToString(filtre.maxAge);
+            if (filtre.Cinsiyet == 1)
+            
+                Erkek.PerformClick();
+            
+            else if (filtre.Cinsiyet == 2)
+            
+                Kadin.PerformClick();
+            
+            else
+            
+               HerIkisi.PerformClick();
+            
+        }
         private void Onayla_Click(object sender, EventArgs e)
         {
             var MinValue = slider.GetSelectedMinValue();
-            var MaxValue = slider.GetSelectedMaxValue();
-            
-            FILTRELER fILTRELER = new FILTRELER() {
+            var  MaxValue = slider.GetSelectedMaxValue();
+
+            FILTRELER fILTRELER = new FILTRELER()
+            {
                 Cinsiyet = SonCinsiyetSecim,
                 minAge = (int)Math.Round(Convert.ToDouble(MinValue), 0),
                 maxAge = (int)Math.Round(Convert.ToDouble(MaxValue), 0)
@@ -155,7 +177,7 @@ namespace Buptis.PrivateProfile
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Top);
             SetBackGround();
-
+            
         }
 
         void SetBackGround()
@@ -200,12 +222,11 @@ namespace Buptis.PrivateProfile
             else if (MaxValue >= 70)
             {
                 MaxValue = 70;
-            }
-            
-            txtStart.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
-            textEnd.Text = Math.Round(Convert.ToDouble(MaxValue), 0).ToString();
-        }
+                }
 
+                txtStart.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
+                textEnd.Text = Math.Round(Convert.ToDouble(MaxValue), 0).ToString();
+            }
         public Bitmap LayoutToBitmap(Android.Views.View markerLayout)
         {
             markerLayout.Measure(Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified), Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));
@@ -215,11 +236,6 @@ namespace Buptis.PrivateProfile
             markerLayout.Draw(canvas);
             return bitmap;
         }
-        private void Kaydet_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         void SetFonts(View BaseView)
         {
             FontHelper.SetFont_Regular(new int[] {

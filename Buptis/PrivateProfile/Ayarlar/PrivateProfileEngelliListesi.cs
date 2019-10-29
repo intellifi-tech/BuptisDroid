@@ -23,11 +23,11 @@ using FFImageLoading.Work;
 
 namespace Buptis.PrivateProfile.Ayarlar
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PrivateProfileEngelliListesi : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar
-        ListView Listvieww;
+        GridView GridVieww;
         EngelliUserListViewAdapter mAdapter;
         List<EngelliKullanicilarDTO> EngelliKullanicilarDTOs = new List<EngelliKullanicilarDTO>();
         ImageButton Geri;
@@ -39,7 +39,8 @@ namespace Buptis.PrivateProfile.Ayarlar
             SetFonts();
             DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
             DinamikStatusBarColor1.SetFullScreen(this);
-            Listvieww = FindViewById<ListView>(Resource.Id.listView1);
+            GridVieww = FindViewById<GridView>(Resource.Id.gridView1);
+            GridVieww.NumColumns = 3;
             Geri = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             Geri.Click += Geri_Click;
         }
@@ -66,17 +67,17 @@ namespace Buptis.PrivateProfile.Ayarlar
                 {
                     this.RunOnUiThread(() => {
                         var boldd = Typeface.CreateFromAsset(this.Assets, "Fonts/muliBold.ttf");
-                        mAdapter = new EngelliUserListViewAdapter(this, Resource.Layout.EngellilerListCustomView, EngelliKullanicilarDTOs, boldd);
-                        Listvieww.Adapter = null;
-                        Listvieww.Adapter = mAdapter;
-                        Listvieww.ItemClick += Listvieww_ItemClick;
+                        mAdapter = new EngelliUserListViewAdapter(this, Resource.Layout.LokasyondakiKisilerCustomCardView, EngelliKullanicilarDTOs, boldd);
+                        GridVieww.Adapter = null;
+                        GridVieww.Adapter = mAdapter;
+                        GridVieww.ItemClick += Listvieww_ItemClick;
                         ShowLoading.Hide();
                     });
                 }
                 else
                 {
                     this.RunOnUiThread(() => {
-                        Listvieww.Adapter = null;
+                        GridVieww.Adapter = null;
                         ShowLoading.Hide();
                     });
                     AlertHelper.AlertGoster("Hiç Engelli Kullanıcı Yok.", this);
@@ -213,7 +214,7 @@ namespace Buptis.PrivateProfile.Ayarlar
                     row = LayoutInflater.From(mContext).Inflate(mRowLayout, parent, false);
                     var item = mDepartmanlar[position];
                     holder.KisiAdi = row.FindViewById<TextView>(Resource.Id.textView1);
-                    holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item);
+                    holder.ProfilFoto = row.FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
                     holder.KisiAdi.SetTypeface(boldd, TypefaceStyle.Normal);
                     GetUserDTO(item.blockUserId.ToString(),holder.ProfilFoto,holder.KisiAdi);
 

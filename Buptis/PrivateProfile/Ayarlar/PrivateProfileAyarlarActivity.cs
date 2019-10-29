@@ -14,7 +14,7 @@ using Buptis.GenericClass;
 
 namespace Buptis.PrivateProfile.Ayarlar
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PrivateProfileAyarlarActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region
@@ -41,9 +41,9 @@ namespace Buptis.PrivateProfile.Ayarlar
             tviewBizeYazin.Click += TviewBizeYazin_Click;
             tViewHakkimizda.Click += TViewHakkimizda_Click;
             tViewEngelli.Click += TViewEngelli_Click;
+            UserEmaill.Click += TViewHesap_Click;
             GetEmail();
         }
-
         private void Geri_Click(object sender, EventArgs e)
         {
             this.Finish();

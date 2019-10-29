@@ -49,7 +49,7 @@ namespace Buptis.Lokasyonlar.BanaYakin
 
             })).Start();
         }
-
+      
         private void MViewAdapter_ItemClick(object sender, int e)
         {
             SecilenLokasyonn.LokID = favorilerRecyclerViewDataModels[e].id.ToString();

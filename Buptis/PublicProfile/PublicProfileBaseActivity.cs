@@ -31,7 +31,7 @@ using static Buptis.PrivateProfile.PrivateProfileViewPager;
 
 namespace Buptis.PublicProfile
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PublicProfileBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanımlamalar
@@ -46,7 +46,10 @@ namespace Buptis.PublicProfile
         List<UserAnswerDataModel> UserAnswers = new List<UserAnswerDataModel>();
         GetUserLastLocation userlastloc = new GetUserLastLocation();
         List<string> FollowListID = new List<string>();
+        List<MEMBER_DATA> UserGallery1 = new List<MEMBER_DATA>();
+        List<EngelliKullanicilarDTO> EngelliKullanicilarDTOs = new List<EngelliKullanicilarDTO>();
         ImageView FollowButton;
+        int engelleCount = 0;
         
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
@@ -79,7 +82,10 @@ namespace Buptis.PublicProfile
             KullaniciAdiYasi.Text = "";
             HakkindaYazisi.Text = "";
             EnSonLokasyonu.Text = "";
-            
+           
+            engelleCount = Convert.ToInt32(Engelle.Tag);
+            engelleCount = 1;
+            GetBockedUserList();
         }
 
         private void FollowButton_Click(object sender, EventArgs e)
@@ -244,8 +250,58 @@ namespace Buptis.PublicProfile
 
         private void Engelle_Click(object sender, EventArgs e)
         {
-            PublicProfileKopya.PublicProfileBaseActivity1 = this;
-            this.StartActivity(typeof(PrivateProfileEngelleActivity));
+            if (engelleCount == 1)
+            {
+                Engelle.Text = "Engelle - Şikayet Et";
+                PublicProfileKopya.PublicProfileBaseActivity1 = this;
+                this.StartActivity(typeof(PrivateProfileEngelleActivity));
+                engelleCount = 2;
+                Engelle.Text = "Engelini Kaldır";
+
+            }
+            else if (engelleCount == 2)
+            {
+                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                cevap.SetMessage(Spannla(Color.DarkGray, "Engellemeyi kaldırmak istiyor musun?"));
+                cevap.SetPositiveButton("Evet", delegate
+                {
+                    cevap.Dispose();
+                    EngeliKaldir(EngelliKullanicilarDTOs[0].id);
+                });
+                cevap.SetNegativeButton("Hayır", delegate
+                {
+                    cevap.Dispose();
+                });
+                cevap.Show();
+                engelleCount = 1;
+                Engelle.Text = "Engelle - Şikayet Et";
+            }
+        }
+        void GetBockedUserList()
+        {
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("blocked-user/block-list");
+            if (Donus != null)
+            {
+                EngelliKullanicilarDTOs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EngelliKullanicilarDTO>>(Donus.ToString());
+                if (EngelliKullanicilarDTOs.Count > 0)
+                {
+                    engelleCount = 2;
+                    Engelle.Text = "Engelini Kaldır";
+                }
+            }
+        }
+        void EngeliKaldir(int id)
+        {
+            WebService webService = new WebService();
+            var Donus = webService.ServisIslem("blocked-users/" + id, "", Method: "DELETE");
+            if (Donus != "Hata")
+            {
+                AlertHelper.AlertGoster("Kullanıcının engeli kaldırıldı", this);
+                GetBockedUserList();
+            }
         }
         public void UzaktanKapat()
         {

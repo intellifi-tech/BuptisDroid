@@ -20,7 +20,7 @@ using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
 
 namespace Buptis.PrivateProfile
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PrivateProfileEngelleActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region
@@ -81,8 +81,6 @@ namespace Buptis.PrivateProfile
                 {
                     WebService webService = new WebService();
                     BlockedUser blockedUser = null;
-                    //RunOnUiThread(delegate ()
-                    //{
                         string reasonTypee = "OTHER";
                         if (SecilenIndex != -1)
                         {
@@ -96,8 +94,6 @@ namespace Buptis.PrivateProfile
                             userId = DataBase.MEMBER_DATA_GETIR()[0].id,
                             status = "BLOCKED"
                         };
-                    //});
-
                     string jsonString = JsonConvert.SerializeObject(blockedUser);
                     var Responsee = webService.ServisIslem("blocked-users", jsonString);
                     if (Responsee != "Hata")

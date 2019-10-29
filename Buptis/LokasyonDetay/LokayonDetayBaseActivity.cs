@@ -24,7 +24,7 @@ using Org.Json;
 
 namespace Buptis.LokasyonDetay
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class LokayonDetayBaseActivity : Android.Support.V7.App.AppCompatActivity, IOnMapReadyCallback
     {
         ImageButton navigationmap, locationPhone,CheckInButton,WaitingButton,MesajlarButton, GeriButton;

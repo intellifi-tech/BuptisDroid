@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace Buptis.PrivateProfile.Ayarlar
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PrivateProfileHesapActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanımlamalar

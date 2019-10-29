@@ -10,14 +10,16 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.Mesajlar.Favoriler;
 using Buptis.Mesajlar.Istekler;
 using Buptis.Mesajlar.Mesajlarr;
+using Buptis.WebServicee;
 
 namespace Buptis.Mesajlar
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MesajlarBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalr
@@ -29,7 +31,9 @@ namespace Buptis.Mesajlar
         ImageButton ProfilButton,AraButton,AraKapatButton;
         RelativeLayout AraBackHazne;
         EditText AraEdittex;
-
+        List<SonMesajlarListViewDataModel> mFriends = new List<SonMesajlarListViewDataModel>();
+        List<IsteklerListViewDataModel> mFriends2 = new List<IsteklerListViewDataModel>();
+        List<SonFavorilerListViewDataModel> mFriends3 = new List<SonFavorilerListViewDataModel>();
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -47,13 +51,13 @@ namespace Buptis.Mesajlar
             AraEdittex = FindViewById<EditText>(Resource.Id.searchView1);
             AraBackHazne.Visibility = ViewStates.Gone;
             AraKapatButton.Click += AraKapatButton_Click;
-
             AraButton.Click += AraButton_Click;
             Geri.Click += Geri_Click;
             MesajlarButton.Click += MesajlarButton_Click;
             IsteklerButton.Click += IsteklerButton_Click;
             FavorilerButton.Click += FavorilerButton_Click;
             ParcaYerlestir(0);
+            GetUnReadMessage();
         }
 
         private void AraKapatButton_Click(object sender, EventArgs e)
@@ -87,7 +91,84 @@ namespace Buptis.Mesajlar
         {
             ParcaYerlestir(0);
         }
+        void GetUnReadMessage()
+        {
+            int normalmessagecount=0, requestmessagecount=0 , favoritemessagecount=0 ;
 
+
+            #region Normal Message Count
+            WebService webService = new WebService();
+            var Donus = webService.OkuGetir("chats/user");
+            if (Donus != null)
+            {
+               
+                mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
+                mFriends.ForEach(item =>
+                {
+                    normalmessagecount += item.unreadMessageCount;
+                });
+
+                if (mFriends.Count > 0)
+                {
+                    //MesajlarButton.SetText(Convert.ToInt32("Mesajlar ( ") + normalmessagecount + Convert.ToInt32(")"));
+                    MesajlarButton.Text = "Mesajlar (" + normalmessagecount + ")";
+                }
+                else
+                {
+                    MesajlarButton.Text = "Mesajlar";
+                }
+            }
+
+            #endregion
+
+            #region Request Message Count
+            
+            var Donus2= webService.OkuGetir("chats/user");
+            if (Donus2 != null)
+            {
+                mFriends2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IsteklerListViewDataModel>>(Donus2.ToString());
+                mFriends2.ForEach(item =>
+                {
+                    requestmessagecount += item.unreadMessageCount;
+                });
+
+                if (mFriends2.Count > 0)
+                {
+                    //MesajlarButton.SetText(Convert.ToInt32("Mesajlar ( ") + requestmessagecount + Convert.ToInt32(")"));
+                    IsteklerButton.Text = "İstekler (" + requestmessagecount + ")";
+                }
+                else
+                {
+                    IsteklerButton.Text = "İstekler";
+                }
+            }
+            #endregion
+
+            #region Favorite Message Count
+            
+            var Donus3 = webService.OkuGetir("chats/user");
+             if (Donus3 != null) { 
+                mFriends3 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonFavorilerListViewDataModel>>(Donus3.ToString());
+                mFriends3.ForEach(item =>
+                {
+                    favoritemessagecount += item.unreadMessageCount;
+                });
+                if (mFriends3.Count > 0)
+                {
+                    this.RunOnUiThread(() =>
+                    {
+                        //MesajlarButton.SetText(Convert.ToInt32("Mesajlar ( ") + favoritemessagecount + Convert.ToInt32(")"));
+                        FavorilerButton.Text = "Favoriler (" + favoritemessagecount + ")";
+                    });
+                }
+                else
+                {
+                    FavorilerButton.Text = "Favoriler";
+                }
+            }
+            #endregion
+
+        }
         void ParcaYerlestir(int durum)
         {
             Button[] Tabs = new Button[] { MesajlarButton, IsteklerButton, FavorilerButton };

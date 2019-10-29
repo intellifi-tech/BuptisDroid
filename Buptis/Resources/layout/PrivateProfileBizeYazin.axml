@@ -98,6 +98,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="186.5dp"
 			android:id="@+id/editText2"
+            android:maxLength="300"
 			android:layout_marginTop="9.5dp" />
 		<View
 			android:layout_margin="20dp"

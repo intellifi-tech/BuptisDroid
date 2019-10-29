@@ -62,4 +62,14 @@ namespace Buptis.PublicProfile
         public string townId { get; set; }
         public string townName { get; set; }
     }
+    public class EngelliKullanicilarDTO
+    {
+        public int blockUserId { get; set; }
+        public string createdDate { get; set; }
+        public int id { get; set; }
+        public string lastModifiedDate { get; set; }
+        public string reasonType { get; set; }
+        public string status { get; set; }
+        public int userId { get; set; }
+    }
 }

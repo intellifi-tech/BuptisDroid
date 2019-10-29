@@ -26,7 +26,7 @@ using FFImageLoading.Work;
 
 namespace Buptis.Lokasyonlar
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class LokasyonlarBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalr
@@ -145,7 +145,7 @@ namespace Buptis.Lokasyonlar
 
         public override void OnBackPressed()
         {
-
+            this.Finish();
         }
 
         protected override void OnStart()

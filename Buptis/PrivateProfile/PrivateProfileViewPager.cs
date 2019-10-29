@@ -21,7 +21,7 @@ using static Buptis.PrivateProfile.PrivateProfileViewPager;
 
 namespace Buptis.PrivateProfile
 {
-    [Activity(Label = "Buptis")]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class PrivateProfileViewPager : Android.Support.V7.App.AppCompatActivity, Android.Support.V4.View.ViewPager.IOnPageChangeListener
     {
         #region Tanimlamalar 

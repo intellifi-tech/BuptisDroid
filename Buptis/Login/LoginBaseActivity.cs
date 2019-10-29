@@ -30,7 +30,7 @@ using System.Text.RegularExpressions;
 
 namespace Buptis.Login
 {
-    [Activity(Label = "Buptis"/*, MainLauncher = true*//*, WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden*/)]
+    [Activity(Label = "Buptis", ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class LoginBaseActivity : Android.Support.V7.App.AppCompatActivity, View.IOnClickListener, GoogleApiClient.IOnConnectionFailedListener
     {
         #region Tanimlamalar
@@ -129,7 +129,23 @@ namespace Buptis.Login
             }
             #endregion
         }
-
+        bool ControlUserAction()
+        {
+           if (isValidEmail(inputmail.Text) == false)
+            {
+                AlertHelper.AlertGoster("Lütfen emalinizi kontrol edin!", this);
+                return false;
+            }
+            else if (Sifreinput.Text.Length < 6 == true)
+            {
+                AlertHelper.AlertGoster("Şifreniz 6 karakterden az olamaz!", this);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         protected override void OnStop()
         {
             base.OnStop();
@@ -280,14 +296,17 @@ namespace Buptis.Login
         {
             if (BosVarmi())
             {
+                if (ControlUserAction())
+                {
                 var mail = inputmail.Text;
                 var sifre = Sifreinput.Text;
                 ShowLoading.Show(this, "Lütfen Bekleyin...");
                 new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                 {
-
                     GirisYapMetod(mail, sifre);
                 })).Start();
+                }
+               
             }
         }
 
@@ -368,16 +387,16 @@ namespace Buptis.Login
         }
         bool BosVarmi()
         {
-            if (inputmail.Text.Trim() == "" && isValidEmail(inputmail.ToString()) == false)
+            if (inputmail.Text.Trim() == "" )
             {
-                AlertHelper.AlertGoster("Hatalı veya eksik email girdiniz!", this);
+                AlertHelper.AlertGoster("Lütfen soyadınızı giriniz!", this);
                 return false;
             }
             else
             {
-                if (Sifreinput.Text.Trim() == "" && Sifreinput.Text.Length < 6)
+                if (Sifreinput.Text.Trim() == "")
                 {
-                    AlertHelper.AlertGoster("Hatalı veya eksik şifre girdiniz!", this);
+                    AlertHelper.AlertGoster("Lütfen şifrenizi giriniz!", this);
                     return false;
                 }
                 else
