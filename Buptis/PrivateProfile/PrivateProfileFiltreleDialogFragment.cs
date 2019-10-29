@@ -62,17 +62,12 @@ namespace Buptis.PrivateProfile
             Erkek.Tag = 1;
             Kadin.Tag = 2;
             HerIkisi.Tag = 3;
-            
             Erkek.Click += CinsiyetClick;
             Kadin.Click += CinsiyetClick;
             HerIkisi.Click += CinsiyetClick;
-            textEnd.Text = "";
-            txtStart.Text = "";
             var activecolor = Android.Graphics.Color.ParseColor("#E8004F");
             var defaultcolor = Android.Graphics.Color.ParseColor("#221E20");
             slider = view.FindViewById<RangeSliderControl>(Resource.Id.rangeSliderControl1);
-            slider.SetSelectedMinValue(18);
-            slider.SetSelectedMaxValue(70);
             slider.ActiveColor = activecolor;
             slider.DefaultColor = defaultcolor;
             slider.SetBarHeight(15);
@@ -85,26 +80,36 @@ namespace Buptis.PrivateProfile
             slider.SetTextAboveThumbsColor(Color.Transparent);
             GetSelectedFilter();
             return view;
-           
         }
-       
         public void GetSelectedFilter()
         {
-            var filtre = DataBase.FILTRELER_GETIR()[0];
-            txtStart.Text = Convert.ToString(filtre.minAge);
-            textEnd.Text = Convert.ToString(filtre.maxAge);
-            if (filtre.Cinsiyet == 1)
-            
-                Erkek.PerformClick();
-            
-            else if (filtre.Cinsiyet == 2)
-            
-                Kadin.PerformClick();
-            
-            else
-            
-               HerIkisi.PerformClick();
-            
+            slider.SetSelectedMinValue(Convert.ToInt32(txtStart.Text));
+            slider.SetSelectedMaxValue(Convert.ToInt32(textEnd.Text));
+
+            var MinValue = slider.GetSelectedMinValue();
+            var MaxValue = slider.GetSelectedMaxValue();
+            FILTRELER fILTRELER = new FILTRELER()
+            {
+                Cinsiyet = SonCinsiyetSecim,
+                minAge = (int)Math.Round(Convert.ToDouble(MinValue), 0),
+                maxAge = (int)Math.Round(Convert.ToDouble(MaxValue), 0)
+            };
+
+            if (DataBase.FILTRELER_EKLE(fILTRELER))
+            {
+
+                var filtre = DataBase.FILTRELER_GETIR()[0];
+                txtStart.Text = Convert.ToString(filtre.minAge);
+                textEnd.Text = Convert.ToString(filtre.maxAge);
+                if (filtre.Cinsiyet == 1)
+                    Erkek.PerformClick();
+
+                else if (filtre.Cinsiyet == 2)
+                    Kadin.PerformClick();
+
+                else
+                    HerIkisi.PerformClick();
+            }
         }
         private void Onayla_Click(object sender, EventArgs e)
         {
@@ -219,14 +224,15 @@ namespace Buptis.PrivateProfile
             {
                 MinValue = 18;
             }
-            else if (MaxValue >= 70)
+            else if (MaxValue >= 65)
             {
-                MaxValue = 70;
-                }
-
-                txtStart.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
-                textEnd.Text = Math.Round(Convert.ToDouble(MaxValue), 0).ToString();
+                MaxValue = 65;
+                textEnd.Text = "+65";
             }
+
+            txtStart.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
+            textEnd.Text = Math.Round(Convert.ToDouble(MaxValue), 0).ToString();
+        }
         public Bitmap LayoutToBitmap(Android.Views.View markerLayout)
         {
             markerLayout.Measure(Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified), Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));

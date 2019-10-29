@@ -16,6 +16,7 @@ using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.GenericUI;
+using Buptis.Mesajlar;
 using Buptis.Mesajlar.Chat;
 using Buptis.PrivateProfile;
 using Buptis.WebServicee;
@@ -305,6 +306,7 @@ namespace Buptis.PublicProfile
         }
         public void UzaktanKapat()
         {
+            this.StartActivity(typeof(MesajlarBaseActivity));
             this.Finish();
         }
         private void GeriButton_Click(object sender, EventArgs e)

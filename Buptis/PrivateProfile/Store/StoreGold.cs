@@ -77,7 +77,7 @@ namespace Buptis.PrivateProfile.Store
             GetTextViewStrikeThrough();
             GetWebViewText();
             BuyButton.Click += BuyButton_Click;
-           // viepageratama();
+            
             return view;
         }
 
@@ -220,6 +220,7 @@ namespace Buptis.PrivateProfile.Store
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Bottom);
             SetBackGround();
+           // viepageratama();
         }
         void GetWebViewText()
         {
@@ -327,7 +328,7 @@ namespace Buptis.PrivateProfile.Store
             {
                 
                // _viewpageer.Adapter = new TabPagerAdaptor(this.Activity.SupportFragmentManager, fragments, titles);
-                //SetupViewPagerIndicator();
+               // SetupViewPagerIndicator();
             }
             catch
             {

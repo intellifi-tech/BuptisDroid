@@ -87,6 +87,7 @@ namespace Buptis.Mesajlar.Chat
         {
             SecilenKisi.SecilenKisiDTO = MesajlarIcinSecilenKullanici.Kullanici;
             this.StartActivity(typeof(PublicProfileBaseActivity));
+            this.Finish();
         }
 
         protected override void OnStart()

@@ -26,6 +26,7 @@ namespace Buptis.Mesajlar.Favoriler
         List<SonFavorilerListViewDataModel> mFriends = new List<SonFavorilerListViewDataModel>();
         FavorilerListViewAdapter mAdapter;
         EditText GenericAraEditText;
+        int Engelliler;
         #endregion
 
         public FavorilerBaseFragment(EditText GenericAraEditText2)
@@ -76,11 +77,44 @@ namespace Buptis.Mesajlar.Favoriler
                 }
             })).Start();
         }
+        void GetUserInfo(string UserID, string keyy)
+        {
+            WebService webService = new WebService();
+            var Donus2 = webService.OkuGetir("blocked-user/block-list");
+            if (Donus2 != null)
+            {
+                var EngelliKul = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EngelliKullanicilarDTO>>(Donus2.ToString());
 
-        
+                if (EngelliKul.Count > 0)
+                {
+                    this.Activity.RunOnUiThread(() =>
+                    {
+                        var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
+                        Engelliler = EngelliKul[0].blockUserId;
+                        ShowLoading.Hide();
+                    });
+                }
+            }
+            var Donus = webService.OkuGetir("users/" + UserID);
+            if (Donus != null)
+            {
+                var Userrr = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                MesajlarIcinSecilenKullanici.Kullanici = Userrr;
+                MesajlarIcinSecilenKullanici.key = keyy;
+                if (Engelliler == Userrr.id)
+                {
+                    AlertHelper.AlertGoster("Bu kullanıcıyı engellediğiniz için mesaj atamazsınız!", this.Activity);
+                }
+                else
+                {
+                    this.Activity.StartActivity(typeof(ChatBaseActivity));
+                }
+            }
+        }
+
         private void Liste_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            this.Activity.StartActivity(typeof(ChatBaseActivity));
+            GetUserInfo(mAdapter[e.Position].receiverId.ToString(), mAdapter[e.Position].key);
         }
 
         public override void OnStart()
@@ -149,8 +183,6 @@ namespace Buptis.Mesajlar.Favoriler
                 FavorileriAyir();
                 if (mFriends.Count > 0)
                 {
-
-                    //mFriends.Where(item => item.receiverId == MeID).ToList().ForEach(item2 => item2.unreadMessageCount = 0);
                     SaveKeys();
                     this.Activity.RunOnUiThread(() =>
                     {
@@ -249,6 +281,16 @@ namespace Buptis.Mesajlar.Favoriler
         public class FavListDTO
         {
             public int FavUserID { get; set; }
+        }
+        public class EngelliKullanicilarDTO
+        {
+            public int blockUserId { get; set; }
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string lastModifiedDate { get; set; }
+            public string reasonType { get; set; }
+            public string status { get; set; }
+            public int userId { get; set; }
         }
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    xmlns:local="http://schemas.android.com/apk/res-auto"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
 	android:background="@null"
 	android:id="@+id/rootView"
@@ -113,14 +114,14 @@
             android:id="@+id/linearLayout3" >
             <TextView
                 android:text="Yaş aralığı"
-                android:layout_marginLeft="24dp"
+                android:layout_marginLeft="20dp"
                 android:textSize="18dp"
                 android:textColor="#221E20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView3" />
             <TextView
-                android:text="18"
+                android:text="24"
                 android:layout_toRightOf="@+id/textView3"
                 android:layout_marginLeft="200dp"
                 android:textSize="18dp"
@@ -137,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView5" />
             <TextView
-                android:text="70"
+                android:text="54"
                 android:layout_toRightOf="@+id/textView5"
                 android:textSize="18dp"
                 android:textColor="#221E20"
@@ -149,6 +150,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             local:showRangeLabels="false"
+			app:absoluteMaxValue="65"
+			app:absoluteMinValue="18"
             android:id="@+id/rangeSliderControl1" />
            
         </RelativeLayout>

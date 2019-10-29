@@ -214,7 +214,6 @@ namespace Buptis.Mesajlar
                 default:
                     break;
             }
-
         }
         void ClearFragment()
         {
