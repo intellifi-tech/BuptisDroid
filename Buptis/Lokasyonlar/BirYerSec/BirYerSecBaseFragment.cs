@@ -32,6 +32,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
         HaritaListeBaseFragment HaritaListeBaseFragment1;
         List<HaritaListeDataModel> Locationss = new List<HaritaListeDataModel>();
         View MapBaseView;
+        LokasyonlarBaseActivity GelenBase1;
         #endregion
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -40,6 +41,10 @@ namespace Buptis.Lokasyonlar.BirYerSec
             // Create your fragment here
         }
 
+        public BirYerSecBaseFragment(LokasyonlarBaseActivity GelenBase)
+        {
+            GelenBase1 = GelenBase;
+        }
 
         #region LifeCycle
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -162,6 +167,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
             builder.Bearing(155);
             builder.Tilt(65);
             CameraPosition cameraPosition = builder.Build();
+            
         }
 
         public bool OnMarkerClick(Marker marker)
@@ -179,21 +185,28 @@ namespace Buptis.Lokasyonlar.BirYerSec
 
         private void InitMapFragment()
         {
-            _mapFragment = this.Activity.FragmentManager.FindFragmentByTag("map") as MapFragment;
-            _mapFragment = null;
-            if (_mapFragment == null)
+            try
             {
-                GoogleMapOptions mapOptions = new GoogleMapOptions()
-                    .InvokeMapType(GoogleMap.MapTypeNormal)
-                    // .InvokeZoomControlsEnabled(true)
-                    .InvokeCompassEnabled(true);
+                _mapFragment = this.Activity.FragmentManager.FindFragmentByTag("map") as MapFragment;
+                _mapFragment = null;
+                if (_mapFragment == null)
+                {
+                    GoogleMapOptions mapOptions = new GoogleMapOptions()
+                        .InvokeMapType(GoogleMap.MapTypeNormal)
+                        // .InvokeZoomControlsEnabled(true)
+                        .InvokeCompassEnabled(true);
 
-                FragmentTransaction fragTx = this.Activity.FragmentManager.BeginTransaction();
-                _mapFragment = MapFragment.NewInstance(mapOptions);
-                fragTx.Add(Resource.Id.frameLayout1, _mapFragment, "map");
-                fragTx.Commit();
+                    FragmentTransaction fragTx = this.Activity.FragmentManager.BeginTransaction();
+                    _mapFragment = MapFragment.NewInstance(mapOptions);
+                    fragTx.Add(Resource.Id.frameLayout1, _mapFragment, "map");
+                    fragTx.Commit();
+                }
+                _mapFragment.GetMapAsync(this);
             }
-            _mapFragment.GetMapAsync(this);
+            catch 
+            {
+            }
+         
         }
 
         private void SetupMapIfNeeded()
@@ -262,7 +275,10 @@ namespace Buptis.Lokasyonlar.BirYerSec
             {
                 ShowLoading.Hide();
             }
-
+            this.Activity.RunOnUiThread(delegate ()
+            {
+                GelenBase1.ButonKullanimDuzenle(true);
+            });
         }
         public void MarkerSec(int Position)
         {
@@ -288,16 +304,28 @@ namespace Buptis.Lokasyonlar.BirYerSec
         Android.Support.V4.App.FragmentTransaction ft;
         void ListeyiFragmentCagir()
         {
-            ListeHaznesi.RemoveAllViews();
-            HaritaListeBaseFragment1 = new HaritaListeBaseFragment(this, Locationss);
-            ft = null;
-            ft = this.Activity.SupportFragmentManager.BeginTransaction();
-            ft.SetCustomAnimations(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left, Resource.Animation.enter_from_left, Resource.Animation.exit_to_right);
-            ft.AddToBackStack(null);
-            ft.Replace(Resource.Id.frameLayout2, HaritaListeBaseFragment1);
-            ft.CommitAllowingStateLoss();
+            try
+            {
+                ListeHaznesi.RemoveAllViews();
+                HaritaListeBaseFragment1 = new HaritaListeBaseFragment(this, Locationss);
+                ft = null;
+                ft = this.Activity.SupportFragmentManager.BeginTransaction();
+                ft.SetCustomAnimations(Resource.Animation.enter_from_right, Resource.Animation.exit_to_left, Resource.Animation.enter_from_left, Resource.Animation.exit_to_right);
+                ft.AddToBackStack(null);
+                ft.Replace(Resource.Id.frameLayout2, HaritaListeBaseFragment1);
+                ft.Commit();
+            }
+            catch 
+            {
+            }
+
         }
         #endregion
 
+    }
+
+    public class StaticMap
+    {
+        public static MapFragment Mapp { get; set; }
     }
 }

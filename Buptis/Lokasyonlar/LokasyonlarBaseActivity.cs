@@ -121,9 +121,10 @@ namespace Buptis.Lokasyonlar
                     ft.Commit();
                     break;
                 case 2:
+                    ButonKullanimDuzenle(false);
                     BiryerSecButton.SetBackgroundResource(Resource.Drawable.customtabselecteditem);
                     BiryerSecButton.SetTextColor(Color.White);
-                    BirYerSecBaseFragment BirYerSecBaseFragment1 = new BirYerSecBaseFragment();
+                    BirYerSecBaseFragment BirYerSecBaseFragment1 = new BirYerSecBaseFragment(this);
                     IcerikHazesi.RemoveAllViews();
                     ft = this.SupportFragmentManager.BeginTransaction();
                     ft.AddToBackStack(null);
@@ -137,6 +138,7 @@ namespace Buptis.Lokasyonlar
         }
         void ClearFragment()
         {
+            return;
             foreach (var item in SupportFragmentManager.Fragments)
             {
                 SupportFragmentManager.BeginTransaction().Remove(item).Commit();
@@ -171,6 +173,13 @@ namespace Buptis.Lokasyonlar
                     });
                 }
             })).Start();
+        }
+
+        public void ButonKullanimDuzenle(bool AktifPasif)
+        {
+            BiryerSecButton.Enabled = AktifPasif;
+            PopulerButton.Enabled = AktifPasif;
+            BanaYakinButton.Enabled = AktifPasif;
         }
 
         void SetFonts()
