@@ -126,7 +126,6 @@ namespace Buptis.Mesajlar.Chat
 
         void MesajGonderGenericMetod(string Message)
         {
-
             if (!KisiBilgileriTammi())
             {
                 AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Mesaj Gönderemezsiniz.", this);

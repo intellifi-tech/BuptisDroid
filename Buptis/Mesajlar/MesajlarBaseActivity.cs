@@ -95,14 +95,13 @@ namespace Buptis.Mesajlar
         {
             int normalmessagecount=0, requestmessagecount=0 , favoritemessagecount=0 ;
 
-
             #region Normal Message Count
             WebService webService = new WebService();
             var Donus = webService.OkuGetir("chats/user");
             if (Donus != null)
             {
-               
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
+                mFriends = mFriends.FindAll(item => item.request == false);
                 mFriends.ForEach(item =>
                 {
                     normalmessagecount += item.unreadMessageCount;
@@ -127,6 +126,7 @@ namespace Buptis.Mesajlar
             if (Donus2 != null)
             {
                 mFriends2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IsteklerListViewDataModel>>(Donus2.ToString());
+                mFriends = mFriends.FindAll(item => item.request == true); //Bana Gelen İstekler;
                 mFriends2.ForEach(item =>
                 {
                     requestmessagecount += item.unreadMessageCount;
@@ -149,6 +149,8 @@ namespace Buptis.Mesajlar
             var Donus3 = webService.OkuGetir("chats/user");
              if (Donus3 != null) { 
                 mFriends3 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonFavorilerListViewDataModel>>(Donus3.ToString());
+                mFriends = mFriends.FindAll(item => item.request == false);
+                FavorileriAyir();
                 mFriends3.ForEach(item =>
                 {
                     favoritemessagecount += item.unreadMessageCount;
@@ -169,6 +171,48 @@ namespace Buptis.Mesajlar
             #endregion
 
         }
+
+
+        void FavorileriAyir()
+        {
+            var FavList = FavorileriCagir();
+            List<FavListDTO> newList = new List<FavListDTO>();
+            for (int i = 0; i < FavList.Count; i++)
+            {
+                newList.Add(new FavListDTO()
+                {
+                    FavUserID = Convert.ToInt32(FavList[i])
+                });
+            }
+            var Ayiklanmis = (from list1 in mFriends
+                              join list2 in newList
+                              on list1.receiverId equals list2.FavUserID
+                              select list1).ToList();
+            mFriends = Ayiklanmis;
+        }
+        List<string> FavorileriCagir()
+        {
+            List<string> FollowListID = new List<string>();
+            WebService webService = new WebService();
+            var MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+            var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
+            if (Donus4 != null)
+            {
+                var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                if (!string.IsNullOrEmpty(JSONStringg))
+                {
+                    FollowListID = JSONStringg.Split(',').ToList();
+                }
+            }
+            return FollowListID;
+        }
+        public class FavListDTO
+        {
+            public int FavUserID { get; set; }
+        }
+
+
+
         void ParcaYerlestir(int durum)
         {
             Button[] Tabs = new Button[] { MesajlarButton, IsteklerButton, FavorilerButton };
