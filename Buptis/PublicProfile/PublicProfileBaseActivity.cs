@@ -19,6 +19,7 @@ using Buptis.GenericUI;
 using Buptis.Mesajlar;
 using Buptis.Mesajlar.Chat;
 using Buptis.PrivateProfile;
+using Buptis.PrivateProfile.Ayarlar;
 using Buptis.WebServicee;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using FFImageLoading;
@@ -208,12 +209,47 @@ namespace Buptis.PublicProfile
 
         private void MesajAtButton_Click(object sender, EventArgs e)
         {
-            MesajlarIcinSecilenKullanici.Kullanici = SecilenKisi.SecilenKisiDTO;
-            var mesKey = GetMessageKey(MesajlarIcinSecilenKullanici.Kullanici.id);
-            MesajlarIcinSecilenKullanici.key = mesKey;
-           
-            StartActivity(typeof(ChatBaseActivity));
-            this.Finish();
+            if (!KisiBilgileriTammi())
+            {
+                AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Mesaj Gönderemezsiniz.", this);
+                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet bilgilerinizi tamamlamadan mesaj gönderemezsiniz. Bilgilerini güncellemek ister misiniz?"));
+                cevap.SetPositiveButton("Evet", delegate
+                {
+                    cevap.Dispose();
+                    StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
+
+                });
+                cevap.SetNegativeButton("Hayır", delegate
+                {
+                    cevap.Dispose();
+                });
+                cevap.Show();
+            }
+            else
+            {
+                MesajlarIcinSecilenKullanici.Kullanici = SecilenKisi.SecilenKisiDTO;
+                var mesKey = GetMessageKey(MesajlarIcinSecilenKullanici.Kullanici.id);
+                MesajlarIcinSecilenKullanici.key = mesKey;
+
+                StartActivity(typeof(ChatBaseActivity));
+                this.Finish();
+            }
+        }
+
+        bool KisiBilgileriTammi()
+        {
+            var Me = DataBase.MEMBER_DATA_GETIR()[0];
+            if (string.IsNullOrEmpty(Me.gender) || string.IsNullOrEmpty(Me.birthDayDate.ToString()))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         string GetMessageKey(int UserId)

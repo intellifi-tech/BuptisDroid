@@ -18,6 +18,7 @@ using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.Mesajlar.Hediyeler;
+using Buptis.PrivateProfile.Ayarlar;
 using Buptis.PublicProfile;
 using Buptis.WebServicee;
 using FFImageLoading;
@@ -125,26 +126,62 @@ namespace Buptis.Mesajlar.Chat
 
         void MesajGonderGenericMetod(string Message)
         {
-            ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
+
+            if (!KisiBilgileriTammi())
             {
-                userId = MeDTO.id,
-                receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
-                text = Message,
-                key = MesajlarIcinSecilenKullanici.key
-            };
-            WebService webService = new WebService();
-            string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
-            var Donus = webService.ServisIslem("chats", jsonString);
-            if (Donus != "Hata")
-            {
-                var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
-                MesajEdittext.Text = "";
-                SaveKeys(Icerikk);
+                AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Mesaj Gönderemezsiniz.", this);
+                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet bilgilerinizi tamamlamadan mesaj gönderemezsiniz. Bilgilerini güncellemek ister misiniz?"));
+                cevap.SetPositiveButton("Evet", delegate
+                {
+                    cevap.Dispose();
+                    StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
+
+                });
+                cevap.SetNegativeButton("Hayır", delegate
+                {
+                    cevap.Dispose();
+                });
+                cevap.Show();
             }
             else
             {
-                AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
-                return;
+                ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
+                {
+                    userId = MeDTO.id,
+                    receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
+                    text = Message,
+                    key = MesajlarIcinSecilenKullanici.key
+                };
+                WebService webService = new WebService();
+                string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
+                var Donus = webService.ServisIslem("chats", jsonString);
+                if (Donus != "Hata")
+                {
+                    var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
+                    MesajEdittext.Text = "";
+                    SaveKeys(Icerikk);
+                }
+                else
+                {
+                    AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
+                    return;
+                }
+            }
+        }
+
+        bool KisiBilgileriTammi()
+        {
+            var Me = DataBase.MEMBER_DATA_GETIR()[0];
+            if (string.IsNullOrEmpty(Me.gender) || string.IsNullOrEmpty(Me.birthDayDate.ToString()))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
         #region Favori Islemleri
