@@ -192,7 +192,7 @@ namespace Buptis.Mesajlar.Mesajlarr
                         }
                     }
                 }
-                PrivateProfileBaseActivity1.GetUserLicence();
+                //PrivateProfileBaseActivity1.GetUserLicence();
                 var PaketeGoreSirala = (from item in mFriends
                                         orderby item.BoostOrSuperBoost descending
                                         select item).ToList();

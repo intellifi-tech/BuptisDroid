@@ -93,87 +93,20 @@ namespace Buptis.Mesajlar
         }
         void GetUnReadMessage()
         {
-            int normalmessagecount=0, requestmessagecount=0 , favoritemessagecount=0 ;
-
-            #region Normal Message Count
+            #region Message Count
             WebService webService = new WebService();
             var Donus = webService.OkuGetir("chats/user");
             if (Donus != null)
             {
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
-                mFriends = mFriends.FindAll(item => item.request == false);
-                mFriends.ForEach(item =>
-                {
-                    normalmessagecount += item.unreadMessageCount;
-                });
-
-                if (mFriends.Count > 0)
-                {
-                    //MesajlarButton.SetText(Convert.ToInt32("Mesajlar ( ") + normalmessagecount + Convert.ToInt32(")"));
-                    MesajlarButton.Text = "Mesajlar (" + normalmessagecount + ")";
-                }
-                else
-                {
-                    MesajlarButton.Text = "Mesajlar";
-                }
-            }
-
-            #endregion
-
-            #region Request Message Count
-            
-            var Donus2= webService.OkuGetir("chats/user");
-            if (Donus2 != null)
-            {
-                mFriends2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<IsteklerListViewDataModel>>(Donus2.ToString());
-                mFriends = mFriends.FindAll(item => item.request == true); //Bana Gelen İstekler;
-                mFriends2.ForEach(item =>
-                {
-                    requestmessagecount += item.unreadMessageCount;
-                });
-
-                if (mFriends2.Count > 0)
-                {
-                    //MesajlarButton.SetText(Convert.ToInt32("Mesajlar ( ") + requestmessagecount + Convert.ToInt32(")"));
-                    IsteklerButton.Text = "İstekler (" + requestmessagecount + ")";
-                }
-                else
-                {
-                    IsteklerButton.Text = "İstekler";
-                }
+                TitleGuncelle(MesajlarButton, 0, mFriends);
+                TitleGuncelle(IsteklerButton, 1, mFriends);
+                TitleGuncelle(FavorilerButton, 2, mFriends);
             }
             #endregion
-
-            #region Favorite Message Count
-            
-            var Donus3 = webService.OkuGetir("chats/user");
-             if (Donus3 != null) { 
-                mFriends3 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonFavorilerListViewDataModel>>(Donus3.ToString());
-                mFriends = mFriends.FindAll(item => item.request == false);
-                FavorileriAyir();
-                mFriends3.ForEach(item =>
-                {
-                    favoritemessagecount += item.unreadMessageCount;
-                });
-                if (mFriends3.Count > 0)
-                {
-                    this.RunOnUiThread(() =>
-                    {
-                        //MesajlarButton.SetText(Convert.ToInt32("Mesajlar ( ") + favoritemessagecount + Convert.ToInt32(")"));
-                        FavorilerButton.Text = "Favoriler (" + favoritemessagecount + ")";
-                    });
-                }
-                else
-                {
-                    FavorilerButton.Text = "Favoriler";
-                }
-            }
-            #endregion
-
         }
 
-
-        void FavorileriAyir()
+        List<SonMesajlarListViewDataModel> FavorileriAyir(List<SonMesajlarListViewDataModel> GelenListe)
         {
             var FavList = FavorileriCagir();
             List<FavListDTO> newList = new List<FavListDTO>();
@@ -184,11 +117,11 @@ namespace Buptis.Mesajlar
                     FavUserID = Convert.ToInt32(FavList[i])
                 });
             }
-            var Ayiklanmis = (from list1 in mFriends
+            var Ayiklanmis = (from list1 in GelenListe
                               join list2 in newList
                               on list1.receiverId equals list2.FavUserID
                               select list1).ToList();
-            mFriends = Ayiklanmis;
+            return Ayiklanmis;
         }
         List<string> FavorileriCagir()
         {
@@ -211,7 +144,43 @@ namespace Buptis.Mesajlar
             public int FavUserID { get; set; }
         }
 
+        void TitleGuncelle(Button GelenButton, int ButtonIndex, List<SonMesajlarListViewDataModel> Liste)
+        {
+            List<SonMesajlarListViewDataModel> Liste2 = new List<SonMesajlarListViewDataModel>();
+            int OkunmamisMesajSayisi = 0;
+            string Baslik = "";
+            switch (ButtonIndex)
+            {
+                case 0:
+                    Liste = mFriends.FindAll(item => item.request == false);
+                    Baslik = "Mesajlar";
+                    break;
+                case 1:
+                    Liste = mFriends.FindAll(item => item.request == true); //Bana Gelen İstekler;
+                    Baslik = "İstekler";
+                    break;
+                case 2:
+                    Liste = mFriends.FindAll(item => item.request == false);
+                    Liste = FavorileriAyir(Liste);
+                    Baslik = "Favoriler";
+                    break;
+                default:
+                    break;
+            }
+            Liste.ForEach(item =>
+            {
+                OkunmamisMesajSayisi += item.unreadMessageCount;
+            });
 
+            if (Liste.Count > 0)
+            {
+                GelenButton.Text = Baslik + " ("+ OkunmamisMesajSayisi + ")";
+            }
+            else
+            {
+                GelenButton.Text = Baslik;
+            }
+        }
 
         void ParcaYerlestir(int durum)
         {

@@ -60,7 +60,7 @@ namespace Buptis.Lokasyonlar
             UserInfoo = DataBase.MEMBER_DATA_GETIR()[0];
             ParcaYerlestir(0);
 
-            StartService(new Android.Content.Intent(this, typeof(BuptisMessageListener)));
+           // StartService(new Android.Content.Intent(this, typeof(BuptisMessageListener)));
         }
 
         private void MesajButton_Click(object sender, EventArgs e)
