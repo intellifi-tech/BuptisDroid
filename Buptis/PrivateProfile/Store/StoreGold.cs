@@ -28,12 +28,12 @@ namespace Buptis.PrivateProfile.Store
         TextView txtw1, txtw2, txtw3,txt1,txt2,txt3;
         ImageButton geriButton;
         ViewPager _viewpageer;
-        protected IPageIndicator _indicator;
+        //protected IPageIndicator _indicator;
         RelativeLayout rKredi1, rKredi2, rKredi3;
         Button BuyButton;
         int goldGoal, goldCount;
         public PrivateProfileBaseActivity PrivateProfileBaseActivity1;
-
+        protected IPageIndicator _indicator;
         #endregion
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
@@ -52,6 +52,7 @@ namespace Buptis.PrivateProfile.Store
             View view = inflater.Inflate(Resource.Layout.StoreGold, container, false);
             SetFonts(view);
             view.FindViewById<LinearLayout>(Resource.Id.rootView).ClipToOutline = true;
+            _indicator = view.FindViewById<LinePageIndicator>(Resource.Id.indicator);
             geriButton = view.FindViewById<ImageButton>(Resource.Id.ımageButton1);
             webviewstore = view.FindViewById<WebView>(Resource.Id.webView1);
             txtw1 = view.FindViewById<TextView>(Resource.Id.tv1);
@@ -72,7 +73,7 @@ namespace Buptis.PrivateProfile.Store
             rKredi3.Click += RKredi_Click;
             rKredi2.PerformClick();
             _viewpageer = view.FindViewById<ViewPager>(Resource.Id.goldviewpager);
-            _indicator = view.FindViewById<LinePageIndicator>(Resource.Id.indicator);
+            
             geriButton.Click += GeriButton_Click;
             GetTextViewStrikeThrough();
             GetWebViewText();
@@ -220,7 +221,7 @@ namespace Buptis.PrivateProfile.Store
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             Dialog.Window.SetGravity(GravityFlags.FillHorizontal | GravityFlags.CenterHorizontal | GravityFlags.Bottom);
             SetBackGround();
-           // viepageratama();
+            viepageratama();
         }
         void GetWebViewText()
         {
@@ -291,22 +292,22 @@ namespace Buptis.PrivateProfile.Store
         }
         void SetupViewPagerIndicator()
         {
-                var density = Resources.DisplayMetrics.Density;
-                ((LinePageIndicator)_indicator).LineWidth = 30 * density;
-                ((LinePageIndicator)_indicator).SelectedColor = Color.ParseColor("#E5E5E5");
-                ((LinePageIndicator)_indicator).UnselectedColor = Color.ParseColor("#BC9F43");
-                ((LinePageIndicator)_indicator).StrokeWidth = 4 * density;
-                _indicator.SetViewPager(_viewpageer);
+            //_indicator.SetViewPager(_viewpageer);
+            var density = Resources.DisplayMetrics.Density;
+            ((LinePageIndicator)_indicator).LineWidth = 30 * density;
+            ((LinePageIndicator)_indicator).SelectedColor = Color.ParseColor("#E5E5E5");
+            ((LinePageIndicator)_indicator).UnselectedColor = Color.ParseColor("#BC9F43");
+            ((LinePageIndicator)_indicator).StrokeWidth = 4 * density;
+            _indicator.SetViewPager(_viewpageer);
         }
         Android.Support.V4.App.Fragment[] fragments;
         void viepageratama()
         {
-           
-            var ss1 = new IntroFragment("Daha çok kişiyle sohbet edin!", Resource.Mipmap.gold_icon1);
-            var ss2 = new IntroFragment("İsterseniz kimliğinizi gizleyin!", Resource.Mipmap.gold_icon2);
-            var ss3 = new IntroFragment("Her ay 3 Boost kazanın!", Resource.Mipmap.gold_icon3);
-            var ss4 = new IntroFragment("Her ay 3 Super Boost kazanın!", Resource.Mipmap.gold_icon5);
-            var ss5 = new IntroFragment("Anında 100 Kredi kazanın!", Resource.Mipmap.gold_icon4);
+            var ss1 = new GoldAyricaliklarFragment("Daha çok kişiyle sohbet edin!", Resource.Mipmap.gold_icon1);
+            var ss2 = new GoldAyricaliklarFragment("İsterseniz kimliğinizi gizleyin!", Resource.Mipmap.gold_icon2);
+            var ss3 = new GoldAyricaliklarFragment("Her ay 3 Boost kazanın!", Resource.Mipmap.gold_icon3);
+            var ss4 = new GoldAyricaliklarFragment("Her ay 3 Super Boost kazanın!", Resource.Mipmap.gold_icon5);
+            var ss5 = new GoldAyricaliklarFragment("Anında 100 Kredi kazanın!", Resource.Mipmap.gold_icon4);
 
             fragments = new Android.Support.V4.App.Fragment[]
             {
@@ -326,24 +327,24 @@ namespace Buptis.PrivateProfile.Store
             });
             try
             {
-                
-               // _viewpageer.Adapter = new TabPagerAdaptor(this.Activity.SupportFragmentManager, fragments, titles);
-               // SetupViewPagerIndicator();
-            }
-            catch
-            {
 
+                _viewpageer.Adapter = new TabPagerAdaptor(ChildFragmentManager, fragments, titles);
+                SetupViewPagerIndicator();
+            }
+            catch(Exception exx)
+            {
+                string asas = exx.Message;
             }
         }
     }
-    public class IntroFragment : Android.Support.V4.App.Fragment
+    public class GoldAyricaliklarFragment : Android.Support.V4.App.Fragment
     {
         string icerik;
         int imageid;
       
         TextView txtview;
         ImageView imageview;
-        public IntroFragment(string gelenicerikk, int gelenimageid)
+        public GoldAyricaliklarFragment(string gelenicerikk, int gelenimageid)
         {
             icerik = gelenicerikk;
             imageid = gelenimageid;

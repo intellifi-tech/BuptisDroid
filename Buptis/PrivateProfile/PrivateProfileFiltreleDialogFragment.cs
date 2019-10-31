@@ -83,32 +83,29 @@ namespace Buptis.PrivateProfile
         }
         public void GetSelectedFilter()
         {
-            slider.SetSelectedMinValue(Convert.ToInt32(txtStart.Text));
-            slider.SetSelectedMaxValue(Convert.ToInt32(textEnd.Text));
-
-            var MinValue = slider.GetSelectedMinValue();
-            var MaxValue = slider.GetSelectedMaxValue();
-            FILTRELER fILTRELER = new FILTRELER()
+            var filtre2 = DataBase.FILTRELER_GETIR();
+            if (filtre2.Count > 0)
             {
-                Cinsiyet = SonCinsiyetSecim,
-                minAge = (int)Math.Round(Convert.ToDouble(MinValue), 0),
-                maxAge = (int)Math.Round(Convert.ToDouble(MaxValue), 0)
-            };
+                var filtre = filtre2[0];
 
-            if (DataBase.FILTRELER_EKLE(fILTRELER))
-            {
-
-                var filtre = DataBase.FILTRELER_GETIR()[0];
+                slider.SetSelectedMinValue(filtre.minAge, true);
+                slider.SetSelectedMaxValue(filtre.maxAge, true);
                 txtStart.Text = Convert.ToString(filtre.minAge);
                 textEnd.Text = Convert.ToString(filtre.maxAge);
+
+
                 if (filtre.Cinsiyet == 1)
+                {
                     Erkek.PerformClick();
-
+                }
                 else if (filtre.Cinsiyet == 2)
+                { 
                     Kadin.PerformClick();
-
+                }
                 else
+                { 
                     HerIkisi.PerformClick();
+                }
             }
         }
         private void Onayla_Click(object sender, EventArgs e)
@@ -224,14 +221,19 @@ namespace Buptis.PrivateProfile
             {
                 MinValue = 18;
             }
-            else if (MaxValue >= 65)
+
+            if (MaxValue >= 65)
             {
                 MaxValue = 65;
-                textEnd.Text = "+65";
+                textEnd.Text = " 65+";
+            }
+            else
+            {
+                textEnd.Text = Math.Round(Convert.ToDouble(MaxValue), 0).ToString();
             }
 
             txtStart.Text = Math.Round(Convert.ToDouble(MinValue), 0).ToString();
-            textEnd.Text = Math.Round(Convert.ToDouble(MaxValue), 0).ToString();
+            
         }
         public Bitmap LayoutToBitmap(Android.Views.View markerLayout)
         {
