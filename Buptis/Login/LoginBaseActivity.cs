@@ -408,7 +408,7 @@ namespace Buptis.Login
         
         private void Kayitol_Click(object sender, EventArgs e)
         {
-            StartActivity(typeof(KayitOlBaseActivity));
+            StartActivity(typeof(RegisterBaseActivity));
         }
 
         void SetFonts()

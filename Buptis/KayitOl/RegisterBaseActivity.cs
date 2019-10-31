@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Text;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -19,21 +20,15 @@ using Buptis.Splashh;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
 using Org.Json;
-using Android.Content;
-using Android.Views;
-using Android.Views.InputMethods;
-
 using static Buptis.Login.LoginBaseActivity;
-using static Android.Support.Design.Widget.AppBarLayout;
-using Android.Text;
 
 namespace Buptis.KayitOl
 {
-    [Activity(Label = "Buptis",ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.Orientation, ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-    public class KayitOlBaseActivity : Android.Support.V7.App.AppCompatActivity
+    [Activity(Label = "Buptis")]
+    public class RegisterBaseActivity : Android.Support.V7.App.AppCompatActivity
     {
         #region Tanimlamalar
-        EditText AdText,SoyadText, inputmail,SifreText,SifreTekrarText;
+        EditText AdText, SoyadText, inputmail, SifreText, SifreTekrarText;
         TextView girisyap;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
         Button KayitOlButton;
@@ -41,7 +36,6 @@ namespace Buptis.KayitOl
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            DinamikStatusBarColor1.SetFullScreen(this);
             SetContentView(Resource.Layout.KayitOl);
             SetFonts();
             girisyap = FindViewById<TextView>(Resource.Id.textView2);
@@ -54,36 +48,6 @@ namespace Buptis.KayitOl
             inputmail = FindViewById<EditText>(Resource.Id.textInputEditText1);
             SifreText = FindViewById<EditText>(Resource.Id.textInputEditText2);
             SifreTekrarText = FindViewById<EditText>(Resource.Id.textInputEditText3);
-            AdText.KeyPress += Text_KeyPress;
-            SoyadText.KeyPress += Text_KeyPress;
-            inputmail.KeyPress += Text_KeyPress;
-            SifreText.KeyPress += Text_KeyPress;
-            SifreTekrarText.KeyPress += Text_KeyPress;
-            AdText.Tag = "1";
-            SoyadText.Tag = "2";
-            inputmail.Tag = "3";
-            SifreText.Tag = "4";
-            SifreTekrarText.Tag = "5";
-        }
-        private void Text_KeyPress(object sender, View.KeyEventArgs e)
-        {
-            if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
-            {
-                e.Handled = true;
-                DismissKeyboard();
-                var editText = (EditText)sender;
-            }
-            else
-                e.Handled = false;
-        }
-        private void DismissKeyboard()
-        {
-            var view = CurrentFocus;
-            if (view != null)
-            {
-                var imm = (InputMethodManager)GetSystemService(InputMethodService);
-                imm.HideSoftInputFromWindow(view.WindowToken, 0);
-            }
         }
         private void KayitOlButton_Click(object sender, EventArgs e)
         {
@@ -91,32 +55,32 @@ namespace Buptis.KayitOl
             {
                 if (ControlUserAction())
                 {
-               ShowLoading.Show(this, "Lütfen Bekleyin");
-                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
-                {
-                    WebService webService = new WebService();
-                    KayitIcinRoot kayitIcinRoot = new KayitIcinRoot()
+                    ShowLoading.Show(this, "Lütfen Bekleyin");
+                    new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                     {
-                        firstName = AdText.Text.Trim(),
-                        lastName = SoyadText.Text.Trim(),
-                        password = SifreText.Text,
-                        login = inputmail.Text,
-                        email = inputmail.Text
-                    };
-                    string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
-                    var Responsee = webService.ServisIslem("register", jsonString, true);
-                    if (Responsee != "Hata")
-                    {
-                        TokenAlDevamEt();
-                        ShowLoading.Hide();
-                    }
-                    else
-                    {
-                        ShowLoading.Hide();
-                        AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
-                        return;
-                    }
-                })).Start();
+                        WebService webService = new WebService();
+                        KayitIcinRoot kayitIcinRoot = new KayitIcinRoot()
+                        {
+                            firstName = AdText.Text.Trim(),
+                            lastName = SoyadText.Text.Trim(),
+                            password = SifreText.Text,
+                            login = inputmail.Text,
+                            email = inputmail.Text
+                        };
+                        string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
+                        var Responsee = webService.ServisIslem("register", jsonString, true);
+                        if (Responsee != "Hata")
+                        {
+                            TokenAlDevamEt();
+                            ShowLoading.Hide();
+                        }
+                        else
+                        {
+                            ShowLoading.Hide();
+                            AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
+                            return;
+                        }
+                    })).Start();
                 }
             }
         }
@@ -127,11 +91,11 @@ namespace Buptis.KayitOl
                 password = SifreText.Text,
                 rememberMe = true,
                 username = inputmail.Text,
-                
+
             };
             string jsonString = JsonConvert.SerializeObject(loginRoot);
             WebService webService = new WebService();
-            var Donus = webService.ServisIslem("authenticate", jsonString,true);
+            var Donus = webService.ServisIslem("authenticate", jsonString, true);
             if (Donus == "Hata")
             {
                 ShowLoading.Hide();
@@ -182,7 +146,7 @@ namespace Buptis.KayitOl
         }
         bool ControlUserAction()
         {
-            if (AdText.Text.Length<2)
+            if (AdText.Text.Length < 2)
             {
                 AlertHelper.AlertGoster("Lütfen adınızı kontrol edin!", this);
                 return false;
@@ -219,32 +183,32 @@ namespace Buptis.KayitOl
         }
         bool BosVarmi()
         {
-            if (AdText.Text.Trim() == ""  )
+            if (AdText.Text.Trim() == "")
             {
                 AlertHelper.AlertGoster("Lütfen adınızı giriniz!", this);
                 return false;
             }
-            else if (SoyadText.Text.Trim() == ""  )
+            else if (SoyadText.Text.Trim() == "")
             {
                 AlertHelper.AlertGoster("Lütfen soyadınızı giriniz!", this);
                 return false;
             }
-            else if (inputmail.Text.Trim() == ""  )
+            else if (inputmail.Text.Trim() == "")
             {
                 AlertHelper.AlertGoster("Lütfen emalinizi giriniz!", this);
                 return false;
             }
-            else if (SifreText.Text.Trim() == ""  )
+            else if (SifreText.Text.Trim() == "")
             {
                 AlertHelper.AlertGoster("Lütfen şifrenizi giriniz!", this);
                 return false;
             }
-            else if (SifreTekrarText.Text.Trim() == "" )
+            else if (SifreTekrarText.Text.Trim() == "")
             {
                 AlertHelper.AlertGoster("Lütfen şifre tekrarını giriniz!", this);
                 return false;
             }
-            
+
             else
             {
                 return true;

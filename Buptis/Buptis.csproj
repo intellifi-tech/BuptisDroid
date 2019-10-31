@@ -93,6 +93,7 @@
     <Compile Include="GenericUI\DinamikActionSheet.cs" />
     <Compile Include="GenericUI\DinamikAdresSec.cs" />
     <Compile Include="KayitOl\KayitOlBaseActivity.cs" />
+    <Compile Include="KayitOl\RegisterBaseActivity.cs" />
     <Compile Include="Login\LoginBaseActivity.cs" />
     <Compile Include="LokasyondakiKisiler\Bekleyenler\BekleyenlerBaseFragment.cs" />
     <Compile Include="LokasyondakiKisiler\Bekleyenler\BekleyenlerRecyclerviewAdepter.cs" />
