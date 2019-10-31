@@ -14,6 +14,7 @@ using Buptis.GenericUI;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
 using Plugin.InAppBilling;
+using Plugin.InAppBilling.Abstractions;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -108,24 +109,34 @@ namespace Buptis.PrivateProfile.Store
             }
             if (boostGoal != 0)
             {
-                try
+                var Durumm = await PurchaseItem(pakett, "buptispayload2");
+                if (Durumm)
                 {
-                    var purchase = await CrossInAppBilling.Current.PurchaseAsync(pakett, Plugin.InAppBilling.Abstractions.ItemType.InAppPurchase, "buptispayload");
+                    PaketSatinAlmaUzakDBAyarla();
+                }
+                else
+                {
+                    AlertHelper.AlertGoster("Satın Alma Başarısız", this.Activity);
+                }
 
-                    if (purchase == null)
-                    {
-                        AlertHelper.AlertGoster("Bir Sorun Oluştu!", this.Activity);
-                    }
-                    else
-                    {
-                        PaketSatinAlmaUzakDBAyarla();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    AlertHelper.AlertGoster(ex.Message, this.Activity);
-                    Console.WriteLine(ex);
-                }
+                //try
+                //{
+                //    var purchase = await CrossInAppBilling.Current.PurchaseAsync(pakett, Plugin.InAppBilling.Abstractions.ItemType.InAppPurchase, "buptispayload");
+
+                //    if (purchase == null)
+                //    {
+                //        AlertHelper.AlertGoster("Bir Sorun Oluştu!", this.Activity);
+                //    }
+                //    else
+                //    {
+                //        PaketSatinAlmaUzakDBAyarla();
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    AlertHelper.AlertGoster(ex.Message, this.Activity);
+                //    Console.WriteLine(ex);
+                //}
             }
             else
             {
@@ -133,7 +144,71 @@ namespace Buptis.PrivateProfile.Store
             }
         
         }
+        public async Task<bool> PurchaseItem(string productId, string payload)
+        {
+            var billing = CrossInAppBilling.Current;
+            try
+            {
+                var connected = await billing.ConnectAsync(ItemType.InAppPurchase);
+                if (!connected)
+                {
+                    //we are offline or can't connect, don't try to purchase
+                    return true;
+                }
 
+                //check purchases
+                var purchase = await billing.PurchaseAsync(productId, ItemType.InAppPurchase, payload);
+
+                //possibility that a null came through.
+                if (purchase == null)
+                {
+                    //did not purchase
+                    return false;
+                }
+                else if (purchase.State == PurchaseState.Purchased)
+                {
+                    //purchased, we can now consume the item or do it later
+
+                    //If we are on iOS we are done, else try to consume the purchase
+                    //Device.RuntimePlatform comes from Xamarin.Forms, you can also use a conditional flag or the DeviceInfo plugin
+                    //if (Device.RuntimePlatform == Device.iOS)
+                    //    return;
+
+                    var consumedItem = await CrossInAppBilling.Current.ConsumePurchaseAsync(purchase.ProductId, purchase.PurchaseToken);
+
+                    if (consumedItem != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (InAppBillingPurchaseException purchaseEx)
+            {
+                //Billing Exception handle this based on the type
+                Console.WriteLine("Error: " + purchaseEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //Something else has gone wrong, log it
+                Console.WriteLine("Issue connecting: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+
+                await billing.DisconnectAsync();
+            }
+
+        }
         void PaketSatinAlmaUzakDBAyarla()
         {
             BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()

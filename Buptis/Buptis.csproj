@@ -23,6 +23,11 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>C:\Users\Nayin\Documents\Proje Dosyaları\Android\Buptis\BuptisKey.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>Buptis2019</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>BuptisKey</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>Buptis2019</AndroidSigningKeyPass>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>

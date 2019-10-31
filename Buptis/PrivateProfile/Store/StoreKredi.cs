@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Graphics.Drawables;
@@ -14,6 +15,7 @@ using Buptis.GenericUI;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
 using Plugin.InAppBilling;
+using Plugin.InAppBilling.Abstractions;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -74,12 +76,10 @@ namespace Buptis.PrivateProfile.Store
             rKredi3.PerformClick();
             return view;
         }
-
         private void BuyButton_Click(object sender, EventArgs e)
         {
             BuyCredit(creditcount);
         }
-
         public async void BuyCredit(int ChoosenPackage)
         {
             string pakett = "";
@@ -107,29 +107,127 @@ namespace Buptis.PrivateProfile.Store
 
             if (creditcount!=0)
             {
-                try
+                var Durumm = await PurchaseItem(pakett, "buptispayload2");
+                if (Durumm)
                 {
-                    var purchase = await CrossInAppBilling.Current.PurchaseAsync(pakett, Plugin.InAppBilling.Abstractions.ItemType.InAppPurchase, "buptispayload");
+                   PaketSatinAlmaUzakDBAyarla();
+                }
+                else
+                {
+                    AlertHelper.AlertGoster("Satın Alma Başarısız", this.Activity);
+                }
+                //try
+                //{
+                //    var productId = "android.test.purchased";
 
-                    if (purchase == null)
-                    {
-                        AlertHelper.AlertGoster("Bir Sorun Oluştu!", this.Activity);
-                    }
-                    else
-                    {
-                        PaketSatinAlmaUzakDBAyarla();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    AlertHelper.AlertGoster(ex.Message, this.Activity);
-                    Console.WriteLine(ex);
-                }
+                //    var connected = await CrossInAppBilling.Current.ConnectAsync();
+
+                //    if (!connected)
+                //    {
+                //        AlertHelper.AlertGoster("Google Play bağlantısı sağlanamadı.", this.Activity);
+                //        return;
+                //    }
+                    
+                //    var purchase = await CrossInAppBilling.Current.ConsumePurchaseAsync(productId, ItemType.InAppPurchase, "buptispayload2");
+                //    if (purchase == null)
+                //    {
+                //        AlertHelper.AlertGoster("Satın Alma Başarırız.", this.Activity);
+                //        //Not purchased, alert the user
+                //    }
+                //    else
+                //    {
+                //        //Purchased, save this information
+                //        var id = purchase.Id;
+                //        var token = purchase.PurchaseToken;
+                //        var state = purchase.State;
+                //        purchase.AutoRenewing = false;
+                //        //PaketSatinAlmaUzakDBAyarla();
+                //        AlertHelper.AlertGoster("Satın Alma Yapıldı", this.Activity);
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    AlertHelper.AlertGoster("Bir Sorun Oluştu! " + ex.Message, this.Activity);
+                //}
+                //finally
+                //{
+                //    AlertHelper.AlertGoster("Finnaly", this.Activity);
+                //    //Disconnect, it is okay if we never connected
+                //    await CrossInAppBilling.Current.DisconnectAsync();
+                //}
+
+
             }
             else
             {
                 AlertHelper.AlertGoster("Lütfen bir paket seçin!", this.Activity);
             }
+        }
+
+        public async Task<bool> PurchaseItem(string productId, string payload)
+        {
+            var billing = CrossInAppBilling.Current;
+            try
+            {
+                var connected = await billing.ConnectAsync(ItemType.InAppPurchase);
+                if (!connected)
+                {
+                    //we are offline or can't connect, don't try to purchase
+                    return true;
+                }
+
+                //check purchases
+                var purchase = await billing.PurchaseAsync(productId, ItemType.InAppPurchase, payload);
+
+                //possibility that a null came through.
+                if (purchase == null)
+                {
+                    //did not purchase
+                    return false;
+                }
+                else if (purchase.State == PurchaseState.Purchased)
+                {
+                    //purchased, we can now consume the item or do it later
+
+                    //If we are on iOS we are done, else try to consume the purchase
+                    //Device.RuntimePlatform comes from Xamarin.Forms, you can also use a conditional flag or the DeviceInfo plugin
+                    //if (Device.RuntimePlatform == Device.iOS)
+                    //    return;
+
+                    var consumedItem = await CrossInAppBilling.Current.ConsumePurchaseAsync(purchase.ProductId, purchase.PurchaseToken);
+
+                    if (consumedItem != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (InAppBillingPurchaseException purchaseEx)
+            {
+                //Billing Exception handle this based on the type
+                Console.WriteLine("Error: " + purchaseEx.Message);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //Something else has gone wrong, log it
+                Console.WriteLine("Issue connecting: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                
+                await billing.DisconnectAsync();
+            }
+
         }
         void PaketSatinAlmaUzakDBAyarla()
         {
@@ -155,6 +253,29 @@ namespace Buptis.PrivateProfile.Store
                 this.Dismiss();
             }
         }
+
+        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            Android.App.Result result;
+            switch (resultCode)
+            {
+                case 0:
+                    result = Android.App.Result.Canceled;
+                    break;
+                case 1:
+                    result = Android.App.Result.FirstUser;
+                    break;
+                case -1:
+                    result = Android.App.Result.Ok;
+                    break;
+                default:
+                    result = Android.App.Result.Ok;
+                    break;
+            }
+            InAppBillingImplementation.HandleActivityResult(requestCode, result, data);
+        }
+
         private void RKredi_Click(object sender, EventArgs e)
         {
             var GelenTag = (int)((RelativeLayout)sender).Tag;
@@ -203,7 +324,6 @@ namespace Buptis.PrivateProfile.Store
             {
             }
         }
-
         public override void OnStart()
         {
             base.OnStart();
@@ -279,7 +399,6 @@ namespace Buptis.PrivateProfile.Store
                 Resource.Id.button4
             }, this.Activity, true, BaseView);
         }
-
         public class BuyLicenceDTO
         {
             public int count { get; set; }
