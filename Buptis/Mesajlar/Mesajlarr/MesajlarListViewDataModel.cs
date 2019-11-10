@@ -18,7 +18,7 @@ namespace Buptis.Mesajlar.Mesajlarr
         public string firstName { get; set; }
         public string key { get; set; }
         public string lastChatText { get; set; }
-        public string lastModifiedDate { get; set; }
+        public DateTime lastModifiedDate { get; set; }
         public string lastName { get; set; }
         public int receiverId { get; set; }
         public bool request { get; set; }

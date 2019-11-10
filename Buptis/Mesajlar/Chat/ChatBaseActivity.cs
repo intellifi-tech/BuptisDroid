@@ -19,6 +19,7 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.Mesajlar.Hediyeler;
 using Buptis.PrivateProfile.Ayarlar;
+using Buptis.PrivateProfile.Store;
 using Buptis.PublicProfile;
 using Buptis.WebServicee;
 using FFImageLoading;
@@ -49,6 +50,7 @@ namespace Buptis.Mesajlar.Chat
         EditText MesajEdittext;
         MEMBER_DATA MeDTO;
         ImageButton Geri,Emoji,Favori;
+        bool KullaniciEngellemeDurumu = false;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -94,6 +96,7 @@ namespace Buptis.Mesajlar.Chat
         protected override void OnStart()
         {
             base.OnStart();
+            KullaniciEngellemeDurumu = GetBlockedFriends();
             GetUserInfo();
             KategoriyeGoreHazirMesajlariGetir();
             MessageListenerr();
@@ -126,51 +129,89 @@ namespace Buptis.Mesajlar.Chat
 
         void MesajGonderGenericMetod(string Message)
         {
-            if (!KisiBilgileriTammi())
+            if (!string.IsNullOrEmpty(Message.Trim()))
             {
-                AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Mesaj Gönderemezsiniz.", this);
-                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
-                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
-                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
-                cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet bilgilerinizi tamamlamadan mesaj gönderemezsiniz. Bilgilerini güncellemek ister misiniz?"));
-                cevap.SetPositiveButton("Evet", delegate
+                if (!KullaniciEngellemeDurumu)
                 {
-                    cevap.Dispose();
-                    StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
+                    if (!KisiBilgileriTammi())
+                    {
+                        AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Mesaj Gönderemezsiniz.", this);
+                        AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                        cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                        cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                        cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet bilgilerinizi tamamlamadan mesaj gönderemezsiniz. Bilgilerini güncellemek ister misiniz?"));
+                        cevap.SetPositiveButton("Evet", delegate
+                        {
+                            cevap.Dispose();
+                            StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
 
-                });
-                cevap.SetNegativeButton("Hayır", delegate
-                {
-                    cevap.Dispose();
-                });
-                cevap.Show();
-            }
-            else
-            {
-                ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
-                {
-                    userId = MeDTO.id,
-                    receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
-                    text = Message,
-                    key = MesajlarIcinSecilenKullanici.key
-                };
-                WebService webService = new WebService();
-                string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
-                var Donus = webService.ServisIslem("chats", jsonString);
-                if (Donus != "Hata")
-                {
-                    var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
-                    MesajEdittext.Text = "";
-                    SaveKeys(Icerikk);
-                }
-                else
-                {
-                    AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
-                    return;
+                        });
+                        cevap.SetNegativeButton("Hayır", delegate
+                        {
+                            cevap.Dispose();
+                        });
+                        cevap.Show();
+                    }
+                    else
+                    {
+                        ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
+                        {
+                            userId = MeDTO.id,
+                            receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
+                            text = Message,
+                            key = MesajlarIcinSecilenKullanici.key
+                        };
+                        WebService webService = new WebService();
+                        string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
+                        var Donus = webService.ServisIslem("chats", jsonString);
+                        if (Donus != "Hata")
+                        {
+                            var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
+                            MesajEdittext.Text = "";
+                            SaveKeys(Icerikk);
+                        }
+                        else
+                        {
+                            KredisimiBitti();
+                            return;
+                        }
+                    }
                 }
             }
         }
-
+        void KredisimiBitti()
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("users/" + MeID);
+                if (Donus != null)
+                {
+                    var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(Donus.ToString());
+                    if (Icerikk.messageCount <= 0)
+                    {
+                        RunOnUiThread(delegate () {
+                            var StoreKrediYukle1 = new StoreKredi();
+                            StoreKrediYukle1.PrivateProfileBaseActivity1 = null;
+                            StoreKrediYukle1.Show(this.SupportFragmentManager, "StoreKrediYukle1");
+                        });
+                    }
+                    else
+                    {
+                        RunOnUiThread(delegate () {
+                            AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
+                        });
+                    }
+                }
+                else
+                {
+                    RunOnUiThread(delegate () {
+                        AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
+                    });
+                }
+            })).Start();
+        }
         bool KisiBilgileriTammi()
         {
             var Me = DataBase.MEMBER_DATA_GETIR()[0];
@@ -254,7 +295,7 @@ namespace Buptis.Mesajlar.Chat
                 cevap.SetPositiveButton("Evet", delegate
                 {
                     cevap.Dispose();
-                    FavoriIslemleri(MesajlarIcinSecilenKullanici.Kullanici.firstName + " Favorilerinde çıkarıldı.");
+                    FavoriIslemleri(MesajlarIcinSecilenKullanici.Kullanici.firstName + " favorilerinde çıkarıldı.");
                     Favori.SetBackgroundResource(Resource.Drawable.favori_pasif);
 
                 });
@@ -266,7 +307,7 @@ namespace Buptis.Mesajlar.Chat
             }
             else
             {
-                FavoriIslemleri(MesajlarIcinSecilenKullanici.Kullanici.firstName + " Favorilerine eklendi.");
+                FavoriIslemleri(MesajlarIcinSecilenKullanici.Kullanici.firstName + " favorilerine eklendi.");
                 Favori.SetBackgroundResource(Resource.Drawable.favori_aktif);
             }
         }
@@ -587,7 +628,47 @@ namespace Buptis.Mesajlar.Chat
 
         #endregion
 
-       
+        #region Engelli Kontrolu
+        bool GetBlockedFriends()
+        {
+            WebService webservice = new WebService();
+            var donus = webservice.OkuGetir("blocked-user/block-list");
+             
+            if (donus != null)
+            {
+                var blockedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<BlockedUserDataModel>>(donus.ToString());
+                if (blockedList.Count > 0)
+                {
+                    var varmii = blockedList.FindAll(item => item.blockUserId == SecilenKisi.SecilenKisiDTO.id);
+                    var donus2 = webservice.OkuGetir("blocked-user/"+DataBase.MEMBER_DATA_GETIR()[0].id.ToString());
+                    if (donus2!=null)
+                    {
+                        var varmii2 = blockedList.FindAll(item => item.blockUserId == SecilenKisi.SecilenKisiDTO.id);
+                        if (varmii2.Count >= 0)
+                        {
+                            varmii.AddRange(varmii2);
+                        }
+                    }
+                    if (varmii.Count > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
         public class UsaerImageDTO
         {
             public string createdDate { get; set; }
@@ -612,6 +693,17 @@ namespace Buptis.Mesajlar.Chat
         public class FavoriDTO
         {
             public int favUserId { get; set; }
+            public int userId { get; set; }
+        }
+
+        public class BlockedUserDataModel
+        {
+            public int blockUserId { get; set; }
+            public string createdDate { get; set; }
+            public int id { get; set; }
+            public string lastModifiedDate { get; set; }
+            public string reasonType { get; set; }
+            public string status { get; set; }
             public int userId { get; set; }
         }
     }

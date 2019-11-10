@@ -391,6 +391,8 @@ namespace Buptis.PrivateProfile
         private void Sifirla_Click(object sender, EventArgs e)
         {
             SecimYapildimi = false;
+            BoyText.Text = "0";
+            slider.SetSelectedMinValue((int)(25 / 2.5f));
         }
 
         private void Slider_DragCompleted(object sender, EventArgs e)
@@ -438,7 +440,6 @@ namespace Buptis.PrivateProfile
                 slider.SetSelectedMinValue((int)(Convert.ToInt32(aaa[aaa.Count - 1].option)/2.5f));
                 BoyText.Text = aaa[aaa.Count - 1].option;
             }
-
         }
 
         void PinYerlestir()

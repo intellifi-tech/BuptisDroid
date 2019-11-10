@@ -80,7 +80,7 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="19,90 ₺"
+                    android:text="19,90₺"
                     android:clickable="false"
                     android:textColor="#E10068"
                     android:textSize="14dp"
@@ -90,7 +90,7 @@
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv1" />
                 <TextView
-                    android:text="9,90 ₺"
+                    android:text="9,90₺"
                     android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
@@ -130,7 +130,7 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="39,90 ₺"
+                    android:text="39,90₺"
                     android:clickable="false"
                     android:textColor="#E10068"
                     android:textSize="14dp"
@@ -140,7 +140,7 @@
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv2" />
                 <TextView
-                    android:text="19,90 ₺"
+                    android:text="19,90₺"
                     android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
@@ -180,7 +180,7 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="69,90 ₺"
+                    android:text="69,90₺"
                     android:clickable="false"
                     android:textColor="#E10068"
                     android:textSize="14dp"
@@ -190,7 +190,7 @@
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv3" />
                 <TextView
-                    android:text="29,90 ₺"
+                    android:text="29,90₺"
                     android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"
@@ -231,7 +231,7 @@
                     android:layout_below="@id/ımageView1"
                     android:id="@+id/textView2" />
                 <TextView
-                    android:text="99,90 ₺"
+                    android:text="99,90₺"
                     android:clickable="false"
                     android:textColor="#E10068"
                     android:textSize="14dp"
@@ -241,7 +241,7 @@
                     android:layout_below="@id/textView2"
                     android:id="@+id/tv4" />
                 <TextView
-                    android:text="49,90 ₺"
+                    android:text="49,90₺"
                     android:clickable="false"
                     android:textColor="@android:color/white"
                     android:textSize="16dp"

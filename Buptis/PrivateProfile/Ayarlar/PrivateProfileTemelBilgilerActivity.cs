@@ -52,10 +52,11 @@ namespace Buptis.PrivateProfile.Ayarlar
 
         private void DogumBaslik_Click(object sender, EventArgs e)
         {
+
             Tarih_Cek frag = Tarih_Cek.NewInstance(delegate (DateTime time)
             {
                 Dogum.Text = time.ToShortDateString();
-            });
+            }, KayitliTarihVarmi());
             frag.Show(this.FragmentManager, Tarih_Cek.TAG);
         }
 
@@ -64,10 +65,21 @@ namespace Buptis.PrivateProfile.Ayarlar
             Tarih_Cek frag = Tarih_Cek.NewInstance(delegate (DateTime time)
             {
                 Dogum.Text = time.ToShortDateString();
-            });
+            },KayitliTarihVarmi());
             frag.Show(this.FragmentManager, Tarih_Cek.TAG);
         }
-
+        DateTime KayitliTarihVarmi()
+        {
+            var Me = DataBase.MEMBER_DATA_GETIR()[0];
+            if (Me.birthDayDate != null)
+            {
+                return (DateTime)Me.birthDayDate;
+            }
+            else
+            {
+                return DateTime.Now;
+            }
+        }
         private void KaydetButton_Click(object sender, EventArgs e)
         {
             UpdateUser();

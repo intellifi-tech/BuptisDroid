@@ -81,7 +81,7 @@ namespace Buptis.LokasyonDetay
             ArkaPlanSifirla(Tagg);
         }
 
-        int SonSecilenRate = 10;
+        int SonSecilenRate = 0;
         void ArkaPlanSifirla(int index)
         {
             for (int i = 0; i < Buttonss.Length; i++)
@@ -95,19 +95,28 @@ namespace Buptis.LokasyonDetay
 
         void LokasyonRate(string Ratee)
         {
-            WebService webService = new WebService();
-            var Donus = webService.ServisIslem("locations/rating/" + SecilenLokasyonn.LokID, Ratee);
-            if (Donus != "Hata")
+            if (Ratee != "0")
             {
-                AlertHelper.AlertGoster("Değerlendirme için teşekkürler!", this.Activity);
-                LokayonDetayBaseActivity1.RatingDurumYenile();
-                return;
+                WebService webService = new WebService();
+                var Donus = webService.ServisIslem("locations/rating/" + SecilenLokasyonn.LokID, Ratee);
+                if (Donus != "Hata")
+                {
+                    AlertHelper.AlertGoster("Değerlendirme için teşekkürler!", this.Activity);
+                    LokayonDetayBaseActivity1.RatingDurumYenile();
+                    return;
+                }
+                else
+                {
+                    AlertHelper.AlertGoster("Bir sorun oluştu!", this.Activity);
+                    return;
+                }
             }
             else
             {
-                AlertHelper.AlertGoster("Bir sorun oluştu!", this.Activity);
+                AlertHelper.AlertGoster("Lütfen bir puan belirtin", this.Activity);
                 return;
             }
+            
         }
 
         private void Geri_Click(object sender, EventArgs e)

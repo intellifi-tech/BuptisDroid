@@ -244,7 +244,10 @@ namespace Buptis.PrivateProfile.Store
             if (Donus != "Hata")
             {
                 AlertHelper.AlertGoster(creditgoal + " Kredi satın alındı.", this.Activity);
-                PrivateProfileBaseActivity1.GetUserLicence();
+                if (PrivateProfileBaseActivity1 != null)
+                {
+                    PrivateProfileBaseActivity1.GetUserLicence();
+                }
                 this.Dismiss();
             }
             else

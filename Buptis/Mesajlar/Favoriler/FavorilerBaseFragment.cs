@@ -179,13 +179,16 @@ namespace Buptis.Mesajlar.Favoriler
                 var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
                 var aa = Donus.ToString();
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonFavorilerListViewDataModel>>(Donus.ToString());
-                mFriends = mFriends.FindAll(item => item.request == false);
+                //mFriends = mFriends.FindAll(item => item.request == false);
                 FavorileriAyir();
                 if (mFriends.Count > 0)
                 {
+                    mFriends.Where(item => item.receiverId == MeID).ToList().ForEach(item2 => item2.unreadMessageCount = 0);
                     SaveKeys();
                     this.Activity.RunOnUiThread(() =>
                     {
+                        mFriends.Sort((x, y) => DateTime.Compare(x.lastModifiedDate, y.lastModifiedDate));
+                        mFriends.Reverse();
                         var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
                         var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
                         mAdapter = new FavorilerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());

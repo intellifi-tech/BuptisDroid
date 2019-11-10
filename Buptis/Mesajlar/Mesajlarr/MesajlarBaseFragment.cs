@@ -145,6 +145,8 @@ namespace Buptis.Mesajlar.Mesajlarr
                     SaveKeys();
                     this.Activity.RunOnUiThread(() =>
                     {
+                        mFriends.Sort((x, y) => DateTime.Compare(x.lastModifiedDate, y.lastModifiedDate));
+                        mFriends.Reverse();
                         var boldd = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliBold.ttf");
                         var normall = Typeface.CreateFromAsset(this.Activity.Assets, "Fonts/muliRegular.ttf");
                         mAdapter = new MesajlarListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());

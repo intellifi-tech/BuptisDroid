@@ -120,8 +120,8 @@ namespace Buptis.Splashh
                 base.OnLocationResult(result);
                 StartLocationCall.UserLastLocation = result.LastLocation;
 
-                Console.WriteLine("Güncellendiiiiiiiiiiiiiii");
-                Toast.MakeText(AnaSayfaBaseFragment1, "Güncellendiiiiiiiiiiiiiii", ToastLength.Long).Show();
+                //Console.WriteLine("Güncellendiiiiiiiiiiiiiii");
+                //Toast.MakeText(AnaSayfaBaseFragment1, "Güncellendiiiiiiiiiiiiiii", ToastLength.Long).Show();
             }
         }
         bool KonumKontrol()

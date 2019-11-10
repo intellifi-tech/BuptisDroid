@@ -22,21 +22,27 @@ namespace Buptis.GenericClass
         //public  int durum = 0;
         public static readonly string TAG = "X:" + typeof(Tarih_Cek).Name.ToUpper();
         Action<DateTime> _dateSelectedHandler = delegate { };
+        DateTime KayitliTarih;
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
             base.OnActivityCreated(savedInstanceState);
             Dialog.Window.Attributes.WindowAnimations = Resource.Style.dialog_animation;
         }
-        public static Tarih_Cek NewInstance(Action<DateTime> onDateSelected)
+        public static Tarih_Cek NewInstance(Action<DateTime> onDateSelected,DateTime SeciliTarih)
         {
             Tarih_Cek frag = new Tarih_Cek();
             frag._dateSelectedHandler = onDateSelected;
+            frag.KayitliTarih = SeciliTarih;
             return frag;
         }
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
             DateTime currently = DateTime.Now;
+            if (KayitliTarih != null)
+            {
+                currently = KayitliTarih;
+            }
 
             DatePickerDialog dialog = new DatePickerDialog(Activity,
                                                            Resource.Style.datepicker,

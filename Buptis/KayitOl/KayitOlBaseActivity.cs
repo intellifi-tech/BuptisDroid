@@ -64,7 +64,20 @@ namespace Buptis.KayitOl
             inputmail.Tag = "3";
             SifreText.Tag = "4";
             SifreTekrarText.Tag = "5";
+            AdText.TextChanged += AdText_TextChanged;
+            SoyadText.TextChanged += SoyadText_TextChanged;
         }
+
+        private void SoyadText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SayisalKontrol(((EditText)sender));
+        }
+
+        private void AdText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SayisalKontrol(((EditText)sender));
+        }
+
         private void Text_KeyPress(object sender, View.KeyEventArgs e)
         {
             if (e.Event.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
@@ -75,6 +88,21 @@ namespace Buptis.KayitOl
             }
             else
                 e.Handled = false;
+        }
+        string[] Rakanlar = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+        void SayisalKontrol(EditText GelenText)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                for (int i = 0; i < Rakanlar.Length; i++)
+                {
+                    RunOnUiThread(delegate ()
+                    {
+                        GelenText.Text = GelenText.Text.Replace(Rakanlar[i], "");
+                    });
+                }
+            })).Start();
+            
         }
         private void DismissKeyboard()
         {
@@ -92,31 +120,31 @@ namespace Buptis.KayitOl
                 if (ControlUserAction())
                 {
                ShowLoading.Show(this, "Lütfen Bekleyin");
-                new System.Threading.Thread(new System.Threading.ThreadStart(delegate
-                {
-                    WebService webService = new WebService();
-                    KayitIcinRoot kayitIcinRoot = new KayitIcinRoot()
+                    new System.Threading.Thread(new System.Threading.ThreadStart(delegate
                     {
-                        firstName = AdText.Text.Trim(),
-                        lastName = SoyadText.Text.Trim(),
-                        password = SifreText.Text,
-                        login = inputmail.Text,
-                        email = inputmail.Text
-                    };
-                    string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
-                    var Responsee = webService.ServisIslem("register", jsonString, true);
-                    if (Responsee != "Hata")
-                    {
-                        TokenAlDevamEt();
-                        ShowLoading.Hide();
-                    }
-                    else
-                    {
-                        ShowLoading.Hide();
-                        AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
-                        return;
-                    }
-                })).Start();
+                        WebService webService = new WebService();
+                        KayitIcinRoot kayitIcinRoot = new KayitIcinRoot()
+                        {
+                            firstName = AdText.Text.Trim(),
+                            lastName = SoyadText.Text.Trim(),
+                            password = SifreText.Text,
+                            login = inputmail.Text,
+                            email = inputmail.Text
+                        };
+                        string jsonString = JsonConvert.SerializeObject(kayitIcinRoot);
+                        var Responsee = webService.ServisIslem("register", jsonString, true);
+                        if (Responsee != "Hata")
+                        {
+                            TokenAlDevamEt();
+                            ShowLoading.Hide();
+                        }
+                        else
+                        {
+                            ShowLoading.Hide();
+                            AlertHelper.AlertGoster("Bir sorunla karşılaşıldı!", this);
+                            return;
+                        }
+                    })).Start();
                 }
             }
         }

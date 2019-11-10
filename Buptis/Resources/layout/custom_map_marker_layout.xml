@@ -14,7 +14,7 @@
     <ImageView
         android:scaleType="centerInside"
         android:src="@mipmap/mapmarkerr1"
-        android:layout_width="70dp"
-        android:layout_height="68.0dp"
+        android:layout_width="37.0dp"
+        android:layout_height="45.5dp"
         android:id="@+id/ımageView1" />
 </LinearLayout>

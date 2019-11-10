@@ -389,7 +389,7 @@ namespace Buptis.Login
         {
             if (inputmail.Text.Trim() == "" )
             {
-                AlertHelper.AlertGoster("Lütfen soyadınızı giriniz!", this);
+                AlertHelper.AlertGoster("Lütfen Email adresinizi giriniz!", this);
                 return false;
             }
             else

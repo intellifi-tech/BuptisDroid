@@ -51,7 +51,7 @@ namespace Buptis.PublicProfile
         List<MEMBER_DATA> UserGallery1 = new List<MEMBER_DATA>();
         List<EngelliKullanicilarDTO> EngelliKullanicilarDTOs = new List<EngelliKullanicilarDTO>();
         ImageView FollowButton;
-        int engelleCount = 0;
+        
         
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
@@ -84,10 +84,6 @@ namespace Buptis.PublicProfile
             KullaniciAdiYasi.Text = "";
             HakkindaYazisi.Text = "";
             EnSonLokasyonu.Text = "";
-           
-            engelleCount = Convert.ToInt32(Engelle.Tag);
-            engelleCount = 1;
-            GetBockedUserList();
         }
 
         private void FollowButton_Click(object sender, EventArgs e)
@@ -287,16 +283,8 @@ namespace Buptis.PublicProfile
 
         private void Engelle_Click(object sender, EventArgs e)
         {
-            if (engelleCount == 1)
-            {
-                Engelle.Text = "Engelle - Şikayet Et";
-                PublicProfileKopya.PublicProfileBaseActivity1 = this;
-                this.StartActivity(typeof(PrivateProfileEngelleActivity));
-                engelleCount = 2;
-                Engelle.Text = "Engelini Kaldır";
-
-            }
-            else if (engelleCount == 2)
+            var engeldurum = GetBlockedFriends();
+            if (engeldurum)
             {
                 AlertDialog.Builder cevap = new AlertDialog.Builder(this);
                 cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
@@ -306,30 +294,29 @@ namespace Buptis.PublicProfile
                 {
                     cevap.Dispose();
                     EngeliKaldir(EngelliKullanicilarDTOs[0].id);
+                    var engeldurum2 = GetBlockedFriends();
+                    if (engeldurum2)
+                    {
+                        Engelle.Text = "Engeli Kaldır";
+                    }
+                    else
+                    {
+                        Engelle.Text = "Engelle, Şikayet Et";
+                    }
                 });
                 cevap.SetNegativeButton("Hayır", delegate
                 {
                     cevap.Dispose();
                 });
                 cevap.Show();
-                engelleCount = 1;
-                Engelle.Text = "Engelle - Şikayet Et";
             }
-        }
-        void GetBockedUserList()
-        {
-            WebService webService = new WebService();
-            var Donus = webService.OkuGetir("blocked-user/block-list");
-            if (Donus != null)
+            else
             {
-                EngelliKullanicilarDTOs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EngelliKullanicilarDTO>>(Donus.ToString());
-                if (EngelliKullanicilarDTOs.Count > 0)
-                {
-                    engelleCount = 2;
-                    Engelle.Text = "Engelini Kaldır";
-                }
+                PublicProfileKopya.PublicProfileBaseActivity1 = this;
+                this.StartActivity(typeof(PrivateProfileEngelleActivity));
             }
         }
+       
         void EngeliKaldir(int id)
         {
             WebService webService = new WebService();
@@ -337,9 +324,42 @@ namespace Buptis.PublicProfile
             if (Donus != "Hata")
             {
                 AlertHelper.AlertGoster("Kullanıcının engeli kaldırıldı", this);
-                GetBockedUserList();
             }
         }
+
+        #region Engelleme İslemleri
+        bool GetBlockedFriends()
+        {
+            WebService webservice = new WebService();
+            var donus = webservice.OkuGetir("blocked-user/block-list");
+            if (donus != null)
+            {
+                var blockedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EngelliKullanicilarDTO>>(donus.ToString());
+                if (blockedList.Count > 0)
+                {
+                    var varmii = blockedList.FindAll(item => item.blockUserId == SecilenKisi.SecilenKisiDTO.id);
+                    if (varmii.Count > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
+
+
         public void UzaktanKapat()
         {
             this.StartActivity(typeof(MesajlarBaseActivity));
@@ -458,6 +478,18 @@ namespace Buptis.PublicProfile
                 }
             });
             GetFavorite();
+
+            var engeldurum = GetBlockedFriends();
+            if (engeldurum)
+            {
+                RunOnUiThread(delegate () {
+
+                    Engelle.Text = "Engeli Kaldır";
+
+                });
+            }
+
+
         }
         void GetFavorite()
         {

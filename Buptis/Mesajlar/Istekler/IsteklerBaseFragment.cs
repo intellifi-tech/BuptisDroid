@@ -155,7 +155,11 @@ namespace Buptis.Mesajlar.Istekler
                 mFriends = mFriends.FindAll(item => item.request == true); //Bana Gelen İstekler;
                 if (mFriends.Count > 0)
                 {
+                    mFriends.Where(item => item.receiverId == MeID).ToList().ForEach(item2 => item2.unreadMessageCount = 0);
+                    SaveKeys();
                     this.Activity.RunOnUiThread(() => {
+                        mFriends.Sort((x, y) => DateTime.Compare(x.lastModifiedDate, y.lastModifiedDate));
+                        mFriends.Reverse();
                         mAdapter = new IsteklerListViewAdapter(this.Activity, Resource.Layout.MesajlarCustomContent, mFriends, FavorileriCagir());
                         Liste.Adapter = mAdapter;
                         ShowLoading.Hide();
@@ -171,6 +175,44 @@ namespace Buptis.Mesajlar.Istekler
             else
             {
                 ShowLoading.Hide();
+            }
+        }
+        void SaveKeys()
+        {
+            var LocalKeys = DataBase.CHAT_KEYS_GETIR();
+            if (LocalKeys.Count > 0)
+            {
+                for (int i = 0; i < mFriends.Count; i++)
+                {
+                    var KeyKarsilastirmaDurum = LocalKeys.FindAll(item => item.UserID == mFriends[i].receiverId);
+                    if (KeyKarsilastirmaDurum.Count > 0)
+                    {
+                        if (KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count - 1].MessageKey != mFriends[i].key)
+                        {
+                            //Güncelle
+                            DataBase.CHAT_KEYS_Guncelle(new CHAT_KEYS()
+                            {
+                                UserID = KeyKarsilastirmaDurum[KeyKarsilastirmaDurum.Count - 1].UserID,
+                                MessageKey = mFriends[i].key
+                            });
+
+                        }
+                        else
+                        {
+                            //Eşitse birşey yapma
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        DataBase.CHAT_KEYS_EKLE(new CHAT_KEYS()
+                        {
+                            UserID = mFriends[i].receiverId,
+                            MessageKey = mFriends[i].key
+                        });
+                        //Hiç Yok Yeni Ekle
+                    }
+                }
             }
         }
         void BoostUygula()
