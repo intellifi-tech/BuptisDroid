@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Android.App;
@@ -14,8 +15,8 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
-using Plugin.InAppBilling;
-using Plugin.InAppBilling.Abstractions;
+using Xamarin.InAppBilling;
+using Xamarin.InAppBilling.Utilities;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -31,6 +32,8 @@ namespace Buptis.PrivateProfile.Store
         Button BuyButton;
         int creditgoal = 0;
         int creditcount;
+
+        UygulamaIciSatinAlmaService uygulamaIciSatinAlmaService = new UygulamaIciSatinAlmaService();
         #endregion
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
@@ -74,6 +77,14 @@ namespace Buptis.PrivateProfile.Store
             GetTextViewStrikeThrough();
             GetWebViewText();
             rKredi3.PerformClick();
+
+            uygulamaIciSatinAlmaService.CreateService(this.Activity, new List<string> {
+                    "com.buptis.android.200kredi",
+                    "com.buptis.android.500kredi",
+                    "com.buptis.android.1000kredi",
+                    "com.buptis.android.2000kredi",
+            });
+
             return view;
         }
         private void BuyButton_Click(object sender, EventArgs e)
@@ -83,23 +94,28 @@ namespace Buptis.PrivateProfile.Store
         public async void BuyCredit(int ChoosenPackage)
         {
             string pakett = "";
+            int indexx = -1;
             switch (ChoosenPackage)
             {
                 case 1:
                     creditgoal = 200;
                     pakett = "com.buptis.android.200kredi";
+                    indexx = 0;
                     break;
                 case 2:
                     creditgoal = 500;
                     pakett = "com.buptis.android.500kredi";
+                    indexx = 1;
                     break;
                 case 3:
                     creditgoal = 1000;
                     pakett = "com.buptis.android.1000kredi";
+                    indexx = 2;
                     break;
                 case 4:
                     creditgoal = 2000;
                     pakett = "com.buptis.android.2000kredi";
+                    indexx = 3;
                     break;
                 default:
                     break;
@@ -107,56 +123,9 @@ namespace Buptis.PrivateProfile.Store
 
             if (creditcount!=0)
             {
-                var Durumm = await PurchaseItem(pakett, "buptispayload2");
-                if (Durumm)
-                {
-                   PaketSatinAlmaUzakDBAyarla();
-                }
-                else
-                {
-                    AlertHelper.AlertGoster("Satın Alma Başarısız", this.Activity);
-                }
-                //try
-                //{
-                //    var productId = "android.test.purchased";
-
-                //    var connected = await CrossInAppBilling.Current.ConnectAsync();
-
-                //    if (!connected)
-                //    {
-                //        AlertHelper.AlertGoster("Google Play bağlantısı sağlanamadı.", this.Activity);
-                //        return;
-                //    }
-                    
-                //    var purchase = await CrossInAppBilling.Current.ConsumePurchaseAsync(productId, ItemType.InAppPurchase, "buptispayload2");
-                //    if (purchase == null)
-                //    {
-                //        AlertHelper.AlertGoster("Satın Alma Başarırız.", this.Activity);
-                //        //Not purchased, alert the user
-                //    }
-                //    else
-                //    {
-                //        //Purchased, save this information
-                //        var id = purchase.Id;
-                //        var token = purchase.PurchaseToken;
-                //        var state = purchase.State;
-                //        purchase.AutoRenewing = false;
-                //        //PaketSatinAlmaUzakDBAyarla();
-                //        AlertHelper.AlertGoster("Satın Alma Yapıldı", this.Activity);
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    AlertHelper.AlertGoster("Bir Sorun Oluştu! " + ex.Message, this.Activity);
-                //}
-                //finally
-                //{
-                //    AlertHelper.AlertGoster("Finnaly", this.Activity);
-                //    //Disconnect, it is okay if we never connected
-                //    await CrossInAppBilling.Current.DisconnectAsync();
-                //}
-
-
+                List<Product> UrunlerToList = new List<Product>(uygulamaIciSatinAlmaService._products1);
+                var SatinAlinanUrun = UrunlerToList.Find(item => item.ProductId == pakett);
+                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(SatinAlinanUrun);
             }
             else
             {
@@ -164,72 +133,8 @@ namespace Buptis.PrivateProfile.Store
             }
         }
 
-        public async Task<bool> PurchaseItem(string productId, string payload)
-        {
-            var billing = CrossInAppBilling.Current;
-            try
-            {
-                var connected = await billing.ConnectAsync(ItemType.InAppPurchase);
-                if (!connected)
-                {
-                    //we are offline or can't connect, don't try to purchase
-                    return true;
-                }
-
-                //check purchases
-                var purchase = await billing.PurchaseAsync(productId, ItemType.InAppPurchase, payload);
-
-                //possibility that a null came through.
-                if (purchase == null)
-                {
-                    //did not purchase
-                    return false;
-                }
-                else if (purchase.State == PurchaseState.Purchased)
-                {
-                    //purchased, we can now consume the item or do it later
-
-                    //If we are on iOS we are done, else try to consume the purchase
-                    //Device.RuntimePlatform comes from Xamarin.Forms, you can also use a conditional flag or the DeviceInfo plugin
-                    //if (Device.RuntimePlatform == Device.iOS)
-                    //    return;
-
-                    var consumedItem = await CrossInAppBilling.Current.ConsumePurchaseAsync(purchase.ProductId, purchase.PurchaseToken);
-
-                    if (consumedItem != null)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (InAppBillingPurchaseException purchaseEx)
-            {
-                //Billing Exception handle this based on the type
-                Console.WriteLine("Error: " + purchaseEx.Message);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                //Something else has gone wrong, log it
-                Console.WriteLine("Issue connecting: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                
-                await billing.DisconnectAsync();
-            }
-
-        }
-        void PaketSatinAlmaUzakDBAyarla()
+       
+        public void PaketSatinAlmaUzakDBAyarla()
         {
             BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
             {
@@ -256,29 +161,6 @@ namespace Buptis.PrivateProfile.Store
                 this.Dismiss();
             }
         }
-
-        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-            Android.App.Result result;
-            switch (resultCode)
-            {
-                case 0:
-                    result = Android.App.Result.Canceled;
-                    break;
-                case 1:
-                    result = Android.App.Result.FirstUser;
-                    break;
-                case -1:
-                    result = Android.App.Result.Ok;
-                    break;
-                default:
-                    result = Android.App.Result.Ok;
-                    break;
-            }
-            InAppBillingImplementation.HandleActivityResult(requestCode, result, data);
-        }
-
         private void RKredi_Click(object sender, EventArgs e)
         {
             var GelenTag = (int)((RelativeLayout)sender).Tag;

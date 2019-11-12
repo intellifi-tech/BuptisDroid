@@ -75,22 +75,24 @@ namespace Buptis.PrivateProfile
             boosTxt = FindViewById<TextView>(Resource.Id.textView8);
             sBoosTxt = FindViewById<TextView>(Resource.Id.textView9);
             krediTxt = FindViewById<TextView>(Resource.Id.textView10);
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+           
 
         }
-
+        StoreGold StoreGoldPackage1;
         private void OpenGoldPackage(object sender, EventArgs e)
         {
-            var StoreGoldPackage1 = new StoreGold();
+            TumDialoglariSifirla();
+            StoreGoldPackage1 = new StoreGold();
             StoreGoldPackage1.PrivateProfileBaseActivity1 = this;
             StoreGoldPackage1.Show(this.SupportFragmentManager, "StoreGoldPackage1");
         }
-
+        StoreSuperBoostDF StoreSuperBoost1;
         private void SuperBoostButton_Click(object sender, EventArgs e)
         {
             if (sBoosTxt.Text == "+")
             {
-                var StoreSuperBoost1 = new StoreSuperBoostDF();
+                TumDialoglariSifirla();
+                StoreSuperBoost1 = new StoreSuperBoostDF();
                 StoreSuperBoost1.PrivateProfileBaseActivity1 = this;
                 StoreSuperBoost1.Show(this.SupportFragmentManager, "StoreSuperBoost1");
             }
@@ -99,12 +101,13 @@ namespace Buptis.PrivateProfile
                 UseBoostOrSuperBoost("SUPER_BOOST");
             }
         }
-
+        StoreBoostDF StoreBoost1;
         private void BoostButton_Click(object sender, EventArgs e)
         {
             if (boosTxt.Text == "+")
             {
-                var StoreBoost1 = new StoreBoostDF();
+                TumDialoglariSifirla();
+                StoreBoost1 = new StoreBoostDF();
                 StoreBoost1.PrivateProfileBaseActivity1 = this;
                 StoreBoost1.Show(this.SupportFragmentManager, "StoreBoost1");
             }
@@ -113,13 +116,46 @@ namespace Buptis.PrivateProfile
                 UseBoostOrSuperBoost("BOOST");
             }
         }
-
+        StoreKredi StoreKrediYukle1;
         private void KrediButton_Click(object sender, EventArgs e)
         {
-            var StoreKrediYukle1 = new StoreKredi();
+            TumDialoglariSifirla();
+            StoreKrediYukle1 = new StoreKredi();
             StoreKrediYukle1.PrivateProfileBaseActivity1 = this;
             StoreKrediYukle1.Show(this.SupportFragmentManager, "StoreKrediYukle1");
         }
+        void TumDialoglariSifirla()
+        {
+            StoreGoldPackage1 = null;
+            StoreSuperBoost1 = null;
+            StoreBoost1 = null;
+            StoreKrediYukle1 = null;
+        }
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Android.App.Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            if (resultCode == Android.App.Result.Ok)
+            {
+                if (StoreGoldPackage1 != null)
+                {
+                    StoreKrediYukle1.PaketSatinAlmaUzakDBAyarla();
+                }
+                else if (StoreSuperBoost1!=null)
+                {
+                    StoreSuperBoost1.PaketSatinAlmaUzakDBAyarla();
+                }
+                else if (StoreBoost1 != null)
+                {
+                    StoreBoost1.PaketSatinAlmaUzakDBAyarla();
+                }
+                else if (StoreKrediYukle1 != null)
+                {
+                    StoreKrediYukle1.PaketSatinAlmaUzakDBAyarla();
+                }
+
+            }
+        }
+
         private void UserProfilPhoto_Click(object sender, EventArgs e)
         {
             var PrivateProfileGaleriVeResimEkleDialogFragment1 = new PrivateProfileGaleriVeResimEkleDialogFragment();

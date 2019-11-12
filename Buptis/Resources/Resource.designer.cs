@@ -495,6 +495,7 @@ namespace Buptis
 			global::Xamarin.Essentials.Resource.Styleable.GradientColorItem = global::Buptis.Resource.Styleable.GradientColorItem;
 			global::Xamarin.Essentials.Resource.Styleable.GradientColorItem_android_color = global::Buptis.Resource.Styleable.GradientColorItem_android_color;
 			global::Xamarin.Essentials.Resource.Styleable.GradientColorItem_android_offset = global::Buptis.Resource.Styleable.GradientColorItem_android_offset;
+			global::Xamarin.InAppBilling.Resource.String.library_name = global::Buptis.Resource.String.library_name;
 			global::Xamarin.RangeSlider.Resource.Attribute.absoluteMaxValue = global::Buptis.Resource.Attribute.absoluteMaxValue;
 			global::Xamarin.RangeSlider.Resource.Attribute.absoluteMinValue = global::Buptis.Resource.Attribute.absoluteMinValue;
 			global::Xamarin.RangeSlider.Resource.Attribute.activateOnDefaultValues = global::Buptis.Resource.Attribute.activateOnDefaultValues;
@@ -5791,43 +5792,46 @@ namespace Buptis
 			public const int Saat_Secim = 2131427441;
 			
 			// aapt resource value: 0x7F0B0072
-			public const int select_dialog_item_material = 2131427442;
+			public const int SatinAlTest = 2131427442;
 			
 			// aapt resource value: 0x7F0B0073
-			public const int select_dialog_multichoice_material = 2131427443;
+			public const int select_dialog_item_material = 2131427443;
 			
 			// aapt resource value: 0x7F0B0074
-			public const int select_dialog_singlechoice_material = 2131427444;
+			public const int select_dialog_multichoice_material = 2131427444;
 			
 			// aapt resource value: 0x7F0B0075
-			public const int SpinnerCustomItem = 2131427445;
+			public const int select_dialog_singlechoice_material = 2131427445;
 			
 			// aapt resource value: 0x7F0B0076
-			public const int spinnericinozelitemm = 2131427446;
+			public const int SpinnerCustomItem = 2131427446;
 			
 			// aapt resource value: 0x7F0B0077
-			public const int Splash = 2131427447;
+			public const int spinnericinozelitemm = 2131427447;
 			
 			// aapt resource value: 0x7F0B0078
-			public const int StoreBoost = 2131427448;
+			public const int Splash = 2131427448;
 			
 			// aapt resource value: 0x7F0B0079
-			public const int StoreGold = 2131427449;
+			public const int StoreBoost = 2131427449;
 			
 			// aapt resource value: 0x7F0B007A
-			public const int StoreGoldViewPager = 2131427450;
+			public const int StoreGold = 2131427450;
 			
 			// aapt resource value: 0x7F0B007B
-			public const int StoreKrediYukle = 2131427451;
+			public const int StoreGoldViewPager = 2131427451;
 			
 			// aapt resource value: 0x7F0B007C
-			public const int StoreSuperBoost = 2131427452;
+			public const int StoreKrediYukle = 2131427452;
 			
 			// aapt resource value: 0x7F0B007D
-			public const int support_simple_spinner_dropdown_item = 2131427453;
+			public const int StoreSuperBoost = 2131427453;
 			
 			// aapt resource value: 0x7F0B007E
-			public const int TumuBaseFragment = 2131427454;
+			public const int support_simple_spinner_dropdown_item = 2131427454;
+			
+			// aapt resource value: 0x7F0B007F
+			public const int TumuBaseFragment = 2131427455;
 			
 			static Layout()
 			{
@@ -6223,34 +6227,37 @@ namespace Buptis
 			public const int hide_bottom_view_on_scroll_behavior = 2131624004;
 			
 			// aapt resource value: 0x7F0E0045
-			public const int mtrl_chip_close_icon_content_description = 2131624005;
+			public const int library_name = 2131624005;
 			
 			// aapt resource value: 0x7F0E0046
-			public const int password_toggle_content_description = 2131624006;
+			public const int mtrl_chip_close_icon_content_description = 2131624006;
 			
 			// aapt resource value: 0x7F0E0047
-			public const int path_password_eye = 2131624007;
+			public const int password_toggle_content_description = 2131624007;
 			
 			// aapt resource value: 0x7F0E0048
-			public const int path_password_eye_mask_strike_through = 2131624008;
+			public const int path_password_eye = 2131624008;
 			
 			// aapt resource value: 0x7F0E0049
-			public const int path_password_eye_mask_visible = 2131624009;
+			public const int path_password_eye_mask_strike_through = 2131624009;
 			
 			// aapt resource value: 0x7F0E004A
-			public const int path_password_strike_through = 2131624010;
+			public const int path_password_eye_mask_visible = 2131624010;
 			
 			// aapt resource value: 0x7F0E004B
-			public const int search_menu_title = 2131624011;
+			public const int path_password_strike_through = 2131624011;
 			
 			// aapt resource value: 0x7F0E004C
-			public const int server_client_id = 2131624012;
+			public const int search_menu_title = 2131624012;
 			
 			// aapt resource value: 0x7F0E004D
-			public const int status_bar_notification_info_overflow = 2131624013;
+			public const int server_client_id = 2131624013;
 			
 			// aapt resource value: 0x7F0E004E
-			public const int title_activity_webview = 2131624014;
+			public const int status_bar_notification_info_overflow = 2131624014;
+			
+			// aapt resource value: 0x7F0E004F
+			public const int title_activity_webview = 2131624015;
 			
 			static String()
 			{

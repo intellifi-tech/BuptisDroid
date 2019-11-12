@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Android.App;
@@ -13,8 +14,7 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
-using Plugin.InAppBilling;
-using Plugin.InAppBilling.Abstractions;
+
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -30,6 +30,8 @@ namespace Buptis.PrivateProfile.Store
         public PrivateProfileBaseActivity PrivateProfileBaseActivity1;
         int boostCount;
         int boostGoal;
+
+        UygulamaIciSatinAlmaService uygulamaIciSatinAlmaService = new UygulamaIciSatinAlmaService();
         #endregion  
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
@@ -75,6 +77,16 @@ namespace Buptis.PrivateProfile.Store
             GetTextViewStrikeThrough();
             GetWebViewText();
             rKredi3.PerformClick();
+
+
+            uygulamaIciSatinAlmaService.CreateService(this.Activity, new List<string> {
+                    "com.buptis.android.1boost",
+                    "com.buptis.android.3boost",
+                    "com.buptis.android.5boost",
+                    "com.buptis.android.10boost",
+            });
+
+
             return view;
         }
 
@@ -86,57 +98,36 @@ namespace Buptis.PrivateProfile.Store
         {
             boostGoal = 0;
             string pakett = "";
+            int indexx = -1;
             switch (ChoosenPackage)
             {
                 case 1:
                     boostGoal = 1;
                     pakett = "com.buptis.android.1boost";
+                    indexx = 0;
                     break;
                 case 2:
                     boostGoal = 3;
                     pakett = "com.buptis.android.3boost";
+                    indexx = 1;
                     break;
                 case 3:
                     boostGoal = 5;
                     pakett = "com.buptis.android.5boost";
+                    indexx = 2;
                     break;
                 case 4:
                     boostGoal = 10;
                     pakett = "com.buptis.android.10boost";
+                    indexx = 3;
                     break;
                 default:
                     break;
             }
             if (boostGoal != 0)
             {
-                var Durumm = await PurchaseItem(pakett, "buptispayload2");
-                if (Durumm)
-                {
-                    PaketSatinAlmaUzakDBAyarla();
-                }
-                else
-                {
-                    AlertHelper.AlertGoster("Satın Alma Başarısız", this.Activity);
-                }
 
-                //try
-                //{
-                //    var purchase = await CrossInAppBilling.Current.PurchaseAsync(pakett, Plugin.InAppBilling.Abstractions.ItemType.InAppPurchase, "buptispayload");
-
-                //    if (purchase == null)
-                //    {
-                //        AlertHelper.AlertGoster("Bir Sorun Oluştu!", this.Activity);
-                //    }
-                //    else
-                //    {
-                //        PaketSatinAlmaUzakDBAyarla();
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    AlertHelper.AlertGoster(ex.Message, this.Activity);
-                //    Console.WriteLine(ex);
-                //}
+                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(uygulamaIciSatinAlmaService._products1[indexx]);
             }
             else
             {
@@ -144,72 +135,8 @@ namespace Buptis.PrivateProfile.Store
             }
         
         }
-        public async Task<bool> PurchaseItem(string productId, string payload)
-        {
-            var billing = CrossInAppBilling.Current;
-            try
-            {
-                var connected = await billing.ConnectAsync(ItemType.InAppPurchase);
-                if (!connected)
-                {
-                    //we are offline or can't connect, don't try to purchase
-                    return true;
-                }
-
-                //check purchases
-                var purchase = await billing.PurchaseAsync(productId, ItemType.InAppPurchase, payload);
-
-                //possibility that a null came through.
-                if (purchase == null)
-                {
-                    //did not purchase
-                    return false;
-                }
-                else if (purchase.State == PurchaseState.Purchased)
-                {
-                    //purchased, we can now consume the item or do it later
-
-                    //If we are on iOS we are done, else try to consume the purchase
-                    //Device.RuntimePlatform comes from Xamarin.Forms, you can also use a conditional flag or the DeviceInfo plugin
-                    //if (Device.RuntimePlatform == Device.iOS)
-                    //    return;
-
-                    var consumedItem = await CrossInAppBilling.Current.ConsumePurchaseAsync(purchase.ProductId, purchase.PurchaseToken);
-
-                    if (consumedItem != null)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (InAppBillingPurchaseException purchaseEx)
-            {
-                //Billing Exception handle this based on the type
-                Console.WriteLine("Error: " + purchaseEx.Message);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                //Something else has gone wrong, log it
-                Console.WriteLine("Issue connecting: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-
-                await billing.DisconnectAsync();
-            }
-
-        }
-        void PaketSatinAlmaUzakDBAyarla()
+        
+        public void PaketSatinAlmaUzakDBAyarla()
         {
             BuyLicenceDTO buyCreditDTO = new BuyLicenceDTO()
             {
