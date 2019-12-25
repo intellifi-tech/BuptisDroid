@@ -12,6 +12,7 @@ using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.Mesajlar.Chat;
 using Buptis.Splashh;
 using Buptis.WebServicee;
 
@@ -56,6 +57,7 @@ namespace Buptis.BackgroundServices
             })).Start();
 
         }
+        List<SonMesajlarListViewDataModel> NewChatList = new List<SonMesajlarListViewDataModel>();
         List<SonMesajlarListViewDataModel> BirOnceOkunanJSON = new List<SonMesajlarListViewDataModel>();
         List<SonMesajlarListViewDataModel> BirOncekindenFarki = new List<SonMesajlarListViewDataModel>();
         bool MesajlariGetir()
@@ -65,7 +67,9 @@ namespace Buptis.BackgroundServices
             if (Donus != null)
             {
                 var AA = Donus.ToString(); ;
-                var NewChatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
+                NewChatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
+                SonMesajKiminKontrolunuYap();
+                NewChatList = NewChatList.FindAll(item => item.unreadMessageCount > 0);
                 if (NewChatList.Count > 0)//chatList
                 {
                     NewChatList.Reverse();
@@ -89,6 +93,28 @@ namespace Buptis.BackgroundServices
             else
             {
                 return false;
+            }
+        }
+
+
+        void SonMesajKiminKontrolunuYap()
+        {
+            for (int i = 0; i < NewChatList.Count; i++)
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("chats/user/" + NewChatList[i].receiverId);
+                if (Donus != null)
+                {
+                    var AA = Donus.ToString(); ;
+                    var NewChatList2 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
+                    if (NewChatList2.Count > 0)//chatList
+                    {
+                        if (NewChatList2[0].userId == MeId.id)
+                        {
+                            NewChatList[i].unreadMessageCount = 0;
+                        }
+                    }
+                }
             }
         }
 

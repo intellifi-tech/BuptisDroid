@@ -123,9 +123,11 @@ namespace Buptis.PrivateProfile.Store
 
             if (creditcount!=0)
             {
-                List<Product> UrunlerToList = new List<Product>(uygulamaIciSatinAlmaService._products1);
-                var SatinAlinanUrun = UrunlerToList.Find(item => item.ProductId == pakett);
-                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(SatinAlinanUrun);
+                //List<Product> UrunlerToList = new List<Product>(uygulamaIciSatinAlmaService._products1);
+                //var SatinAlinanUrun = UrunlerToList.Find(item => item.ProductId == pakett);
+               var AlinacakUrun =  await uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.QueryInventoryAsync(new List<string> {
+                   pakett } , ItemType.Product);
+                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(AlinacakUrun[0]);
             }
             else
             {

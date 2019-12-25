@@ -47,6 +47,7 @@ namespace Buptis.Mesajlar.Mesajlarr
             Liste = RootView.FindViewById<ListView>(Resource.Id.listView1);
             Liste.ItemClick += Liste_ItemClick;
             GenericAraEditText.TextChanged += GenericAraEditText_TextChanged;
+            MeData = DataBase.MEMBER_DATA_GETIR()[0];
             return RootView;
         }
 
@@ -143,6 +144,7 @@ namespace Buptis.Mesajlar.Mesajlarr
 
                     mFriends.Where(item => item.receiverId == MeID).ToList().ForEach(item2 => item2.unreadMessageCount = 0);
                     SaveKeys();
+                    SonMesajKiminKontrolunuYap();
                     this.Activity.RunOnUiThread(() =>
                     {
                         mFriends.Sort((x, y) => DateTime.Compare(x.lastModifiedDate, y.lastModifiedDate));
@@ -265,6 +267,29 @@ namespace Buptis.Mesajlar.Mesajlarr
                 }
             }
         }
+        MEMBER_DATA MeData;
+        void SonMesajKiminKontrolunuYap()
+        {
+            for (int i = 0; i < mFriends.Count; i++)
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("chats/user/" + mFriends[i].receiverId);
+                if (Donus != null)
+                {
+                    var AA = Donus.ToString(); ;
+                    var NewChatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
+                    if (NewChatList.Count > 0)//chatList
+                    {
+                        
+                        if (NewChatList[0].userId == MeData.id)
+                        {
+                            mFriends[i].unreadMessageCount = 0;
+                        }
+                    }
+                }
+            }
+        }
+
         public class EngelliKullanicilarDTO
         {
             public int blockUserId { get; set; }

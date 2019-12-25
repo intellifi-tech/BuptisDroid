@@ -17,6 +17,8 @@ using Buptis.Lokasyonlar.BanaYakin;
 using Buptis.Lokasyonlar.BirYerSec;
 using Buptis.Lokasyonlar.Populer;
 using Buptis.Mesajlar;
+using Buptis.Mesajlar.Chat;
+using Buptis.Mesajlar.Mesajlarr;
 using Buptis.PrivateProfile;
 using Buptis.WebServicee;
 using FFImageLoading;
@@ -37,6 +39,7 @@ namespace Buptis.Lokasyonlar
         ImageButton MesajButton;
         ImageViewAsync ProfilButton;
         MEMBER_DATA UserInfoo;
+        TextView MessageCount;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -51,6 +54,7 @@ namespace Buptis.Lokasyonlar
             PopulerButton = FindViewById<Button>(Resource.Id.button2);
             BiryerSecButton = FindViewById<Button>(Resource.Id.button3);
             ProfilButton = FindViewById<ImageViewAsync>(Resource.Id.imgPortada_item2);
+            MessageCount = FindViewById<TextView>(Resource.Id.messagecounttext);
             FindViewById<TextView>(Resource.Id.textView2).Selected=true;
             ProfilButton.Click += ProfilButton_Click;
             BanaYakinButton.Click += BanaYakinButton_Click;
@@ -58,6 +62,7 @@ namespace Buptis.Lokasyonlar
             BiryerSecButton.Click += BiryerSecButton_Click;
             MesajButton.Click += MesajButton_Click;
             UserInfoo = DataBase.MEMBER_DATA_GETIR()[0];
+            
             ParcaYerlestir(0);
 
             StartService(new Android.Content.Intent(this, typeof(BuptisMessageListener)));
@@ -87,7 +92,7 @@ namespace Buptis.Lokasyonlar
         {
             ParcaYerlestir(0);
         }
-
+        
         void ParcaYerlestir(int durum)
         {
             Button[] Tabs = new Button[] { BanaYakinButton, PopulerButton, BiryerSecButton };
@@ -153,6 +158,7 @@ namespace Buptis.Lokasyonlar
         protected override void OnStart()
         {
             base.OnStart();
+            new GetUnReadMessage().GetUnReadMessageCount(MessageCount, this);
             GetUserImage();
         }
         void GetUserImage()
@@ -212,5 +218,160 @@ namespace Buptis.Lokasyonlar
         public static string telephone { get; set; }
         public static double Rate { get; set; }
 
+    }
+
+
+    public class GetUnReadMessage
+    {
+        List<SonMesajlarListViewDataModel> mFriends =new List<SonMesajlarListViewDataModel>();
+        public void GetUnReadMessageCount(TextView CounterText,Activity GelenBase)
+        {
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
+            {
+                #region Message Count
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("chats/user");
+                if (Donus != null)
+                {
+                    mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
+                    SonMesajKiminKontrolunuYap();
+                    var toplam = OkunmaamisSayi(0, mFriends) + OkunmaamisSayi(1, mFriends) + OkunmaamisSayi(2, mFriends);
+                    if (toplam > 0)
+                    {
+                        GelenBase.RunOnUiThread(delegate ()
+                        {
+                            try
+                            {
+                                if (toplam > 9)
+                                {
+                                    CounterText.Text = "9+";
+                                }
+                                else
+                                {
+                                    CounterText.Text = toplam.ToString();
+                                }
+                                CounterText.Visibility = ViewStates.Visible;
+                            }
+                            catch
+                            {
+
+                                CounterText.Visibility = ViewStates.Gone;
+                            }
+
+                        });
+                    }
+                    else
+                    {
+
+                        GelenBase.RunOnUiThread(delegate ()
+                        {
+                            try
+                            {
+                                CounterText.Visibility = ViewStates.Gone;
+                            }
+                            catch
+                            {
+                                CounterText.Visibility = ViewStates.Gone;
+                            }
+
+                        });
+                    }
+                }
+                #endregion
+            })).Start();
+        }
+        MEMBER_DATA MeData;
+        void SonMesajKiminKontrolunuYap()
+        {
+            MeData = DataBase.MEMBER_DATA_GETIR()[0];
+            for (int i = 0; i < mFriends.Count; i++)
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("chats/user/" + mFriends[i].receiverId);
+                if (Donus != null)
+                {
+                    var AA = Donus.ToString(); ;
+                    var NewChatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
+                    if (NewChatList.Count > 0)//chatList
+                    {
+
+                        if (NewChatList[0].userId == MeData.id)
+                        {
+                            mFriends[i].unreadMessageCount = 0;
+                        }
+                    }
+                }
+            }
+        }
+        int OkunmaamisSayi(int ButtonIndex, List<SonMesajlarListViewDataModel> Liste)
+        {
+            List<SonMesajlarListViewDataModel> Liste2 = new List<SonMesajlarListViewDataModel>();
+            int OkunmamisMesajSayisi = 0;
+            switch (ButtonIndex)
+            {
+                case 0:
+                    Liste = mFriends.FindAll(item => item.request == false);
+                    break;
+                case 1:
+                    Liste = mFriends.FindAll(item => item.request == true); //Bana Gelen İstekler;
+                    break;
+                case 2:
+                    Liste = mFriends.FindAll(item => item.request == false);
+                    Liste = FavorileriAyir(Liste);
+                    break;
+                default:
+                    break;
+            }
+            Liste.ForEach(item =>
+            {
+                OkunmamisMesajSayisi += item.unreadMessageCount;
+            });
+
+            if (Liste.Count > 0 && OkunmamisMesajSayisi > 0)
+            {
+                return OkunmamisMesajSayisi;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        List<SonMesajlarListViewDataModel> FavorileriAyir(List<SonMesajlarListViewDataModel> GelenListe)
+        {
+            var FavList = FavorileriCagir();
+            List<FavListDTO> newList = new List<FavListDTO>();
+            for (int i = 0; i < FavList.Count; i++)
+            {
+                newList.Add(new FavListDTO()
+                {
+                    FavUserID = Convert.ToInt32(FavList[i])
+                });
+            }
+            var Ayiklanmis = (from list1 in GelenListe
+                              join list2 in newList
+                              on list1.receiverId equals list2.FavUserID
+                              select list1).ToList();
+            return Ayiklanmis;
+        }
+        List<string> FavorileriCagir()
+        {
+            List<string> FollowListID = new List<string>();
+            WebService webService = new WebService();
+            var MeDTO = DataBase.MEMBER_DATA_GETIR()[0];
+            var Donus4 = webService.OkuGetir("users/favList/" + MeDTO.id.ToString());
+            if (Donus4 != null)
+            {
+                var JSONStringg = Donus4.ToString().Replace("[", "").Replace("]", "");
+                if (!string.IsNullOrEmpty(JSONStringg))
+                {
+                    FollowListID = JSONStringg.Split(',').ToList();
+                }
+            }
+            return FollowListID;
+        }
+        public class FavListDTO
+        {
+            public int FavUserID { get; set; }
+        }
     }
 }

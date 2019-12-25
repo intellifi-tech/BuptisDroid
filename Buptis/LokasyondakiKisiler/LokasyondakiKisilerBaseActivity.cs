@@ -29,6 +29,7 @@ namespace Buptis.LokasyondakiKisiler
         TextView LokasyonName;
         Button TumuButton, CevrimIciButton, BeklenenlerButton;
         ImageButton GeriButton,MesajlarButton;
+        TextView MessageCount;
         #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -46,6 +47,7 @@ namespace Buptis.LokasyondakiKisiler
             BeklenenlerButton = FindViewById<Button>(Resource.Id.button3);
             GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
             MesajlarButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
+            MessageCount = FindViewById<TextView>(Resource.Id.messagecounttext);
             MesajlarButton.Click += MesajlarButton_Click;
             GeriButton.Click += GeriButton_Click;
             TumuButton.Click += TumuButton_Click;
@@ -53,7 +55,11 @@ namespace Buptis.LokasyondakiKisiler
             BeklenenlerButton.Click += BeklenenlerButton_Click;
             ParcaYerlestir(0);
         }
-
+        protected override void OnStart()
+        {
+            base.OnStart();
+            new GetUnReadMessage().GetUnReadMessageCount(MessageCount, this);
+        }
         private void MesajlarButton_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(MesajlarBaseActivity));

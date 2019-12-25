@@ -33,7 +33,7 @@ namespace Buptis.LokasyonDetay
         private MapFragment _mapFragment;
         TextView LokasyonNamee;
         DinamikStatusBarColor DinamikStatusBarColor1 = new DinamikStatusBarColor();
-
+        TextView MessageCount;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -49,6 +49,7 @@ namespace Buptis.LokasyonDetay
             LokasyonNamee = FindViewById<TextView>(Resource.Id.textView1);
             MesajlarButton = FindViewById<ImageButton>(Resource.Id.ımageButton2);
             GeriButton = FindViewById<ImageButton>(Resource.Id.ımageButton1);
+            MessageCount = FindViewById<TextView>(Resource.Id.messagecounttext);
             GeriButton.Click += GeriButton_Click;
             MesajlarButton.Click += MesajlarButton_Click;
             MekandakiKisiler.Click += MekandakiKisiler_Click;
@@ -143,6 +144,7 @@ namespace Buptis.LokasyonDetay
         protected override void OnStart()
         {
             base.OnStart();
+            new GetUnReadMessage().GetUnReadMessageCount(MessageCount, this);
             RatingDurumYenile();
             InitMapFragment(); //Map Ayarlarını yap markerleri datamodele yerleştir
             MapsInitializer.Initialize(this.ApplicationContext);

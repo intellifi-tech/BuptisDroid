@@ -43,6 +43,7 @@
             local:showRangeLabels="false"
             android:id="@+id/rangeSliderControl1"/>
 	  <TextView
+			android:visibility="gone"
 			android:layout_marginTop="30dp"
 			android:gravity="center_horizontal"
 			android:textSize="20dp"

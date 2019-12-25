@@ -15,6 +15,7 @@ using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.Splashh;
 using Buptis.WebServicee;
 using Org.Json;
 
@@ -80,10 +81,10 @@ namespace Buptis.Lokasyonlar.BirYerSec
             viewholder.LokasyonAdi.Text = item.name;
             viewholder.DolulukOrani.Max = (item.capacity);
             viewholder.DolulukOrani.Progress = item.allUserCheckIn;
-            GetLocationOtherInfo(item.id, item.catIds, item.townId, viewholder.LokasyonTuru, viewholder.UzaklikveSemt);
+            GetLocationOtherInfo(item, item.id, item.catIds, item.townId, viewholder.LokasyonTuru, viewholder.UzaklikveSemt);
         }
 
-        void GetLocationOtherInfo(int locid, List<string> catid, string townid, TextView LokasyonTuru, TextView UzaklikveSemt)
+        void GetLocationOtherInfo(HaritaListeDataModel gelendto, int locid, List<string> catid, string townid, TextView LokasyonTuru, TextView UzaklikveSemt)
         {
             new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
@@ -98,8 +99,14 @@ namespace Buptis.Lokasyonlar.BirYerSec
                         JSONObject js = new JSONObject(Donus1.ToString());
                         var TownName = js.GetString("townName");
                         BaseActivity.RunOnUiThread(() => {
-                            var km = UzaklikveSemt.Text;
-                            UzaklikveSemt.Text = TownName + km;
+                            Android.Locations.Location lokasyonkonum = new Android.Locations.Location("");
+                            lokasyonkonum.Latitude = gelendto.coordinateX;
+                            lokasyonkonum.Latitude = gelendto.coordinateY;
+                            Android.Locations.Location lokasyonMe = new Android.Locations.Location("");
+                            lokasyonMe.Latitude = StartLocationCall.UserLastLocation.Latitude;
+                            lokasyonMe.Latitude = StartLocationCall.UserLastLocation.Longitude;
+                            var km = Math.Round((lokasyonkonum.DistanceTo(lokasyonMe) / 1000), 1);
+                            UzaklikveSemt.Text = TownName + " / " + km + " km";
                         });
                     }
                     else

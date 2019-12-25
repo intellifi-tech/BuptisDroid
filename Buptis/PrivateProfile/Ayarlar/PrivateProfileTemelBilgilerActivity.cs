@@ -48,6 +48,7 @@ namespace Buptis.PrivateProfile.Ayarlar
             KaydetButton.Click += KaydetButton_Click;
             profileback.Click += Profileback_Click;
             getUsernfo();
+           
         }
 
         private void DogumBaslik_Click(object sender, EventArgs e)
@@ -104,15 +105,20 @@ namespace Buptis.PrivateProfile.Ayarlar
             {
                 Kadin.Checked = true;
             }
-            else
+            else if(User.gender == "Erkek")
             {
                 Erkek.Checked = true;
+            }
+            else
+            {
+                Kadin.Checked = false;
+                Kadin.Checked = false;
             }
         }
 
         void UpdateUser()
         {
-            string genderr = "Erkek";
+            string genderr = "";
             if (Erkek.Checked)
             {
                 genderr = "Erkek";
@@ -120,6 +126,11 @@ namespace Buptis.PrivateProfile.Ayarlar
             else if (Kadin.Checked)
             {
                 genderr = "Kadın";
+            }
+            else
+            {
+                AlertHelper.AlertGoster("Lütfen Cinsiyet belirtin.", this);
+                return;
             }
             UpdateUserDto UpdateUserDto1 = new UpdateUserDto()
             {

@@ -21,6 +21,8 @@ using Android.Text;
 using Android.Text.Style;
 using Android.Graphics;
 using Android.Gms.Common.Apis;
+using Buptis.WebServicee;
+using Buptis.GenericUI;
 
 namespace Buptis.Splashh
 {
@@ -238,7 +240,20 @@ namespace Buptis.Splashh
                        else
                        {
                            this.Finish();
-                           StartActivity(typeof(LokasyonlarBaseActivity));
+                           if (new GetUserInformation().isActive())
+                           {
+                               StartActivity(typeof(LokasyonlarBaseActivity));
+                           }
+                           else
+                           {
+                               this.RunOnUiThread(async delegate ()
+                               {
+                                   AlertHelper.AlertGoster("Hesabınız pasifleştirildi.", this);
+                                   await Task.Delay(1000);
+                                   this.Finish();
+                               });
+                           }
+                           
                        }
                    });
                }
@@ -248,6 +263,25 @@ namespace Buptis.Splashh
     public static class StartLocationCall
     {
         public static Android.Locations.Location UserLastLocation { get; set; }
+    }
+
+    public class GetUserInformation
+    {
+        public bool isActive()
+        {
+            WebService webService = new WebService();
+            var JSONData = webService.OkuGetir("account");
+            if (JSONData != null)
+            {
+                var JsonSting = JSONData.ToString();
+                var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(JSONData.ToString());
+                return Icerik.activated;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
 }

@@ -14,7 +14,7 @@ using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
-
+using Xamarin.InAppBilling;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -127,7 +127,10 @@ namespace Buptis.PrivateProfile.Store
             if (boostGoal != 0)
             {
 
-                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(uygulamaIciSatinAlmaService._products1[indexx]);
+                //uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(uygulamaIciSatinAlmaService._products1[indexx]);
+                var AlinacakUrun = await uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.QueryInventoryAsync(new List<string> {
+                   pakett }, ItemType.Product);
+                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(AlinacakUrun[0]);
             }
             else
             {

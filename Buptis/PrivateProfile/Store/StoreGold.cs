@@ -17,7 +17,7 @@ using Buptis.GenericUI;
 using Buptis.WebServicee;
 using DK.Ostebaronen.Droid.ViewPagerIndicator;
 using Newtonsoft.Json;
-
+using Xamarin.InAppBilling;
 
 namespace Buptis.PrivateProfile.Store
 {
@@ -125,7 +125,10 @@ namespace Buptis.PrivateProfile.Store
             }
             if (goldGoal != 0)
             {
-                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(uygulamaIciSatinAlmaService._products1[indexx]);
+                //uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(uygulamaIciSatinAlmaService._products1[indexx]);
+                var AlinacakUrun = await uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.QueryInventoryAsync(new List<string> {
+                   pakett }, ItemType.Product);
+                uygulamaIciSatinAlmaService._serviceConnection.BillingHandler.BuyProduct(AlinacakUrun[0]);
             }
             else
             {
@@ -306,7 +309,7 @@ namespace Buptis.PrivateProfile.Store
             var ss2 = new GoldAyricaliklarFragment("İsterseniz kimliğinizi gizleyin!", Resource.Mipmap.gold_icon2);
             var ss3 = new GoldAyricaliklarFragment("Her ay 3 Boost kazanın!", Resource.Mipmap.gold_icon3);
             var ss4 = new GoldAyricaliklarFragment("Her ay 3 Super Boost kazanın!", Resource.Mipmap.gold_icon5);
-            var ss5 = new GoldAyricaliklarFragment("Anında 100 Kredi kazanın!", Resource.Mipmap.gold_icon4);
+            var ss5 = new GoldAyricaliklarFragment("Anında 1000 Kredi kazanın!", Resource.Mipmap.gold_icon4);
 
             fragments = new Android.Support.V4.App.Fragment[]
             {

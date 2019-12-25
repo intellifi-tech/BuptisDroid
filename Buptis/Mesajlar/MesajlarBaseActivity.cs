@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.Mesajlar.Chat;
 using Buptis.Mesajlar.Favoriler;
 using Buptis.Mesajlar.Istekler;
 using Buptis.Mesajlar.Mesajlarr;
@@ -56,10 +57,16 @@ namespace Buptis.Mesajlar
             MesajlarButton.Click += MesajlarButton_Click;
             IsteklerButton.Click += IsteklerButton_Click;
             FavorilerButton.Click += FavorilerButton_Click;
+            MeData = DataBase.MEMBER_DATA_GETIR()[0];
+            
+            
+        }
+        protected override void OnStart()
+        {
+            base.OnStart();
             ParcaYerlestir(0);
             GetUnReadMessage();
         }
-
         private void AraKapatButton_Click(object sender, EventArgs e)
         {
             AraBackHazne.Visibility = ViewStates.Gone;
@@ -99,13 +106,35 @@ namespace Buptis.Mesajlar
             if (Donus != null)
             {
                 mFriends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SonMesajlarListViewDataModel>>(Donus.ToString());
+                SonMesajKiminKontrolunuYap();
                 TitleGuncelle(MesajlarButton, 0, mFriends);
                 TitleGuncelle(IsteklerButton, 1, mFriends);
                 TitleGuncelle(FavorilerButton, 2, mFriends);
             }
             #endregion
         }
+        MEMBER_DATA MeData;
+        void SonMesajKiminKontrolunuYap()
+        {
+            for (int i = 0; i < mFriends.Count; i++)
+            {
+                WebService webService = new WebService();
+                var Donus = webService.OkuGetir("chats/user/" + mFriends[i].receiverId);
+                if (Donus != null)
+                {
+                    var AA = Donus.ToString(); ;
+                    var NewChatList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ChatRecyclerViewDataModel>>(Donus.ToString());
+                    if (NewChatList.Count > 0)//chatList
+                    {
 
+                        if (NewChatList[0].userId == MeData.id)
+                        {
+                            mFriends[i].unreadMessageCount = 0;
+                        }
+                    }
+                }
+            }
+        }
         List<SonMesajlarListViewDataModel> FavorileriAyir(List<SonMesajlarListViewDataModel> GelenListe)
         {
             var FavList = FavorileriCagir();
@@ -143,7 +172,6 @@ namespace Buptis.Mesajlar
         {
             public int FavUserID { get; set; }
         }
-
         void TitleGuncelle(Button GelenButton, int ButtonIndex, List<SonMesajlarListViewDataModel> Liste)
         {
             List<SonMesajlarListViewDataModel> Liste2 = new List<SonMesajlarListViewDataModel>();
@@ -172,7 +200,7 @@ namespace Buptis.Mesajlar
                 OkunmamisMesajSayisi += item.unreadMessageCount;
             });
 
-            if (Liste.Count > 0)
+            if (Liste.Count > 0 && OkunmamisMesajSayisi>0)
             {
                 GelenButton.Text = Baslik + " ("+ OkunmamisMesajSayisi + ")";
             }

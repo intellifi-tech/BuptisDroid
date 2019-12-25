@@ -73,6 +73,7 @@ namespace Buptis.Lokasyonlar.BirYerSec
             SecilenLokasyonn.lat = MapDataModel1[e].coordinateX;
             SecilenLokasyonn.lon = MapDataModel1[e].coordinateY;
             SecilenLokasyonn.Rate = MapDataModel1[e].rating;
+            SecilenLokasyonn.telephone = MapDataModel1[e].telephone;
             this.Activity.StartActivity(typeof(LokayonDetayBaseActivity));
         }
         public void ScrollZoomMarker(int e)

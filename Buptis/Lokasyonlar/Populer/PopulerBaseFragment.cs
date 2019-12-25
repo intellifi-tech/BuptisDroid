@@ -95,6 +95,7 @@ namespace Buptis.Lokasyonlar.Populer
             SecilenLokasyonn.lat = favorilerRecyclerViewDataModels[e].coordinateX;
             SecilenLokasyonn.lon = favorilerRecyclerViewDataModels[e].coordinateY;
             SecilenLokasyonn.Rate = favorilerRecyclerViewDataModels[e].rating;
+            SecilenLokasyonn.telephone = favorilerRecyclerViewDataModels[e].telephone;
             this.Activity.StartActivity(typeof(LokayonDetayBaseActivity));
         }
     }

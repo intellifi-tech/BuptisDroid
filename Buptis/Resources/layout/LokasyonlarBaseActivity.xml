@@ -29,15 +29,47 @@
 				android:layout_width="40dp"
 				android:layout_height="match_parent"
 				android:id="@+id/imgPortada_item2" />
-			<ImageButton
-				android:padding="3dp"
-				android:layout_alignParentRight="true"
-				android:background="@null"
-				android:scaleType="centerInside"
-				android:src="@mipmap/messagesend"
-				android:layout_width="40dp"
-				android:layout_height="match_parent"
-				android:id="@+id/ımageButton2" />
+            <RelativeLayout
+                 android:layout_marginRight="7dp"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:id="@+id/notiIcon"
+                android:layout_alignParentRight="true">
+                <RelativeLayout
+                    android:layout_width="49.0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/relativeLayout1"
+                    android:layout_marginTop="0.0dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true">
+                    <ImageButton
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentBottom="true"
+                        android:src="@mipmap/messagesend"
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/ımageButton2"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:scaleType="centerInside"
+                        android:padding="6dp"
+                        android:layout_marginTop="3.0dp" />
+                    <TextView
+						android:visibility="gone"
+                        android:textSize="13dp"
+                        android:text="9"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:id="@+id/messagecounttext"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        android:background="@drawable/custombuton" />
+                </RelativeLayout>
+            </RelativeLayout>
 		</RelativeLayout>
 		<TextView
 			android:maxLines="1"
