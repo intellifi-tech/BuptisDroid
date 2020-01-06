@@ -14,6 +14,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericClass;
 using Buptis.Splashh;
 using Buptis.WebServicee;
 using Org.Json;
@@ -100,13 +101,10 @@ namespace Buptis.Lokasyonlar.Populer
                         JSONObject js = new JSONObject(Donus1.ToString());
                         var TownName = js.GetString("townName");
                         BaseActivity.RunOnUiThread(() => {
-                            Location lokasyonkonum = new Location("");
-                            lokasyonkonum.Latitude = gelendto.coordinateX;
-                            lokasyonkonum.Latitude = gelendto.coordinateY;
-                            Location lokasyonMe = new Location("");
-                            lokasyonMe.Latitude = StartLocationCall.UserLastLocation.Latitude;
-                            lokasyonMe.Latitude = StartLocationCall.UserLastLocation.Longitude;
-                            var km = Math.Round((lokasyonkonum.DistanceTo(lokasyonMe)/1000),1);
+                            var km = new DistanceCalculator().GetUserCityCountryAndDistance(StartLocationCall.UserLastLocation.Latitude,
+                                                                                             StartLocationCall.UserLastLocation.Longitude,
+                                                                                             gelendto.coordinateX,
+                                                                                             gelendto.coordinateY);
                             UzaklikveSemt.Text = TownName + " / " + km + " km";
                         });
                     }

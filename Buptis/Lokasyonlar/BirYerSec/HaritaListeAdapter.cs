@@ -15,6 +15,7 @@ using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using Buptis.DataBasee;
+using Buptis.GenericClass;
 using Buptis.Splashh;
 using Buptis.WebServicee;
 using Org.Json;
@@ -99,13 +100,10 @@ namespace Buptis.Lokasyonlar.BirYerSec
                         JSONObject js = new JSONObject(Donus1.ToString());
                         var TownName = js.GetString("townName");
                         BaseActivity.RunOnUiThread(() => {
-                            Android.Locations.Location lokasyonkonum = new Android.Locations.Location("");
-                            lokasyonkonum.Latitude = gelendto.coordinateX;
-                            lokasyonkonum.Latitude = gelendto.coordinateY;
-                            Android.Locations.Location lokasyonMe = new Android.Locations.Location("");
-                            lokasyonMe.Latitude = StartLocationCall.UserLastLocation.Latitude;
-                            lokasyonMe.Latitude = StartLocationCall.UserLastLocation.Longitude;
-                            var km = Math.Round((lokasyonkonum.DistanceTo(lokasyonMe) / 1000), 1);
+                            var km = new DistanceCalculator().GetUserCityCountryAndDistance(StartLocationCall.UserLastLocation.Latitude,
+                                                                                             StartLocationCall.UserLastLocation.Longitude,
+                                                                                             gelendto.coordinateX,
+                                                                                             gelendto.coordinateY);
                             UzaklikveSemt.Text = TownName + " / " + km + " km";
                         });
                     }

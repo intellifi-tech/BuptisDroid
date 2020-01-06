@@ -187,20 +187,27 @@ namespace Buptis.PublicProfile
         }
         void FavoriIslemleri(string Message)
         {
-            var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
-            WebService webService = new WebService();
-            FavoriDTO favoriDTO = new FavoriDTO() {
-                userId = MeID,
-                favUserId = SecilenKisi.SecilenKisiDTO.id
-            };
-            string jsonString = JsonConvert.SerializeObject(favoriDTO);
-            var Donus = webService.ServisIslem("users/fav", jsonString);
-            if (Donus != "Hata")
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
-                AlertHelper.AlertGoster(Message, this);
-                GetFavorite();
-                return;
-            }
+                var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
+                WebService webService = new WebService();
+                FavoriDTO favoriDTO = new FavoriDTO()
+                {
+                    userId = MeID,
+                    favUserId = SecilenKisi.SecilenKisiDTO.id
+                };
+                string jsonString = JsonConvert.SerializeObject(favoriDTO);
+                var Donus = webService.ServisIslem("users/fav", jsonString);
+                if (Donus != "Hata")
+                {
+                    RunOnUiThread(delegate
+                    {
+                        AlertHelper.AlertGoster(Message, this);
+                    });
+                    GetFavorite();
+                    return;
+                }
+            })).Start();
         }
 
         private void MesajAtButton_Click(object sender, EventArgs e)
@@ -280,7 +287,8 @@ namespace Buptis.PublicProfile
                 ViewPagerSetup();
             })).Start();
         }
-
+     
+        
         private void Engelle_Click(object sender, EventArgs e)
         {
             var engeldurum = GetBlockedFriends();
@@ -334,11 +342,11 @@ namespace Buptis.PublicProfile
             var donus = webservice.OkuGetir("blocked-user/block-list");
             if (donus != null)
             {
-                var blockedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EngelliKullanicilarDTO>>(donus.ToString());
-                if (blockedList.Count > 0)
+                EngelliKullanicilarDTOs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EngelliKullanicilarDTO>>(donus.ToString());
+                if (EngelliKullanicilarDTOs.Count > 0)
                 {
-                    var varmii = blockedList.FindAll(item => item.blockUserId == SecilenKisi.SecilenKisiDTO.id);
-                    if (varmii.Count > 0)
+                    EngelliKullanicilarDTOs = EngelliKullanicilarDTOs.FindAll(item => item.blockUserId == SecilenKisi.SecilenKisiDTO.id);
+                    if (EngelliKullanicilarDTOs.Count > 0)
                     {
                         return true;
                     }
@@ -362,7 +370,7 @@ namespace Buptis.PublicProfile
 
         public void UzaktanKapat()
         {
-            this.StartActivity(typeof(MesajlarBaseActivity));
+            //this.StartActivity(typeof(MesajlarBaseActivity));
             this.Finish();
         }
         private void GeriButton_Click(object sender, EventArgs e)
@@ -493,7 +501,7 @@ namespace Buptis.PublicProfile
         }
         void GetFavorite()
         {
-            RunOnUiThread(delegate ()
+            new System.Threading.Thread(new System.Threading.ThreadStart(delegate
             {
                 WebService webService = new WebService();
                 var MeID = DataBase.MEMBER_DATA_GETIR()[0].id;
@@ -509,12 +517,12 @@ namespace Buptis.PublicProfile
                 else
                 {
                 }
-            });
+            })).Start();
         }
         string GetUserAbout()
         {
             WebService webService = new WebService();
-            var Donus = webService.OkuGetir("answers/user/all");
+            var Donus = webService.OkuGetir("answers/user/" + SecilenKisi.SecilenKisiDTO.login);
             if (Donus != null)
             {
                 string CevaplarBirlesmis = "";

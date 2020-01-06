@@ -15,6 +15,8 @@ using Buptis.DataBasee;
 using Buptis.Mesajlar.Chat;
 using Buptis.Splashh;
 using Buptis.WebServicee;
+using Buptis.Mesajlar;
+using Buptis.Mesajlar;
 
 namespace Buptis.BackgroundServices
 {
@@ -143,11 +145,11 @@ namespace Buptis.BackgroundServices
         void SetNotification(string MesajTitle,string MesajIcerigi)
         {
             // When the user clicks the notification, SecondActivity will start up.
-            var resultIntent = new Intent(this, typeof(Splash));
+            var resultIntent = new Intent(this, typeof(MesajlarBaseActivity));
 
             // Construct a back stack for cross-task navigation:
             var stackBuilder = Android.App.TaskStackBuilder.Create(this);
-            stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(Splash)));
+            stackBuilder.AddParentStack(Java.Lang.Class.FromType(typeof(MesajlarBaseActivity)));
             stackBuilder.AddNextIntent(resultIntent);
 
             // Create the PendingIntent with the back stack:

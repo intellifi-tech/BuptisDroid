@@ -82,6 +82,7 @@
     <Compile Include="GenericClass\BitmapHelpers.cs" />
     <Compile Include="GenericClass\CustomLoadingViewHelper.cs" />
     <Compile Include="GenericClass\DinamikStatusBarColor.cs" />
+    <Compile Include="GenericClass\DistanceCalculator.cs" />
     <Compile Include="GenericClass\DPX.cs" />
     <Compile Include="GenericClass\ExtMethods.cs" />
     <Compile Include="GenericClass\FontHelper.cs" />

@@ -98,13 +98,13 @@ namespace Buptis.LokasyondakiKisiler.CevrimIci
                 }
                 else
                 {
-                    AlertHelper.AlertGoster("Henüz bu lokasyonda kimse yok...", this.Activity);
+                    AlertHelper.AlertGoster("Henüz bu lokasyonda çevrimiçi kimse yok...", this.Activity);
                     ShowLoading.Hide();
                 }
             }
             else
             {
-                AlertHelper.AlertGoster("Henüz bu lokasyonda kimse yok...", this.Activity);
+                AlertHelper.AlertGoster("Henüz bu lokasyonda çevrimiçi kimse yok...", this.Activity);
                 ShowLoading.Hide();
             }
         }

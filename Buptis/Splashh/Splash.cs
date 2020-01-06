@@ -75,8 +75,9 @@ namespace Buptis.Splashh
             }
             else
             {
-                this.Finish();
+                
                 StartActivity(typeof(LoginBaseActivity));
+                this.Finish();
             }
         }
 
@@ -239,21 +240,34 @@ namespace Buptis.Splashh
                        }
                        else
                        {
-                           this.Finish();
-                           if (new GetUserInformation().isActive())
+                           var durum = new GetUserInformation().isActive();
+                           if (durum!=null)
                            {
-                               StartActivity(typeof(LokasyonlarBaseActivity));
+                               if ((bool)durum == true)
+                               {
+                                   StartActivity(typeof(LokasyonlarBaseActivity));
+                               }
+                               else
+                               {
+                                   this.RunOnUiThread(async delegate ()
+                                   {
+                                       AlertHelper.AlertGoster("Hesabınız pasifleştirildi.", this);
+                                       await Task.Delay(1000);
+                                       this.Finish();
+                                   });
+                               }
                            }
                            else
                            {
                                this.RunOnUiThread(async delegate ()
                                {
-                                   AlertHelper.AlertGoster("Hesabınız pasifleştirildi.", this);
+                                   AlertHelper.AlertGoster("Lütfen internet bağlantınızı kontrol edin.", this);
                                    await Task.Delay(1000);
                                    this.Finish();
                                });
                            }
                            
+                           this.Finish();
                        }
                    });
                }
@@ -267,7 +281,7 @@ namespace Buptis.Splashh
 
     public class GetUserInformation
     {
-        public bool isActive()
+        public bool? isActive()
         {
             WebService webService = new WebService();
             var JSONData = webService.OkuGetir("account");
@@ -276,10 +290,11 @@ namespace Buptis.Splashh
                 var JsonSting = JSONData.ToString();
                 var Icerik = Newtonsoft.Json.JsonConvert.DeserializeObject<MEMBER_DATA>(JSONData.ToString());
                 return Icerik.activated;
+                
             }
             else
             {
-                return false;
+                return null;
             }
         }
     }

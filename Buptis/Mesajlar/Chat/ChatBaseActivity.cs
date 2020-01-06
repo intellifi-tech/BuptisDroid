@@ -26,6 +26,7 @@ using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using FFImageLoading.Work;
+using Java.Net;
 using Newtonsoft.Json;
 using static Buptis.LokasyondakiKisiler.LokasyondakiKisilerBaseActivity;
 
@@ -123,61 +124,73 @@ namespace Buptis.Mesajlar.Chat
         {
             if (!string.IsNullOrEmpty(MesajEdittext.Text))
             {
-                MesajGonderGenericMetod(MesajEdittext.Text);
+                MesajGonderGenericMetod(MesajEdittext.Text.Trim());
             }
         }
 
         void MesajGonderGenericMetod(string Message)
         {
-            if (!string.IsNullOrEmpty(Message.Trim()))
+            if (isInternetAvailable())
             {
-                if (!KullaniciEngellemeDurumu)
+                if (!string.IsNullOrEmpty(Message.Trim()))
                 {
-                    if (!KisiBilgileriTammi())
+                    if (!KullaniciEngellemeDurumu)
                     {
-                        AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Mesaj Gönderemezsiniz.", this);
-                        AlertDialog.Builder cevap = new AlertDialog.Builder(this);
-                        cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
-                        cevap.SetTitle(Spannla(Color.Black, "Buptis"));
-                        cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet bilgilerinizi tamamlamadan mesaj gönderemezsiniz. Bilgilerini güncellemek ister misiniz?"));
-                        cevap.SetPositiveButton("Evet", delegate
+                        if (!KisiBilgileriTammi())
                         {
-                            cevap.Dispose();
-                            StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
+                            AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Mesaj Gönderemezsiniz.", this);
+                            AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                            cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                            cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                            cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet bilgilerinizi tamamlamadan mesaj gönderemezsiniz. Bilgilerini güncellemek ister misiniz?"));
+                            cevap.SetPositiveButton("Evet", delegate
+                            {
+                                cevap.Dispose();
+                                StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
 
-                        });
-                        cevap.SetNegativeButton("Hayır", delegate
-                        {
-                            cevap.Dispose();
-                        });
-                        cevap.Show();
-                    }
-                    else
-                    {
-                        ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
-                        {
-                            userId = MeDTO.id,
-                            receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
-                            text = Message,
-                            key = MesajlarIcinSecilenKullanici.key
-                        };
-                        WebService webService = new WebService();
-                        string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
-                        var Donus = webService.ServisIslem("chats", jsonString);
-                        if (Donus != "Hata")
-                        {
-                            var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
-                            MesajEdittext.Text = "";
-                            SaveKeys(Icerikk);
+                            });
+                            cevap.SetNegativeButton("Hayır", delegate
+                            {
+                                cevap.Dispose();
+                            });
+                            cevap.Show();
                         }
                         else
                         {
-                            KredisimiBitti();
-                            return;
+                            ChatRecyclerViewDataModel chatRecyclerViewDataModel = new ChatRecyclerViewDataModel()
+                            {
+                                userId = MeDTO.id,
+                                receiverId = MesajlarIcinSecilenKullanici.Kullanici.id,
+                                text = Message,
+                                key = MesajlarIcinSecilenKullanici.key
+                            };
+                            WebService webService = new WebService();
+                            string jsonString = JsonConvert.SerializeObject(chatRecyclerViewDataModel);
+                            var Donus = webService.ServisIslem("chats", jsonString);
+                            if (Donus != "Hata")
+                            {
+                                var Icerikk = Newtonsoft.Json.JsonConvert.DeserializeObject<KeyIslemleriIcinDTO>(Donus.ToString());
+                                MesajEdittext.Text = "";
+                                SaveKeys(Icerikk);
+                            }
+                            else
+                            {
+                                KredisimiBitti();
+                                return;
+                            }
                         }
                     }
                 }
             }
+            else
+            {
+                AlertHelper.AlertGoster("Lütfen internet bağlantınızı kontrol edin.", this);
+                return;
+            }
+        }
+        public bool isInternetAvailable()
+        {
+            return true;
         }
         void KredisimiBitti()
         {
@@ -633,14 +646,13 @@ namespace Buptis.Mesajlar.Chat
         {
             WebService webservice = new WebService();
             var donus = webservice.OkuGetir("blocked-user/block-list");
-             
             if (donus != null)
             {
                 var blockedList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<BlockedUserDataModel>>(donus.ToString());
                 if (blockedList.Count > 0)
                 {
                     var varmii = blockedList.FindAll(item => item.blockUserId == SecilenKisi.SecilenKisiDTO.id);
-                    var donus2 = webservice.OkuGetir("blocked-user/"+DataBase.MEMBER_DATA_GETIR()[0].id.ToString());
+                    var donus2 = webservice.OkuGetir("blocked-user/"+ SecilenKisi.SecilenKisiDTO.id);
                     if (donus2!=null)
                     {
                         var varmii2 = blockedList.FindAll(item => item.blockUserId == SecilenKisi.SecilenKisiDTO.id);

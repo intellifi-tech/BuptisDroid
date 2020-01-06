@@ -18,6 +18,7 @@ using Buptis.GenericUI;
 using Buptis.LokasyondakiKisiler;
 using Buptis.Lokasyonlar;
 using Buptis.Mesajlar;
+using Buptis.Splashh;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
 using Org.Json;
@@ -144,10 +145,23 @@ namespace Buptis.LokasyonDetay
         protected override void OnStart()
         {
             base.OnStart();
+            CalculateDistance();
             new GetUnReadMessage().GetUnReadMessageCount(MessageCount, this);
             RatingDurumYenile();
             InitMapFragment(); //Map Ayarlarını yap markerleri datamodele yerleştir
             MapsInitializer.Initialize(this.ApplicationContext);
+        }
+
+        void CalculateDistance()
+        {
+            var km = new DistanceCalculator().GetUserCityCountryAndDistance(StartLocationCall.UserLastLocation.Latitude,
+                                                                                             StartLocationCall.UserLastLocation.Longitude,
+                                                                                             SecilenLokasyonn.lat, 
+                                                                                             SecilenLokasyonn.lon);
+            if (km>0.5)
+            {
+                CheckInButton.Visibility = ViewStates.Gone;
+            }
         }
 
         public void RatingDurumYenile()
