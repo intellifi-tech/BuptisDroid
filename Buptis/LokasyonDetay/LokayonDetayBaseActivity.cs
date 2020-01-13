@@ -11,13 +11,17 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
+using Buptis.DataBasee;
 using Buptis.GenericClass;
 using Buptis.GenericUI;
 using Buptis.LokasyondakiKisiler;
 using Buptis.Lokasyonlar;
 using Buptis.Mesajlar;
+using Buptis.PrivateProfile.Ayarlar;
 using Buptis.Splashh;
 using Buptis.WebServicee;
 using Newtonsoft.Json;
@@ -75,14 +79,85 @@ namespace Buptis.LokasyonDetay
 
         private void WaitingButton_Click(object sender, EventArgs e)
         {
-            CheckInYap("WAITING", "Check-in Bekletme Yapılıyor...", "Check-in Bekletme Yapıldı...");
+            if (!KisiBilgileriTammi())
+            {
+                //AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Check-in Yapamazsınız.", this);
+                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Check-in Bekletme Yapamazsınız. Bilgilerini güncellemek ister misiniz?"));
+                cevap.SetPositiveButton("Evet", delegate
+                {
+                    cevap.Dispose();
+                    StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
+
+                });
+                cevap.SetNegativeButton("Hayır", delegate
+                {
+                    cevap.Dispose();
+                });
+                cevap.Show();
+            }
+            else
+            {
+                CheckInYap("WAITING", "Check-in Bekletme Yapılıyor...", "Check-in Bekletme Yapıldı...");
+            }
         }
 
         private void CheckInButton_Click(object sender, EventArgs e)
         {
-            CheckInYap("ONLINE", "Check-in Yapılıyor...", "Check-in Yapıldı...");
-        }
+            if (!KisiBilgileriTammi())
+            {
+                //AlertHelper.AlertGoster("Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Check-in Yapamazsınız.", this);
+                AlertDialog.Builder cevap = new AlertDialog.Builder(this);
+                cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
+                cevap.SetTitle(Spannla(Color.Black, "Buptis"));
+                cevap.SetMessage(Spannla(Color.DarkGray, "Yaş ve Cinsiyet Bilgilerinizi Tamamlamadan Check-in Yapamazsınız. Bilgilerini güncellemek ister misiniz?"));
+                cevap.SetPositiveButton("Evet", delegate
+                {
+                    cevap.Dispose();
+                    StartActivity(typeof(PrivateProfileTemelBilgilerActivity));
 
+                });
+                cevap.SetNegativeButton("Hayır", delegate
+                {
+                    cevap.Dispose();
+                });
+                cevap.Show();
+            }
+            else
+            {
+                CheckInYap("ONLINE", "Check-in Yapılıyor...", "Check-in Yapıldı...");
+            }
+            
+        }
+        bool KisiBilgileriTammi()
+        {
+            var Me = DataBase.MEMBER_DATA_GETIR()[0];
+            if (string.IsNullOrEmpty(Me.gender) || string.IsNullOrEmpty(Me.birthDayDate.ToString()))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        SpannableStringBuilder Spannla(Color Renk, string textt)
+        {
+            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Renk);
+
+            string title = textt;
+            SpannableStringBuilder ssBuilder = new SpannableStringBuilder(title);
+            ssBuilder.SetSpan(
+                    foregroundColorSpan,
+                    0,
+                    title.Length,
+                    SpanTypes.ExclusiveExclusive
+            );
+
+            return ssBuilder;
+        }
         void CheckInYap(string statuss,string startprogresstext,string alert)
         {
             ShowLoading.Show(this, startprogresstext);
@@ -119,7 +194,6 @@ namespace Buptis.LokasyonDetay
             StartActivity(typeof(LokasyondakiKisilerBaseActivity));
             
         }
-
         private void RatingButton_Click(object sender, EventArgs e)
         {
             var LokasyonDetayFragments = new LokasyonDetayFragment();
@@ -127,17 +201,15 @@ namespace Buptis.LokasyonDetay
             LokasyonDetayFragments.Show(this.SupportFragmentManager, "LokasyonDetayFragments");
 
         }
-
         private void LocationPhone_Click(object sender, EventArgs e)
         {
             var uri = Android.Net.Uri.Parse("tel:" + SecilenLokasyonn.telephone);
             var intent = new Intent(Intent.ActionDial, uri);
             this.StartActivity(intent);
         }
-
         private void Navigationmap_Click(object sender, EventArgs e)
         {
-            String strUri = "http://maps.google.com/maps?q=loc:" + SecilenLokasyonn.lat + "," + SecilenLokasyonn.lon + " (" + SecilenLokasyonn.LokName + ")";
+            String strUri = "http://maps.google.com/maps?q=loc:" + SecilenLokasyonn.lat.ToString().Replace(",", ".") + "," + SecilenLokasyonn.lon.ToString().Replace(",", ".") + " " + SecilenLokasyonn.LokName;
             Intent intent = new Intent(Android.Content.Intent.ActionView,Android.Net.Uri.Parse(strUri));
             intent.SetClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
             StartActivity(intent);

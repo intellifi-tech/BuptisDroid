@@ -13,6 +13,7 @@ using Android.Widget;
 using Buptis.BackgroundServices;
 using Buptis.DataBasee;
 using Buptis.GenericClass;
+using Buptis.GenericUI;
 using Buptis.Lokasyonlar.BanaYakin;
 using Buptis.Lokasyonlar.BirYerSec;
 using Buptis.Lokasyonlar.Populer;
@@ -150,14 +151,25 @@ namespace Buptis.Lokasyonlar
             }
         }
 
+        int backPresCount = 0;
         public override void OnBackPressed()
         {
-            this.Finish();
+            if (backPresCount==0)
+            {
+                AlertHelper.AlertGoster("Çıkmak için tekrar dokunun...", this);
+                backPresCount = 1;
+            }
+            else
+            {
+                this.Finish();
+            }
+            
         }
 
         protected override void OnStart()
         {
             base.OnStart();
+            backPresCount = 0;
             new GetUnReadMessage().GetUnReadMessageCount(MessageCount, this);
             GetUserImage();
         }

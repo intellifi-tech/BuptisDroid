@@ -213,14 +213,14 @@ namespace Buptis.Mesajlar.Chat
                     else
                     {
                         RunOnUiThread(delegate () {
-                            AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
+                            AlertHelper.AlertGoster("Lütfen internet bağlantınızı kontrol edin!", this);
                         });
                     }
                 }
                 else
                 {
                     RunOnUiThread(delegate () {
-                        AlertHelper.AlertGoster("Mesaj Gönderilemedi!", this);
+                        AlertHelper.AlertGoster("Lütfen internet bağlantınızı kontrol edin!", this);
                     });
                 }
             })).Start();

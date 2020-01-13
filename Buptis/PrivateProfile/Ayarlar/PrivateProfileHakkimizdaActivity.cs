@@ -40,7 +40,7 @@ namespace Buptis.PrivateProfile.Ayarlar
 
         private void Kullanimtxt_Click(object sender, EventArgs e)
         {
-            String url = "https://www.buptis.com/kullanim-kosullari.html";
+            String url = "http://buptis.com/assets/doc/buptis_kullanim-kosullari.pdf";
             Intent i = new Intent(Intent.ActionView);
             i.SetData (Android.Net.Uri.Parse(url));
             StartActivity(i);
@@ -48,7 +48,7 @@ namespace Buptis.PrivateProfile.Ayarlar
 
         private void Gizliliktxt_Click(object sender, EventArgs e)
         {
-            String url = "https://www.buptis.com/gizlilik.html";
+            String url = "http://buptis.com/assets/doc/buptis_gizlilik-politikasi.pdf";
             Intent i = new Intent(Intent.ActionView);
             i.SetData(Android.Net.Uri.Parse(url));
             StartActivity(i);

@@ -94,7 +94,7 @@ namespace Buptis.PublicProfile
                 AlertDialog.Builder cevap = new AlertDialog.Builder(this);
                 cevap.SetIcon(Resource.Mipmap.ic_launcher_round);
                 cevap.SetTitle(Spannla(Color.Black, "Buptis"));
-                cevap.SetMessage(Spannla(Color.DarkGray, SecilenKisi.SecilenKisiDTO.firstName + " adlı kullanıcıyı favorilerilerinden çıkartmak istediğini emin misiniz?"));
+                cevap.SetMessage(Spannla(Color.DarkGray, SecilenKisi.SecilenKisiDTO.firstName + " adlı kullanıcıyı favorilerilerinden çıkartmak istediğinize emin misiniz?"));
                 cevap.SetPositiveButton("Evet", delegate
                 {
                     cevap.Dispose();
